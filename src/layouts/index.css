@@ -1,0 +1,7 @@
+.hypers-frame .rs-sidebar {
+    position: fixed;
+    height: 100vh;
+    z-index: 3;
+    background: #fff;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.02), 4px 0 10px rgba(0, 0, 0, 0.01);
+  }

@@ -1,16 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import { Route, Routes, BrowserRouter } from "react-router-dom";
+
+//import './index.css';
+
+import Admin from './layouts/Admin'
+
 import Client from './views/Client/Client'
 import reportWebVitals from './reportWebVitals';
 
-import 'rsuite/dist/rsuite.min.css'; // or css
+import './index.css'; // or css
+//import 'rsuite/dist/rsuite.css';
+//import 'rsuite/Sidenav/styles/index.less';
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <Client />
+        <Admin/>
   </React.StrictMode>,
   document.getElementById('root')
 );
