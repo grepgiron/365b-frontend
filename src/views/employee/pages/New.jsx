@@ -30,7 +30,7 @@ const TextField = React.forwardRef((props, ref) => {
   );
 });
 
-const NewClient = () => {
+const NewEmployee = () => {
   const formRef = React.useRef();
   const [formError, setFormError] = React.useState({});
   const [formValue, setFormValue] = React.useState({
@@ -65,7 +65,7 @@ const NewClient = () => {
 
   return (
     <FlexboxGrid>
-      <Form.ControlLabel>Clientes </Form.ControlLabel>
+      <Form.ControlLabel>Empleados </Form.ControlLabel>
       <FlexboxGrid.Item colspan={12}>
         <Form
           ref={formRef}
@@ -90,4 +90,4 @@ const NewClient = () => {
   );
 };
 
-export default NewClient;
+export default NewEmployee;

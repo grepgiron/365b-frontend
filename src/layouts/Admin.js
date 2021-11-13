@@ -1,4 +1,6 @@
 import React from 'react';
+import { BrowserRouter as Router, Route ,Link, Routes} from "react-router-dom";
+
 import {
   Container,
   Header,
@@ -11,6 +13,12 @@ import {
   Panel,
   Footer
 } from 'rsuite';
+
+import Client from '../views/Client/index';
+import Employee from '../views/employee/index';
+import Lista from '../views/Client/components/List';
+
+import SidebarNav from '../components/SidebarNav';
 
 import Cog from '@rsuite/icons/legacy/Cog';
 import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
@@ -90,13 +98,23 @@ const NavToggle = ({ expand, onChange }) => {
   );
 };
 
+const MyLink = React.forwardRef((props, ref) => {
+  const { href, as, ...rest } = props;
+  return (
+    <Link href={href} as={as}>
+      <a ref={ref} {...rest} />
+    </Link>
+  );
+});
+
 const Admin = () => {
   const [expand, setExpand] = React.useState(true);
   const [activeKey, setActiveKey] = React.useState(null);
+  const [openKeys, setOpenKeys] = React.useState(['3', '4']);
 
   return (
     <Container className="show-fake-browser sidebar-page">
-      <Sidebar 
+      {/* <Sidebar 
         style={{ display: 'flex', flexDirection: 'column' }}
         width={expand ? 260 : 56}
         collapsible
@@ -111,11 +129,11 @@ const Admin = () => {
         <Sidenav expanded={expand} defaultOpenKeys={['3']} appearance="subtle">
           <Sidenav.Body>
             <Nav>
-              <Nav.Item eventKey="1" active icon={<Dashboard />}>
+              <Nav.Item eventKey="1" icon={<Dashboard />}>
                 Dashboard
               </Nav.Item>
               <Nav.Item eventKey="2" icon={<Group />}>
-                User Group
+                Facturacion
               </Nav.Item>
               <Dropdown
                 eventKey="3"
@@ -124,11 +142,11 @@ const Admin = () => {
                 icon={<Magic />}
                 placement="rightStart"
               >
-                <Dropdown.Item eventKey="3-1">Geo</Dropdown.Item>
-                <Dropdown.Item eventKey="3-2">Devices</Dropdown.Item>
-                <Dropdown.Item eventKey="3-3">Brand</Dropdown.Item>
-                <Dropdown.Item eventKey="3-4">Loyalty</Dropdown.Item>
-                <Dropdown.Item eventKey="3-5">Visit Depth</Dropdown.Item>
+                <Dropdown.Item eventKey="3-1"><Link to="clientes" style={{ textDecoration: 'none' }}>Clientes</Link></Dropdown.Item>
+                <Dropdown.Item eventKey="3-2"><Link to="clientes" style={{ textDecoration: 'none' }}>Clientes</Link></Dropdown.Item>
+                <Dropdown.Item eventKey="3-3"><Link to="clientes" style={{ textDecoration: 'none' }}>Clientes</Link></Dropdown.Item>
+                <Dropdown.Item eventKey="3-4"><Link to="clientes" style={{ textDecoration: 'none' }}>Clientes</Link></Dropdown.Item>
+                <Dropdown.Item eventKey="3-5"><Link to="clientes" style={{ textDecoration: 'none' }}>Clientes</Link></Dropdown.Item>
               </Dropdown>
               <Dropdown
                 eventKey="4"
@@ -147,16 +165,21 @@ const Admin = () => {
           </Sidenav.Body>
         </Sidenav>
         <NavToggle expand={expand} onChange={() => setExpand(!expand)} />
-      </Sidebar>
+      </Sidebar> */}
+      <SidebarNav 
+        activeKey={activeKey}
+        openKeys={openKeys}
+        onSelect={setActiveKey}
+        onOpenChange={setOpenKeys}
+      />
 
       <Container>
-        <Header>
         <NavBarInstance activeKey={activeKey} onSelect={setActiveKey} />
-        </Header>
         <Content className="rs-content">
-          <Panel header="Panel title" bordered>
-            Content
-          </Panel>
+          <Routes>
+            <Route path='clientes/*' element={<Client/>}/>
+            <Route path='empleados/*' element={<Employee/>}/>
+          </Routes>  
         </Content>
         <Footer>dsadsa</Footer>
       </Container>

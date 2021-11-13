@@ -1,12 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Route, Routes, BrowserRouter } from "react-router-dom";
 
 //import './index.css';
 
-import Admin from './layouts/Admin'
+import App from './App'
 
-import Client from './views/Client/Client'
 import reportWebVitals from './reportWebVitals';
 
 import './index.css'; // or css
@@ -16,7 +14,7 @@ import './index.css'; // or css
 
 ReactDOM.render(
   <React.StrictMode>
-        <Admin/>
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
