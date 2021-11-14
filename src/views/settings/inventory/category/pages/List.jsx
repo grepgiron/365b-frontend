@@ -72,13 +72,13 @@ function List() {
 
   let match = useNavigate();
   function handleClick(event) {
-      match(`/admin/inventario/categoria/show/${event}`, { state: response.data._id });
+      match(event);
   }
   // Note: the empty deps array [] means
   // this useEffect will run once
   // similar to componentDidMount()
   useEffect(() => {
-    fetch("https://beauty365api.herokuapp.com/api/v1/establecimientos")
+    fetch("https://beauty365api.herokuapp.com/api/v1/categorias")
       .then(res => res.json())
       .then(
         (result) => {
@@ -106,8 +106,7 @@ function List() {
         <Col xs={9} >
           <h3>Editar esta View</h3>
         </Col>
-        <Col xs={3} xsPush={12}>
-          
+        <Col xs={3} xsPush={12}>  
           <ButtonToolbar className="inner-left">
             <IconButton 
               onClick={() => handleClick('nuevo')} 
@@ -118,6 +117,11 @@ function List() {
           </ButtonToolbar>
         </Col>
       </Row>
+      <div>
+        <h5>Poner Lista aqui</h5>
+        <h5>View: inventariy/category/components/List</h5>
+        <Divider />
+      </div>
       <Divider />
       <Table
         height={300}
@@ -127,8 +131,8 @@ function List() {
       }}
       > 
         <Column width={200}>
-          <HeaderCell>Prefijo</HeaderCell>
-          <Cell dataKey="prefijo" />
+          <HeaderCell>Code</HeaderCell>
+          <Cell dataKey="code" />
         </Column>
         <Column flexGrow={1}>
           <HeaderCell>Nombre</HeaderCell>
@@ -140,11 +144,11 @@ function List() {
           <Cell className="link-group">
             {rowData => {
               function handleAction() {
-                alert(`id:${rowData._id}`);
+                match(`/admin/inventario/categorias/show/${rowData._id}`, { state: rowData._id });
               }
               return (
                 <span>
-                  <IconButton appearance="subtle" onClick={handleClick(rowData._id)} icon={<Edit2 />} />
+                  <IconButton appearance="subtle" onClick={handleAction} icon={<Edit2 />} />
                 </span>
               );
             }}
