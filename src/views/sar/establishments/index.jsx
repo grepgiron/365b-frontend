@@ -14,7 +14,7 @@ const Establishment = () => {
     <Panel bordered header={<h4>Establecimientos</h4>}>
       <Routes>
         <Route path='nuevo' element={<NewEstablishment/>}/>
-        <Route path='/:id' element={<ShowEstablishment/>}/>
+        <Route path='/show/:id' element={<ShowEstablishment/>}/>
         <Route path='/' element={<ListaEstablishment/>}/>
       </Routes> 
     </Panel>
