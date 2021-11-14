@@ -5,17 +5,17 @@ import {
   FlexboxGrid
 } from 'rsuite';
 
-import FormClient from '../components/Form';
+import FormDocument from '../components/Form';
 
-const NewClient = () => {
+const NewDocument = () => {
  
   return (
     <FlexboxGrid>
       <FlexboxGrid.Item colspan={12}>
-        <FormClient />
+        <FormDocument />
       </FlexboxGrid.Item>
     </FlexboxGrid>
   );
 };
 
-export default NewClient;
+export default NewDocument;

@@ -13,8 +13,8 @@ const Show = () => {
   return (
     <>
     <div>
-        <h5>Mostrar Perfil</h5>
-        <h5>View: clients/components/Profile</h5>
+        <h5>Mostrar Punto de Venta</h5>
+        <h5>View: sar/sales_point/components/Profile</h5>
         <Divider />
     </div>
     <Profile/>

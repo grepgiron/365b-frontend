@@ -14,10 +14,8 @@ const Textarea = React.forwardRef((props, ref) => <Input {...props} as="textarea
 const { StringType, NumberType } = Schema.Types;
 
 const model = Schema.Model({
-  nombres: StringType().isRequired('This field is required.'),
-  telefono: StringType().isRequired('This field is required.'),
-  dni: NumberType(),
-  email:  StringType().isEmail('Please enter a valid email address.'),
+  nombre: StringType().isRequired('This field is required.'),
+  prefijo: StringType().isRequired('This field is required.')
 });
 
 const TextField = React.forwardRef((props, ref) => {
@@ -30,14 +28,12 @@ const TextField = React.forwardRef((props, ref) => {
   );
 });
 
-const FormClient = () => {
+const FormNew = () => {
   const formRef = React.useRef();
   const [formError, setFormError] = React.useState({});
   const [formValue, setFormValue] = React.useState({
-    nombres: '',
-    telefono: '',
-    dni: '',
-    email: ''
+    nombre: '',
+    prefijo: ''
   });
   
 
@@ -66,32 +62,16 @@ const FormClient = () => {
   return (
     <Form layout="horizontal">
       <Form.Group controlId="name-6">
-        <Form.ControlLabel>Username</Form.ControlLabel>
-        <Form.Control name="name" />
-        <Form.HelpText>Required</Form.HelpText>
+        <Form.ControlLabel>Nombre</Form.ControlLabel>
+        <Form.Control name="nombre" />
       </Form.Group>
       <Form.Group controlId="email-6">
-        <Form.ControlLabel>Email</Form.ControlLabel>
-        <Form.Control name="email" type="email" />
-        <Form.HelpText tooltip>Required</Form.HelpText>
-      </Form.Group>
-      <Form.Group controlId="password-6">
-        <Form.ControlLabel>Password</Form.ControlLabel>
-        <Form.Control name="password" type="password" autoComplete="off" />
-      </Form.Group>
-      <Form.Group controlId="textarea-6">
-        <Form.ControlLabel>Textarea</Form.ControlLabel>
-        <Form.Control name="textarea" rows={5} accepter={Textarea} />
-      </Form.Group>
-      <Form.Group>
-        <ButtonToolbar>
-          <Button appearance="primary">Submit</Button>
-          <Button appearance="default">Cancel</Button>
-        </ButtonToolbar>
+        <Form.ControlLabel>Prefijo</Form.ControlLabel>
+        <Form.Control name="prefijo" />
+        <Form.HelpText tooltip>000</Form.HelpText>
       </Form.Group>
     </Form>
-
   );
 };
 
-export default FormClient;
+export default FormNew;

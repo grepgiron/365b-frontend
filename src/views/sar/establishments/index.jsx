@@ -2,23 +2,23 @@ import React from 'react';
 import { Route , Routes} from "react-router-dom";
 
 import { Panel } from 'rsuite';
-import Lista from './pages/List';
 
-import NewClient from './pages/New';
-import ShowClient from './pages/Show';
+import ListaEstablishment from './pages/List';
+import NewEstablishment from './pages/New';
+import ShowEstablishment from './pages/Show';
 
 
-const Client = () => {
+const Establishment = () => {
  
   return (
-    <Panel shaded>
+    <Panel bordered header={<h4>Establecimientos</h4>}>
       <Routes>
-        <Route path='nuevo' element={<NewClient/>}/>
-        <Route path='/:id' element={<ShowClient/>}/>
-        <Route path='/' element={<Lista/>}/>
+        <Route path='nuevo' element={<NewEstablishment/>}/>
+        <Route path='/:id' element={<ShowEstablishment/>}/>
+        <Route path='/' element={<ListaEstablishment/>}/>
       </Routes> 
     </Panel>
   );
 };
 
-export default Client;
+export default Establishment;

@@ -3,7 +3,7 @@ import { Route , Routes} from "react-router-dom";
 
 import { Panel } from 'rsuite';
 
-import Lista from './pages/List';
+import ListaDocument from './pages/List';
 import NewDocument from './pages/New';
 import ShowDocument from './pages/Show';
 
@@ -11,11 +11,11 @@ import ShowDocument from './pages/Show';
 const DocumentAutorization = () => {
  
   return (
-    <Panel shaded>
+    <Panel bordered header={<h4>Documentos de Autorizacion</h4>}>
       <Routes>
         <Route path='nuevo' element={<NewDocument/>}/>
         <Route path='/:id' element={<ShowDocument/>}/>
-        <Route path='/' element={<Lista/>}/>
+        <Route path='/' element={<ListaDocument/>}/>
       </Routes> 
     </Panel>
   );

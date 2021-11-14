@@ -2,23 +2,24 @@ import React from 'react';
 import { Route , Routes} from "react-router-dom";
 
 import { Panel } from 'rsuite';
-import Lista from './pages/List';
 
-import NewClient from './pages/New';
-import ShowClient from './pages/Show';
+import ListaSalesPoint from './pages/List';
+import NewSalesPoint from './pages/New';
+import ShowSalesPoint from './pages/Show';
 
 
-const Client = () => {
+const SalesPoint = () => {
  
   return (
-    <Panel shaded>
+
+    <Panel bordered header={<h4>Puntos de Venta</h4>}> 
       <Routes>
-        <Route path='nuevo' element={<NewClient/>}/>
-        <Route path='/:id' element={<ShowClient/>}/>
-        <Route path='/' element={<Lista/>}/>
+        <Route path='nuevo' element={<NewSalesPoint/>}/>
+        <Route path='/:id' element={<ShowSalesPoint/>}/>
+        <Route path='/' element={<ListaSalesPoint/>}/>
       </Routes> 
     </Panel>
   );
 };
 
-export default Client;
+export default SalesPoint;

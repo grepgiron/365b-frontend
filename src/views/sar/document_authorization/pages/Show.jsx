@@ -14,7 +14,7 @@ const Show = () => {
     <>
     <div>
         <h5>Mostrar Documento</h5>
-        <h5>View: document_authorization/components/Profile</h5>
+        <h5>View: sar/document_authorization/components/Profile</h5>
         <Divider />
     </div>
     <Profile/>

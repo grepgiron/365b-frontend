@@ -37,7 +37,7 @@ function List() {
       <Divider />
       <div>
         <h5>Poner Lista aqui</h5>
-        <h5>View: clients/components/List</h5>
+        <h5>View: sar/establishment/components/List</h5>
         <Divider />
         <ListNew />
       </div>
