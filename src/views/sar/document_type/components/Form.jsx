@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 
-//importaciones de Rsuitjs
 import {
   Form,
   Button,
@@ -9,7 +8,7 @@ import {
   Schema 
 } from 'rsuite';
 
-//Constantes 
+
 const { StringType, NumberType } = Schema.Types;
 
 const model = Schema.Model({
@@ -30,7 +29,6 @@ const TextField = React.forwardRef((props, ref) => {
 });
 
 const FormEmployee = () => {
-  //Variables y sus respectivos get
   const formRef = React.useRef();
   const [formError, setFormError] = React.useState({});
   const [formValue, setFormValue] = React.useState({
@@ -40,7 +38,7 @@ const FormEmployee = () => {
     email: ''
   });
   
-  //funciones de acciones
+
   const handleSubmit = async() => {
     if (!formRef.current.check()) {
       console.error('Form Error');
@@ -64,7 +62,6 @@ const FormEmployee = () => {
  
 
   return (
-    //Editar aqui el formulario
     <Form
       ref={formRef}
       onChange={setFormValue}

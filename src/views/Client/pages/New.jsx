@@ -2,10 +2,6 @@ import React from 'react';
 import axios from 'axios';
 
 import {
-  Form,
-  Button,
-  ButtonToolbar,
-  Schema,
   FlexboxGrid
 } from 'rsuite';
 
