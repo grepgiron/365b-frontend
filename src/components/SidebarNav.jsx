@@ -88,8 +88,8 @@ const SidebarNav = ({ appearance, ...props }) => {
                                 eventKey="6-1" icon={<PeoplesIcon/>}>Empleados</Dropdown.Item>
                             <Dropdown.Item eventKey="6-2" icon={<DeviceIcon/>}>Maquinaria</Dropdown.Item>
                             <Dropdown.Menu eventKey="6-5" title="Inventario">
-                            <Dropdown.Item eventKey="6-3" icon={<TreeIcon/>}>Categorias</Dropdown.Item>
-                            <Dropdown.Item eventKey="6-5-2" icon={<TagFilterIcon/>}>Unidades</Dropdown.Item>
+                            <Dropdown.Item eventKey="6-3" onSelect={() => handleClick('inventario/categorias')} icon={<TreeIcon/>}>Categorias</Dropdown.Item>
+                            <Dropdown.Item eventKey="6-5-2" onSelect={() => handleClick('inventario/unidades')} icon={<TagFilterIcon/>}>Unidades</Dropdown.Item>
                         </Dropdown.Menu>
                         </Dropdown>
                     </Nav>

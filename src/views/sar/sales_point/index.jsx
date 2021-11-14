@@ -9,7 +9,7 @@ import ShowSalesPoint from './pages/Show';
 
 
 const SalesPoint = () => {
- 
+  //comentario prueba
   return (
 
     <Panel bordered header={<h4>Puntos de Venta</h4>}> 

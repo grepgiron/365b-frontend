@@ -17,6 +17,8 @@ import SidebarNav from '../components/SidebarNav';
 import NavBarInstance from '../components/NavBar';
 import Establishment from '../views/sar/establishments';
 import SalesPoint from '../views/sar/sales_point';
+import Category from '../views/settings/inventory/category';
+import Und from '../views/settings/inventory/und';
 
 const MyLink = React.forwardRef((props, ref) => {
   const { href, as, ...rest } = props;
@@ -50,6 +52,8 @@ const Admin = () => {
             <Route path='sar/establecimiento/*' element={<Establishment/>}/>
             <Route path='sar/punto_venta/*' element={<SalesPoint/>}/>
             <Route path='sar/tipo_documento/*' element={<DocumentType/>}/>
+            <Route path='inventario/categorias/*' element={<Category/>}/>
+            <Route path='inventario/unidades/*' element={<Und/>}/>
           </Routes>  
         </Content>
         <Footer>dsadsa</Footer>

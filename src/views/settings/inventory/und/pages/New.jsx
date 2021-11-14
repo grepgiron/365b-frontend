@@ -18,11 +18,6 @@ const New = () => {
     <Grid fluid>
       <Row>
         <Col xs={12} className="markdown">
-          <div>
-            <h5>Poner Lista aqui</h5>
-            <h5>View: inventariy/category/components/New</h5>
-            <Divider />
-          </div>
           <h2 className="page-heading">Datos de Establecimiento</h2>
           <div className="rs-code-view">
             <FormEstablishment />
