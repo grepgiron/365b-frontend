@@ -2,8 +2,8 @@ import React from 'react';
 import { Route , Routes} from "react-router-dom";
 
 import { Panel } from 'rsuite';
-import Lista from './components/List';
 
+import Lista from './pages/List';
 import ShowEmployee from './pages/Show';
 import NewEmployee from './pages/New';
 

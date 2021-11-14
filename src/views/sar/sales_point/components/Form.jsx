@@ -5,9 +5,11 @@ import {
   Form,
   Button,
   ButtonToolbar,
-  Schema 
+  Schema,
+  Input 
 } from 'rsuite';
 
+const Textarea = React.forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
 
 const { StringType, NumberType } = Schema.Types;
 
@@ -28,7 +30,7 @@ const TextField = React.forwardRef((props, ref) => {
   );
 });
 
-const FormEmployee = () => {
+const FormClient = () => {
   const formRef = React.useRef();
   const [formError, setFormError] = React.useState({});
   const [formValue, setFormValue] = React.useState({
@@ -62,25 +64,34 @@ const FormEmployee = () => {
  
 
   return (
-    <Form
-      ref={formRef}
-      onChange={setFormValue}
-      onCheck={setFormError}
-      formValue={formValue}
-      model={model}
-    >
-      <TextField name="nombres" label="nombres" />
-      <TextField name="telefono" label="telefono" />
-      <TextField name="dni" label="DNI" />
-      <TextField name="email" label="Email" />
-      
-      <ButtonToolbar>
-        <Button appearance="primary" onClick={handleSubmit}>
-          Submit
-        </Button>
-      </ButtonToolbar>
+    <Form layout="horizontal">
+      <Form.Group controlId="name-6">
+        <Form.ControlLabel>Username</Form.ControlLabel>
+        <Form.Control name="name" />
+        <Form.HelpText>Required</Form.HelpText>
+      </Form.Group>
+      <Form.Group controlId="email-6">
+        <Form.ControlLabel>Email</Form.ControlLabel>
+        <Form.Control name="email" type="email" />
+        <Form.HelpText tooltip>Required</Form.HelpText>
+      </Form.Group>
+      <Form.Group controlId="password-6">
+        <Form.ControlLabel>Password</Form.ControlLabel>
+        <Form.Control name="password" type="password" autoComplete="off" />
+      </Form.Group>
+      <Form.Group controlId="textarea-6">
+        <Form.ControlLabel>Textarea</Form.ControlLabel>
+        <Form.Control name="textarea" rows={5} accepter={Textarea} />
+      </Form.Group>
+      <Form.Group>
+        <ButtonToolbar>
+          <Button appearance="primary">Submit</Button>
+          <Button appearance="default">Cancel</Button>
+        </ButtonToolbar>
+      </Form.Group>
     </Form>
+
   );
 };
 
-export default FormEmployee;
+export default FormClient;
