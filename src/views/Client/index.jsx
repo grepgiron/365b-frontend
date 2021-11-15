@@ -6,6 +6,7 @@ import Lista from './pages/List';
 
 import NewClient from './pages/New';
 import ShowClient from './pages/Show';
+import EditClient from './pages/Edit';
 
 
 const Client = () => {
@@ -15,6 +16,7 @@ const Client = () => {
       <Routes>
         <Route path='nuevo' element={<NewClient/>}/>
         <Route path='/:id' element={<ShowClient/>}/>
+        <Route path='editar' element={<EditClient/>}/>
         <Route path='/' element={<Lista/>}/>
       </Routes> 
     </Panel>
