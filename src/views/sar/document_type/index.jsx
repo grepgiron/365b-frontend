@@ -8,17 +8,20 @@ import NewDocument from './pages/New';
 import ShowDocument from './pages/Show';
 
 
-const Client = () => {
+const DocumentType = () => {
  
   return (
-    <Panel bordered header={<h4>Tipos de Documentos</h4>}>
-      <Routes>
-        <Route path='nuevo' element={<NewDocument/>}/>
-        <Route path='/:id' element={<ShowDocument/>}/>
-        <Route path='/' element={<Lista/>}/>
-      </Routes> 
-    </Panel>
+    <>
+      <h5>Documentos Fiscales</h5>
+        <Panel> 
+        <Routes>
+          <Route path='nuevo' element={<NewDocument/>}/>
+          <Route path='/:id' element={<ShowDocument/>}/>
+          <Route path='/' element={<Lista/>}/>
+        </Routes> 
+      </Panel>
+    </>
   );
 };
 
-export default Client;
+export default DocumentType;

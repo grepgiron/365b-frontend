@@ -11,14 +11,16 @@ import ShowSalesPoint from './pages/Show';
 const SalesPoint = () => {
   //comentario prueba
   return (
-
-    <Panel bordered header={<h4>Puntos de Venta</h4>}> 
-      <Routes>
-        <Route path='nuevo' element={<NewSalesPoint/>}/>
-        <Route path='/:id' element={<ShowSalesPoint/>}/>
-        <Route path='/' element={<ListaSalesPoint/>}/>
-      </Routes> 
-    </Panel>
+    <>
+    <h5>Sales Point</h5>
+      <Panel> 
+        <Routes>
+          <Route path='nuevo' element={<NewSalesPoint/>}/>
+          <Route path='/:id' element={<ShowSalesPoint/>}/>
+          <Route path='/' element={<ListaSalesPoint/>}/>
+        </Routes> 
+      </Panel>
+    </>
   );
 };
 
