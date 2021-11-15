@@ -48,8 +48,9 @@ const SidebarNav = ({ appearance, ...props }) => {
     
     return (
         <Sidebar 
-            style={{ display: 'flex', flexDirection: 'column' }}
-            width={expand ? 260 : 56}
+        style={{ display: 'flex', flexDirection: 'column' }}
+        width={expand ? 260 : 56}
+        collapsible
             
         >
             <Sidenav.Header>

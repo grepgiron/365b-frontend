@@ -137,9 +137,7 @@ const FormNew = () => {
             labelKey="nombre" accepter={InputPicker} data={establecimientos}>
         </Form.Control>
       </Form.Group>
-      <Form.Group 
-
-      >
+      <Form.Group>
         <Form.ControlLabel>Punto de Venta</Form.ControlLabel>
         <Form.Control name="pos" valueKey="_id"
             labelKey="nombre" accepter={InputPicker} data={punto}>
@@ -168,7 +166,6 @@ const FormNew = () => {
         <Form.ControlLabel>Fecha Limite de Emision</Form.ControlLabel>
         <Form.Control name="fecha_limite" style={{ width: 224 }} type="date"/>
       </Form.Group>
-
       <Form.Group>
         <ButtonToolbar>
           <Button appearance="primary" type="submit">

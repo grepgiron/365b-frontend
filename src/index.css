@@ -599,7 +599,7 @@ span.CodeMirror-selectedtext{
   --rs-state-info:#2196f3;
   --rs-state-warning:#ffb300;
   --rs-state-error:#f44336;
-  --rs-body:rgb(226, 226, 226);
+  --rs-body:#fff;
   --rs-bg-success:#edfae1;
   --rs-bg-info:#e9f5fe;
   --rs-bg-warning:#fff9e6;
@@ -16272,8 +16272,8 @@ a code{
   }
 }
 .page-context-wrapper{
-  margin-left:0;
-  margin-right:0
+  margin-left:260px;
+  margin-right:0;
 }
 @media (min-width:768px){
   .page-context-wrapper{
@@ -16478,6 +16478,7 @@ a code{
 .show-fake-browser.sidebar-page .rs-sidebar{
   -webkit-box-shadow:0 4px 4px rgba(0,0,0,.12),0 0 10px rgba(0,0,0,.06);
   box-shadow:0 4px 4px rgba(0,0,0,.12),0 0 10px rgba(0,0,0,.06);
+  height:100vh;
 }
 .show-fake-browser.sidebar-page .rs-sidenav{
   -webkit-box-flex:1;
@@ -16491,7 +16492,7 @@ a code{
   padding:0 20px
 }
 .show-fake-browser.sidebar-page .rs-content{
-  background-color:#f7f7fa;
+  background-color:#fff;
   background-color:var(--rs-bg-card);
   margin:20px;
   padding:20px
@@ -17050,7 +17051,7 @@ body.rs-theme-dark,body.rs-theme-high-contrast{
 }
 @media (min-width:768px){
   .app-container .page-context{
-      margin-left:324px
+      margin-left:0
   }
 }
 pre{
