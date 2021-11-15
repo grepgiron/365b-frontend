@@ -18,13 +18,13 @@ const New = () => {
     <Grid fluid>
       <Row>
         <Col xs={12} className="markdown">
-          <h2 className="page-heading">Datos de Establecimiento</h2>
+          <h2 className="page-heading">Datos de nuevo tipo de unidad</h2>
           <div className="rs-code-view">
             <FormEstablishment />
           </div>       
         </Col>
         <Col xs={12} className="markdown">
-          <h2 className="page-heading">Guia de Establecimiento</h2>
+          <h2 className="page-heading">Guia de Unidades</h2>
           <div className="rs-code-view">
             <Panel bordered bodyFill style={{ display: 'inline-block' }}>
               <img src="https://via.placeholder.com/240x240" height="100" width="100" />
