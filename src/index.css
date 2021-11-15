@@ -599,7 +599,7 @@ span.CodeMirror-selectedtext{
   --rs-state-info:#2196f3;
   --rs-state-warning:#ffb300;
   --rs-state-error:#f44336;
-  --rs-body:#fff;
+  --rs-body:rgb(226, 226, 226);
   --rs-bg-success:#edfae1;
   --rs-bg-info:#e9f5fe;
   --rs-bg-warning:#fff9e6;
@@ -16478,7 +16478,6 @@ a code{
 .show-fake-browser.sidebar-page .rs-sidebar{
   -webkit-box-shadow:0 4px 4px rgba(0,0,0,.12),0 0 10px rgba(0,0,0,.06);
   box-shadow:0 4px 4px rgba(0,0,0,.12),0 0 10px rgba(0,0,0,.06);
-  height:100vh;
 }
 .show-fake-browser.sidebar-page .rs-sidenav{
   -webkit-box-flex:1;
@@ -16492,7 +16491,7 @@ a code{
   padding:0 20px
 }
 .show-fake-browser.sidebar-page .rs-content{
-  background-color:#fff;
+  background-color:#f7f7fa;
   background-color:var(--rs-bg-card);
   margin:20px;
   padding:20px
