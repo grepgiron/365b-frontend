@@ -1,23 +1,12 @@
 import React from 'react';
-import axios from 'axios';
 
-import {
-  FlexboxGrid,
-  Divider
-} from 'rsuite';
+import FormEdit from '../components/FormEdit'
 
-import Profile from '../components/Profile'
+const Show = (props) => {
 
-const Show = () => {
- 
   return (
     <>
-    <div>
-        <h5>Mostrar Documento</h5>
-        <h5>View: sar/document_authorization/components/Profile</h5>
-        <Divider />
-    </div>
-    <Profile/>
+    <FormEdit />
     </>
   );
 };

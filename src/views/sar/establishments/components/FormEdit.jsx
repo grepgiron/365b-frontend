@@ -1,14 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import axios from 'axios';
-import qs from 'qs';
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom';
 
 import {
   Form,
   Button,
   ButtonToolbar,
-  Schema
+  Schema,
+  IconButton 
 } from 'rsuite';
+
+import Edit2 from '@rsuite/icons/legacy/Edit2';
 
 
 const { StringType, NumberType } = Schema.Types;
@@ -28,76 +30,87 @@ const TextField = React.forwardRef((props, ref) => {
   );
 });
 
-const FormNew = (props) => {
-    let { id } = useParams();
+const FormNew = () => {
+  let { id } = useParams();
   const [formError, setFormError] = React.useState({});
-  const [formValue, setFormValue] = React.useState(null);
-
+  const [edit, setEdit ] = React.useState(false)
+  const [ postId, setPostId ] = React.useState(null);
+  const [formValue, setFormValue] = React.useState({
+    nombre: '',
+    prefijo: ''
+  });
 
   useEffect(() => {
-    fetch("https://beauty365api.herokuapp.com/api/v1/establecimientos/"+id)
-      .then(res => res.json())
-      .then(
-        (result) => {
-          //setIsLoaded(true);
-          setFormValue(result);
-          console.log(result);
-        },
-        // Nota: es importante manejar errores aquí y no en 
-        // un bloque catch() para que no interceptemos errores
-        // de errores reales en los componentes.
-        (error) => {
-          //setIsLoaded(true);
-          //setError(error);
-          console.log(error);
+    // PUT request using fetch with set headers
+    fetch('https://beauty365api.herokuapp.com/api/v1/establecimientos/'+id)
+      .then(response => response.json())
+      .then(data => {
+        setFormValue(data)
+        console.log('GET: ',data)
         }
-      )
-  })
+      );
+  }, []);
+  
 
- /*  let history = useNavigate();
-  console.log(history);
-  const handleSubmit = async() => {
-    try {
-      console.log(formValue);
-      //Cambiar aqui ruta de direccion del API
-      const response = await axios.post(
-        'https://beauty365api.herokuapp.com/api/v1/establecimientos/create',
-        qs.stringify(formValue), {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-          }
-        }).then(function(response){
-          console.log(response.status);
-          //Cambiar aqui ruta de redireccion
-          history(`/admin/sar/establecimiento/show/${response.data._id}`, { state: response.data._id })  
-        })
-      } catch(error) {
-        console.log(error)
+  function handleAction() {
+    const requestOptions = {
+        method: 'PUT',
+        headers: { 
+            'Content-Type': 'application/json'
+        },
+        body: formValue
+    };
+    fetch('https://beauty365api.herokuapp.com/api/v1/establecimientos/'+id, requestOptions)
+      .then(response => response.json())
+      .then(data => {
+      setPostId(data._id)
+      console.log('PUT:', data)
+      }
+    );
+  };
+
+  function handleClick(){
+    if(edit){
+      handleAction();
+      setEdit(false);
+    }else{
+      setEdit(true)
     }
-      console.log(formValue, 'Form Value');
-  } */
+  }
+ 
 
   return (
-    <Form 
-      //onSubmit={handleSubmit}
-      //onChange={setFormValue}
-      formValue={formValue}
-    >
-      <Form.Group controlId="name-6">
-        <Form.ControlLabel>Codigo</Form.ControlLabel>
-        <Form.Control name="prefijo" />
-      </Form.Group>
-      <Form.Group controlId="email-6">
-        <Form.ControlLabel>Nombre</Form.ControlLabel>
-        <Form.Control name="nombre" />
-        <Form.HelpText tooltip>000</Form.HelpText>
-      </Form.Group>
+    <>
       <ButtonToolbar>
-        <Button appearance="primary" type="submit">
-          Submit
-        </Button>
+          <IconButton icon={<Edit2 />} placement="right" onClick={handleClick}>
+            {
+              edit ? 'Cancelar' : 'Editar'
+            }
+          </IconButton>
       </ButtonToolbar>
-    </Form>
+      <Form 
+        layout="horizontal"
+        disabled={!edit}
+        onSubmit={handleAction}
+        onChange={setFormValue}
+        formValue={formValue}
+      >
+        <Form.Group controlId="name-6">
+          <Form.ControlLabel>Nombre</Form.ControlLabel>
+          <Form.Control name="nombre" value={formValue.nombre}/>
+        </Form.Group>
+        <Form.Group controlId="email-6">
+          <Form.ControlLabel>Prefijo</Form.ControlLabel>
+          <Form.Control name="prefijo" value={formValue.prefijo}/>
+          <Form.HelpText tooltip>000</Form.HelpText>
+        </Form.Group>
+        <ButtonToolbar>
+          <Button appearance="primary" type="submit">
+            Submit
+          </Button>
+        </ButtonToolbar>
+      </Form>
+    </>
   );
 };
 

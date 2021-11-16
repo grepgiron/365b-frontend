@@ -36,9 +36,6 @@ function List() {
       </Row>
       <Divider />
       <div>
-        <h5>Poner Lista aqui</h5>
-        <h5>View: sar/sales_point/components/List</h5>
-        <Divider />
         <ListNew />
       </div>
     </>

@@ -11,12 +11,14 @@ import ShowDocument from './pages/Show';
 const DocumentType = () => {
  
   return (
-    <>
+    <> 
+    <div class="markdown">
       <h5>Documentos Fiscales</h5>
-        <Panel> 
+    </div> 
+      <Panel bordered> 
         <Routes>
           <Route path='nuevo' element={<NewDocument/>}/>
-          <Route path='/:id' element={<ShowDocument/>}/>
+          <Route path='/show/:id' element={<ShowDocument/>}/>
           <Route path='/' element={<Lista/>}/>
         </Routes> 
       </Panel>

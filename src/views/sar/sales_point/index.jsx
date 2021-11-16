@@ -12,11 +12,14 @@ const SalesPoint = () => {
   //comentario prueba
   return (
     <>
-    <h5>Sales Point</h5>
-      <Panel> 
+    <div class="markdown">
+      <h5>Sales Point</h5>
+    </div>
+      <Panel bordered> 
         <Routes>
           <Route path='nuevo' element={<NewSalesPoint/>}/>
-          <Route path='/:id' element={<ShowSalesPoint/>}/>
+          <Route path='/show/:id' element={<ShowSalesPoint/>}/>
+          <Route path='/:id/editar' element={<ShowSalesPoint/>}/>
           <Route path='/' element={<ListaSalesPoint/>}/>
         </Routes> 
       </Panel>

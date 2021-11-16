@@ -3,47 +3,32 @@ import { Route ,Link, Routes} from "react-router-dom";
 
 import {
   Container,
-  Content,
-  Footer
+  Content
 } from 'rsuite';
 
 import Client from '../views/Client/index';
 import Employee from '../views/employee/index';
 import DocumentoAutorizacion from '../views/sar/document_authorization/index';
-import Lista from '../views/Client/components/List';
 import DocumentType from '../views/sar/document_type/index'
 
 import SidebarNav from '../components/SidebarNav';
-import NavBarInstance from '../components/NavBar';
 import Establishment from '../views/sar/establishments';
 import SalesPoint from '../views/sar/sales_point';
 import Category from '../views/settings/inventory/category';
 import Und from '../views/settings/inventory/und';
 
-const MyLink = React.forwardRef((props, ref) => {
-  const { href, as, ...rest } = props;
-  return (
-    <Link href={href} as={as}>
-      <a ref={ref} {...rest} />
-    </Link>
-  );
-});
 
 const Admin = () => {
   const [expand, setExpand] = React.useState(true);
-  const [activeKey, setActiveKey] = React.useState(null);
-  const [openKeys, setOpenKeys] = React.useState(['3', '4']);
 
   return (
     <Container className="show-fake-browser sidebar-page">
-
       <SidebarNav 
-        activeKey={activeKey}
-        openKeys={openKeys}
-        onSelect={setActiveKey}
-        onOpenChange={setOpenKeys}
+        style={{ overflow: 'auto', left: 0, top: 0 }}
       />
-      <Container>
+      <Container
+        style={{ marginLeft: expand ? 261 : 56 }}
+      >
         <Content>
           <Routes>
             <Route path='clientes/*' element={<Client/>}/>
@@ -56,7 +41,6 @@ const Admin = () => {
             <Route path='inventario/unidades/*' element={<Und/>}/>
           </Routes>  
         </Content>
-        <Footer>dsadsa</Footer>
       </Container>
     </Container>
   );

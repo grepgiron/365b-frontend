@@ -12,8 +12,10 @@ const Establishment = () => {
  
   return (
     <>
+    <div class="markdown">
       <h5>Establecimientos</h5>
-      <Panel>
+    </div>
+      <Panel bordered>
         <Routes>
           <Route path='nuevo' element={<NewEstablishment/>}/>
           <Route path='/show/:id' element={<ShowEstablishment/>}/>
