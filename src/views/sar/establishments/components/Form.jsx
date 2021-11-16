@@ -36,7 +36,6 @@ const FormNew = (props) => {
   });
 
   let history = useNavigate();
-  console.log(history);
   const handleSubmit = async() => {
     try {
       console.log(formValue);

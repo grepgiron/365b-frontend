@@ -16272,8 +16272,8 @@ a code{
   }
 }
 .page-context-wrapper{
-  margin-left:0;
-  margin-right:0
+  margin-left:260px;
+  margin-right:0;
 }
 @media (min-width:768px){
   .page-context-wrapper{
@@ -17051,7 +17051,7 @@ body.rs-theme-dark,body.rs-theme-high-contrast{
 }
 @media (min-width:768px){
   .app-container .page-context{
-      margin-left:324px
+      margin-left:0
   }
 }
 pre{

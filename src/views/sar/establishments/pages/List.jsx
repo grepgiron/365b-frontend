@@ -120,6 +120,7 @@ function List() {
       </Row>
       <Divider />
       <Table
+        bordered
         height={300}
         data={items}
         onRowClick={data => {

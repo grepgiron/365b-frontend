@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom'
 import axios from 'axios';
+import qs from 'qs';
 
 import {
   Form,
@@ -7,8 +9,10 @@ import {
   ButtonToolbar,
   Schema,
   Input, 
-  SelectPicker
+  InputPicker,
+  Radio
 } from 'rsuite';
+import FormControl from 'rsuite/esm/FormControl';
 
 const Textarea = React.forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
 
@@ -32,55 +36,142 @@ const TextField = React.forwardRef((props, ref) => {
 const FormNew = () => {
   const formRef = React.useRef();
   const [formError, setFormError] = React.useState({});
+  const [establecimientos, setEstablecimiento] = React.useState([]);
+  const [punto, setPunto] = React.useState([]);
+  const [documentos, setDocumentos] = React.useState([]);
+  const [error, setError] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [formValue, setFormValue] = React.useState({
-    nombre: '',
-    prefijo: ''
+    establecimiento: '',
+    documento_fiscal: '',
+    pos: '',
+    fecha_limite: '',
+    cai: '',
+    rango_inicial: '',
+    rango_final: ''
   });
   
+  useEffect(() => {
+    fetch("https://beauty365api.herokuapp.com/api/v1/establecimientos")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          setIsLoaded(true);
+          setEstablecimiento(result);
+        },
+        // Nota: es importante manejar errores aquí y no en 
+        // un bloque catch() para que no interceptemos errores
+        // de errores reales en los componentes.
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      )
+    fetch("https://beauty365api.herokuapp.com/api/v1/puntos_de_venta")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          setIsLoaded(true);
+          setPunto(result);
+        },
+        // Nota: es importante manejar errores aquí y no en 
+        // un bloque catch() para que no interceptemos errores
+        // de errores reales en los componentes.
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      )
+    fetch("https://beauty365api.herokuapp.com/api/v1/documentos_fiscal")
+    .then(res => res.json())
+    .then(
+      (result) => {
+        setIsLoaded(true);
+        setDocumentos(result);
+      },
+      // Nota: es importante manejar errores aquí y no en 
+      // un bloque catch() para que no interceptemos errores
+      // de errores reales en los componentes.
+      (error) => {
+        setIsLoaded(true);
+        setError(error);
+      }
+    )
+  }, [])
 
+
+  let history = useNavigate();
   const handleSubmit = async() => {
-    if (!formRef.current.check()) {
-      console.error('Form Error');
-      return;
-    }
     try {
       console.log(formValue);
-      // make axios post request
-      const response = await axios({
-        method: "POST",
-        url: 'https://beauty365api.herokuapp.com/api/v1/clientes',
-        data: formValue,
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      });
-      console.log(response)
-    } catch(error) {
-      console.log(error)
+      //Cambiar aqui ruta de direccion del API
+      const response = await axios.post(
+        'https://beauty365api.herokuapp.com/api/v1/documentos_autorizados/create',
+        qs.stringify(formValue), {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/x-www-form-urlencoded"
+          }
+        }).then(function(response){
+          console.log(response.status);
+          //Cambiar aqui ruta de redireccion
+          history(`/admin/sar/establecimiento/show/${response.data._id}`, { state: response.data._id })  
+        })
+      } catch(error) {
+        console.log(error)
     }
-    console.log(formValue, 'Form Value');
-  };
+      console.log(formValue, 'Form Value');
+  }
  
 
   return (
-    <Form layout="horizontal">
-      <Form.Group controlId="name-6">
+    <Form 
+      layout="horizontal"
+      onSubmit={handleSubmit}
+      onChange={setFormValue}
+      formValue={formValue}
+    >
+      <Form.Group >
         <Form.ControlLabel>Establecimiento</Form.ControlLabel>
-        <Form.Control name="establecimiento" />
+        <Form.Control name="establecimiento" valueKey="_id"
+            labelKey="nombre" accepter={InputPicker} data={establecimientos}>
+        </Form.Control>
       </Form.Group>
-      <Form.Group controlId="email-6">
+      <Form.Group>
         <Form.ControlLabel>Punto de Venta</Form.ControlLabel>
-        <Form.Control 
-          name="pos" 
-          accepter={SelectPicker} style={{ display: 'inline-block', width: 200 }}/>
-        <Form.HelpText tooltip>000</Form.HelpText>
+        <Form.Control name="pos" valueKey="_id"
+            labelKey="nombre" accepter={InputPicker} data={punto}>
+        </Form.Control>
       </Form.Group>
-      <Form.Group controlId="name-6">
-        <Form.ControlLabel>Nombre</Form.ControlLabel>
-        <Form.Control name="nombre" />
+      <Form.Group >
+        <Form.ControlLabel>Documento Fiscal</Form.ControlLabel>
+        <Form.Control name="documento_fiscal" valueKey="_id"
+          labelKey="nombre" accepter={InputPicker} data={documentos}>
+        </Form.Control>
       </Form.Group>
-      <Form.Group controlId="email-6">
-        <Form.ControlLabel>Prefijo</Form.ControlLabel>
-        <Form.Control name="prefijo" />
-        <Form.HelpText tooltip>000</Form.HelpText>
+      <Form.Group>
+        <Form.ControlLabel>CAI</Form.ControlLabel>
+        <Form.Control name="cai" maxLength="37" style={{ width: 224 }}/>
+        <Form.HelpText tooltip>Respetar los guiones del formato</Form.HelpText>
+      </Form.Group>
+      <Form.Group>
+        <Form.ControlLabel>Rango Inicial</Form.ControlLabel>
+        <Form.Control name="rango_inicial" maxLength="8" style={{ width: 90 }}/>
+      </Form.Group>
+      <Form.Group>
+        <Form.ControlLabel>Rango Final</Form.ControlLabel>
+        <Form.Control name="rango_final" maxLength="8" style={{ width: 90 }}/>
+      </Form.Group>
+      <Form.Group>
+        <Form.ControlLabel>Fecha Limite de Emision</Form.ControlLabel>
+        <Form.Control name="fecha_limite" style={{ width: 224 }} type="date"/>
+      </Form.Group>
+      <Form.Group>
+        <ButtonToolbar>
+          <Button appearance="primary" type="submit">
+            Registrar
+          </Button>
+        </ButtonToolbar>
       </Form.Group>
     </Form>
   );
