@@ -4,7 +4,8 @@ import {
   ButtonToolbar,
   Row,
   Col,
-  Divider
+  Divider,
+  Panel
 } from 'rsuite';
 
 import ListNew from '../components/List'
@@ -19,25 +20,27 @@ function List() {
   }
   return (
     <>
-      <Row>
-        <Col xs={9} >
-          <h3>Editar esta View</h3>
-        </Col>
-        <Col xs={3} xsPush={12}>
-          <ButtonToolbar className="inner-left">
-            <IconButton 
-              onClick={() => handleClick('nuevo')} 
-              icon={<PlusIcon />} 
-              appearance="primary">
-              Add
-            </IconButton>
-          </ButtonToolbar>
-        </Col>
-      </Row>
-      <Divider />
-      <div>
-        <ListNew />
-      </div>
+      <Panel bordered>
+        <Row>
+          <Col xs={9} >
+            <h3>Editar esta View</h3>
+          </Col>
+          <Col xs={3} xsPush={12}>
+            <ButtonToolbar className="inner-left">
+              <IconButton 
+                onClick={() => handleClick('nuevo')} 
+                icon={<PlusIcon />} 
+                appearance="primary">
+                Nuevo
+              </IconButton>
+            </ButtonToolbar>
+          </Col>
+        </Row>
+        <Divider />
+        <div>
+          <ListNew />
+        </div>
+      </Panel>
     </>
   );
 }

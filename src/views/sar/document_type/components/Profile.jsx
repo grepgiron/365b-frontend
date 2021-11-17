@@ -8,8 +8,12 @@ import {
   Panel,
   Row,
   Col,
-  Tag
+  Tag,
+  IconButton
 } from 'rsuite';
+
+import Edit2 from '@rsuite/icons/legacy/Edit2';
+
 
 
 function Profile() {
@@ -30,6 +34,10 @@ function Profile() {
       });
   }, []);
 
+  function handleClick(event) {
+    navigate(`/admin/sar/tipo_documento/editar/${id}`);
+  }
+
   return (
     <>
       <Grid fluid>
@@ -39,6 +47,9 @@ function Profile() {
           </h3>
           <Row>
             <Col>
+              <span>
+                <IconButton appearance="subtle" onClick={() => handleClick(sales_point._id)} icon={<Edit2 />}>Editar</IconButton>
+              </span>
               <div class="markdown"> 
                 <h4 class="page-heading">
                   <span class="page-heading-text">Nombre</span>

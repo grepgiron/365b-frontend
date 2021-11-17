@@ -3,7 +3,8 @@ import axios from 'axios';
 
 import {
   Form,
-  Button,
+  Grid,
+  Panel,
   ButtonToolbar,
   Schema,
   Input 
@@ -60,17 +61,21 @@ const FormNew = () => {
  
 
   return (
-    <Form layout="horizontal">
-      <Form.Group controlId="name-6">
-        <Form.ControlLabel>Nombre</Form.ControlLabel>
-        <Form.Control name="nombre" />
-      </Form.Group>
-      <Form.Group controlId="email-6">
-        <Form.ControlLabel>Prefijo</Form.ControlLabel>
-        <Form.Control name="prefijo" />
-        <Form.HelpText tooltip>000</Form.HelpText>
-      </Form.Group>
-    </Form>
+    <Grid fluid>
+      <Panel bordered>
+        <Form layout="horizontal">
+          <Form.Group controlId="name-6">
+            <Form.ControlLabel>Nombre</Form.ControlLabel>
+            <Form.Control name="nombre" />
+          </Form.Group>
+          <Form.Group controlId="email-6">
+            <Form.ControlLabel>Prefijo</Form.ControlLabel>
+            <Form.Control name="prefijo" />
+            <Form.HelpText tooltip>000</Form.HelpText>
+          </Form.Group>
+        </Form>
+      </Panel>
+    </Grid>
   );
 };
 

@@ -103,7 +103,7 @@ function List() {
   } else {
     return (
       <>
-      <Table
+      <Table bordered striped
         height={300}
         data={items}
         onRowClick={data => {

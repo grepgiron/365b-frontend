@@ -1,12 +1,18 @@
 import React from 'react';
 
-import FormEdit from '../components/FormEdit'
+import { Panel, Grid } from 'rsuite';
+
+import Profile from '../components/Profile'
 
 const Show = (props) => {
 
   return (
     <>
-    <FormEdit />
+    <Grid fluid>
+      <Panel bordered>
+        <Profile/>
+      </Panel>
+    </Grid>
     </>
   );
 };

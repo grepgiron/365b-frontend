@@ -17,6 +17,7 @@ import SalesPoint from '../views/sar/sales_point';
 import Category from '../views/settings/inventory/category';
 import Und from '../views/settings/inventory/und';
 import Product from '../views/settings/inventory/product';
+import Invoice from '../views/invoice';
 
 
 const Admin = () => {
@@ -33,6 +34,7 @@ const Admin = () => {
         <Content>
           <Routes>
             <Route path='clientes/*' element={<Client/>}/>
+            <Route path='ventas/*' element={<Invoice />}/>
             <Route path='empleados/*' element={<Employee/>}/>
             <Route path='sar/documentos_autorizacion/*' element={<DocumentoAutorizacion/>}/>
             <Route path='sar/establecimiento/*' element={<Establishment/>}/>

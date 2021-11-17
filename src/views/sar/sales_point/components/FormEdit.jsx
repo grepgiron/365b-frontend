@@ -69,28 +69,13 @@ const FormNew = () => {
     );
   };
 
-  function handleClick(){
-    if(edit){
-      handleAction();
-      setEdit(false);
-    }else{
-      setEdit(true)
-    }
-  }
- 
-
   return (
     <>
-      <ButtonToolbar>
-          <IconButton icon={<Edit2 />} placement="right" onClick={handleClick}>
-            {
-              edit ? 'Cancelar' : 'Editar'
-            }
-          </IconButton>
-      </ButtonToolbar>
+      <h3 class="page-heading">
+        <span class="page-heading-text">Detalles</span>
+      </h3>
       <Form 
         layout="horizontal"
-        disabled={!edit}
         onSubmit={handleAction}
         onChange={setFormValue}
         formValue={formValue}
@@ -104,11 +89,13 @@ const FormNew = () => {
           <Form.Control name="prefijo" value={formValue.prefijo}/>
           <Form.HelpText tooltip>000</Form.HelpText>
         </Form.Group>
-        <ButtonToolbar>
-          <Button appearance="primary" type="submit">
-            Submit
-          </Button>
-        </ButtonToolbar>
+        <Form.Group>
+          <ButtonToolbar>
+            <Button appearance="primary" type="submit">
+              Guardar
+            </Button>
+          </ButtonToolbar>
+        </Form.Group>
       </Form>
     </>
   );

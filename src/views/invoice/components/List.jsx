@@ -30,10 +30,7 @@ function List() {
         </ButtonToolbar>
       </Col>
     </Row>
-    <div>
-        <h5>Poner Lista aqui</h5>
-        <h5>View: employee/components/List</h5>
-    </div>
+
     </>
   );
 }

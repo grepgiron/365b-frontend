@@ -104,6 +104,7 @@ function List() {
     return (
       <>
       <Table
+        bordered striped
         height={300}
         data={items}
         onRowClick={data => {

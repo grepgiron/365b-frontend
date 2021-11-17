@@ -3,24 +3,24 @@ import { Route , Routes} from "react-router-dom";
 
 import { Panel } from 'rsuite';
 
-import ListaSalesPoint from './pages/List';
+import ListSalesPoint from './pages/List';
 import NewSalesPoint from './pages/New';
 import ShowSalesPoint from './pages/Show';
+import EditSalesPoint from './pages/Edit';
 
 
 const SalesPoint = () => {
-  //comentario prueba
   return (
     <>
     <div class="markdown">
-      <h5>Sales Point</h5>
+      <h5>Puntos de Venta</h5>
     </div>
-      <Panel bordered> 
+      <Panel> 
         <Routes>
           <Route path='nuevo' element={<NewSalesPoint/>}/>
           <Route path='/show/:id' element={<ShowSalesPoint/>}/>
-          <Route path='/:id/editar' element={<ShowSalesPoint/>}/>
-          <Route path='/' element={<ListaSalesPoint/>}/>
+          <Route path='editar/:id' element={<EditSalesPoint/>}/>
+          <Route path='/' element={<ListSalesPoint/>}/>
         </Routes> 
       </Panel>
     </>

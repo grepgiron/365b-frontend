@@ -8,6 +8,7 @@ import {
   ButtonToolbar,
   Divider,
   Row,
+  Loader,
   Col
 } from 'rsuite';
 
@@ -99,11 +100,12 @@ function List() {
   if (error) {
     return <div>Error: {error.message}</div>;
   } else if (!isLoaded) {
-    return <div>Loading...</div>;
+    return <><Loader content="loading..." /></>
   } else {
     return (
       <>
       <Table
+        bordered striped
         height={300}
         data={items}
         onRowClick={data => {
