@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
+import FormEdit from '../components/FormEdit'
+
 import {
   FlexboxGrid,
   Divider
@@ -19,7 +21,7 @@ const Show = (props) => {
         <h5>View: sar/establishments/components/Profile</h5>
         <Divider />
     </div>
-    <Profile/>
+    <FormEdit />
     </>
   );
 };

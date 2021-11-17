@@ -65,12 +65,12 @@ const FormNew = (props) => {
       formValue={formValue}
     >
       <Form.Group controlId="name-6">
-        <Form.ControlLabel>Nombre</Form.ControlLabel>
-        <Form.Control name="nombre" />
+        <Form.ControlLabel>Codigo</Form.ControlLabel>
+        <Form.Control name="code" />
       </Form.Group>
       <Form.Group controlId="email-6">
-        <Form.ControlLabel>Prefijo</Form.ControlLabel>
-        <Form.Control name="prefijo" />
+        <Form.ControlLabel>Nombre</Form.ControlLabel>
+        <Form.Control name="nombre" />
         <Form.HelpText tooltip>000</Form.HelpText>
       </Form.Group>
       <ButtonToolbar>

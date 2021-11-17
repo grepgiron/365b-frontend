@@ -48,9 +48,10 @@ const SidebarNav = ({ appearance, ...props }) => {
     
     return (
         <Sidebar 
-            style={{ display: 'flex', flexDirection: 'column' }}
-            width={expand ? 260 : 56}
-            collapsible
+        style={{ display: 'flex', flexDirection: 'column' }}
+        width={expand ? 260 : 56}
+        collapsible
+            
         >
             <Sidenav.Header>
                 <div style={headerStyles}>
@@ -77,10 +78,10 @@ const SidebarNav = ({ appearance, ...props }) => {
                         Clientes
                         </Nav.Item>
                         <Dropdown eventKey="5" title="SAR" icon={<Magic />}>
+                            <Dropdown.Item eventKey="5-4" onSelect={() => handleClick('sar/documentos_autorizacion')}>Documentos de Autorización</Dropdown.Item>
                             <Dropdown.Item eventKey="5-1" onSelect={() => handleClick('sar/establecimiento')}>Establecimientos</Dropdown.Item>
                             <Dropdown.Item eventKey="5-2" onSelect={() => handleClick('sar/punto_venta')}>Puntos de Venta</Dropdown.Item>
                             <Dropdown.Item eventKey="5-3" onSelect={() => handleClick('sar/tipo_documento')}>Tipo de Documento</Dropdown.Item>
-                            <Dropdown.Item eventKey="5-4" onSelect={() => handleClick('sar/documentos_autorizacion')}>Documentos de Autorización</Dropdown.Item>
                         </Dropdown>
                         <Dropdown eventKey="6" title="Configuraciones" icon={<GearCircle />}>
                             <Dropdown.Item 

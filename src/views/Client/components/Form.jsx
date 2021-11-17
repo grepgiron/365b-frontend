@@ -64,33 +64,34 @@ const FormClient = () => {
  
 
   return (
-    <Form layout="horizontal">
-      <Form.Group controlId="name-6">
-        <Form.ControlLabel>Username</Form.ControlLabel>
-        <Form.Control name="name" />
-        <Form.HelpText>Required</Form.HelpText>
-      </Form.Group>
-      <Form.Group controlId="email-6">
-        <Form.ControlLabel>Email</Form.ControlLabel>
-        <Form.Control name="email" type="email" />
-        <Form.HelpText tooltip>Required</Form.HelpText>
-      </Form.Group>
-      <Form.Group controlId="password-6">
-        <Form.ControlLabel>Password</Form.ControlLabel>
-        <Form.Control name="password" type="password" autoComplete="off" />
-      </Form.Group>
-      <Form.Group controlId="textarea-6">
-        <Form.ControlLabel>Textarea</Form.ControlLabel>
-        <Form.Control name="textarea" rows={5} accepter={Textarea} />
-      </Form.Group>
-      <Form.Group>
-        <ButtonToolbar>
-          <Button appearance="primary">Submit</Button>
-          <Button appearance="default">Cancel</Button>
-        </ButtonToolbar>
-      </Form.Group>
-    </Form>
-
+    <Form fluid>
+    <Form.Group controlId="name-1">
+      <Form.ControlLabel>Nombre</Form.ControlLabel>
+      <Form.Control name="name" />
+      <Form.HelpText>Required</Form.HelpText>
+    </Form.Group>
+    <Form.Group controlId="email-1">
+      <Form.ControlLabel>Email</Form.ControlLabel>
+      <Form.Control name="email" type="email" />
+      <Form.HelpText>Required</Form.HelpText>
+    </Form.Group>
+    <Form.Group controlId="password-1">
+      <Form.ControlLabel>Contraseña</Form.ControlLabel>
+      <Form.Control name="password" type="password" autoComplete="off" />
+    </Form.Group>
+    <Form.Group controlId="textarea-1">
+      <Form.ControlLabel>Número telefonico y dirección</Form.ControlLabel>
+      <Form.Control rows={5} name="textarea" accepter={Textarea} />
+    </Form.Group>
+    <Form.Group>
+      <ButtonToolbar>
+        <Button appearance="primary">Agregar</Button>
+        <Button appearance="primary">Editar</Button>
+        <Button appearance="default">Cancelar</Button>
+       
+      </ButtonToolbar>
+    </Form.Group>
+  </Form>
   );
 };
 

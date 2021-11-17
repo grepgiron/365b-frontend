@@ -78,7 +78,7 @@ function List() {
   // this useEffect will run once
   // similar to componentDidMount()
   useEffect(() => {
-    fetch("https://beauty365api.herokuapp.com/api/v1/establecimientos")
+    fetch("https://beauty365api.herokuapp.com/api/v1/unidades")
       .then(res => res.json())
       .then(
         (result) => {
@@ -127,8 +127,8 @@ function List() {
       }}
       > 
         <Column width={200}>
-          <HeaderCell>Prefijo</HeaderCell>
-          <Cell dataKey="prefijo" />
+          <HeaderCell>Code</HeaderCell>
+          <Cell dataKey="code" />
         </Column>
         <Column flexGrow={1}>
           <HeaderCell>Nombre</HeaderCell>
@@ -140,7 +140,7 @@ function List() {
           <Cell className="link-group">
             {rowData => {
               function handleAction() {
-                match(`/admin/sar/establecimiento/show/${rowData._id}`, { state: rowData._id });
+                match(`/admin/inventario/unidades/show/${rowData._id}`, { state: rowData._id });
               }
               return (
                 <span>
