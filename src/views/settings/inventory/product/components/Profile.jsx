@@ -11,7 +11,7 @@ function Profile() {
     //Editar Aqui el perfil de empleado
     <>
     <div>
-        <a>La prueba de bits de miguelito: si no sale bits de la sangre vaya a derecho</a>
+        <a>La chelita del labarotio se fue, y estaba buena</a>
     </div>
     </>
   );

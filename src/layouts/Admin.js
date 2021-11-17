@@ -16,6 +16,7 @@ import Establishment from '../views/sar/establishments';
 import SalesPoint from '../views/sar/sales_point';
 import Category from '../views/settings/inventory/category';
 import Und from '../views/settings/inventory/und';
+import Product from '../views/settings/inventory/product';
 
 
 const Admin = () => {
@@ -39,6 +40,7 @@ const Admin = () => {
             <Route path='sar/tipo_documento/*' element={<DocumentType/>}/>
             <Route path='inventario/categorias/*' element={<Category/>}/>
             <Route path='inventario/unidades/*' element={<Und/>}/>
+            <Route path='inventario/productos/*' element={<Product />}/>
           </Routes>  
         </Content>
       </Container>

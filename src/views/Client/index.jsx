@@ -14,6 +14,7 @@ const Client = () => {
     <Panel shaded>
       <Routes>
         <Route path='nuevo' element={<NewClient/>}/>
+       < Route path='/mostrar/:id' element={<ShowClient/>}/>
         <Route path='/:id' element={<ShowClient/>}/>
         <Route path='/' element={<Lista/>}/>
       </Routes> 
