@@ -13,12 +13,12 @@ const { HeaderCell, Cell, Column, ColumnGroup } = Table;
 
 function List() {
   const [clientsArray, setClientsArray] = React.useState([]);
-  const [error, setError] = React.useState(null);
+  const [error, setError] = React.useState(null); //variables con su metodo get y React.useState sirve para darle un estado a la constante creada
   const [loading, setLoading] = React.useState(false);
   const [limit, setLimit] = React.useState(10);
   const [page, setPage] = React.useState(1);
 
-  useEffect(() => {
+  useEffect(() => { // es lo primero que carga al iniciar el componente, carga toda la informacion que ya esta cargada al momento de iniciar una pagina
       // GET request using axios with async/await
       fetch('https://beauty365api.herokuapp.com/api/v1/empleados')
         .then(response => response.json())
@@ -56,7 +56,7 @@ function List() {
           </Column>
 
           <Column  flexGrow>
-            <HeaderCell>Primer Nombre</HeaderCell>
+            <HeaderCell>Nombre</HeaderCell>
             <Cell dataKey="nombres" />
           </Column>
 
