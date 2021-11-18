@@ -70,13 +70,14 @@ function List() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
 
-  let match = useNavigate();
-  function handleClick(event) {
-      match(`/admin/sar/establecimiento/show/${event}`, { state: response.data._id });
-  }
   // Note: the empty deps array [] means
   // this useEffect will run once
   // similar to componentDidMount()
+  let match = useNavigate();
+  function handleClick(event) {
+    match(event);
+}
+
   useEffect(() => {
     fetch("https://beauty365api.herokuapp.com/api/v1/establecimientos")
       .then(res => res.json())
@@ -102,24 +103,7 @@ function List() {
   } else {
     return (
       <>
-      <Row>
-        <Col xs={9} >
-          <h3>Editar esta View</h3>
-        </Col>
-        <Col xs={3} xsPush={12}>
-          
-          <ButtonToolbar className="inner-left">
-            <IconButton 
-              onClick={() => handleClick('nuevo')} 
-              icon={<PlusIcon />} 
-              appearance="primary">
-              Add
-            </IconButton>
-          </ButtonToolbar>
-        </Col>
-      </Row>
-      <Divider />
-      <Table
+      <Table bordered striped
         height={300}
         data={items}
         onRowClick={data => {
@@ -140,11 +124,11 @@ function List() {
           <Cell className="link-group">
             {rowData => {
               function handleAction() {
-                alert(`id:${rowData._id}`);
+                match(`/admin/sar/establecimiento/show/${rowData._id}`, { state: rowData._id });
               }
               return (
                 <span>
-                  <IconButton appearance="subtle" onClick={handleClick(rowData._id)} icon={<Edit2 />} />
+                  <IconButton appearance="subtle" onClick={handleAction} icon={<Edit2 />} />
                 </span>
               );
             }}

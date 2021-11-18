@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { useParams } from "react-router-dom";
 
 import {
   FlexboxGrid,
@@ -9,6 +10,9 @@ import {
 import Profile from '../components/Profile'
 
 const Show = () => {
+
+  let { id } = useParams();
+  console.log("MOSTRAR CLIENTE: ", id);
  
   return (
     <>

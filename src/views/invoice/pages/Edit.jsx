@@ -2,19 +2,21 @@ import React from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
-import Profile from '../components/Profile'
-
 import {
   FlexboxGrid,
   Divider
 } from 'rsuite';
 
-const Show = (props) => {
+import Edit from '../components/FormEdit'
+
+const EditInvoice = (props) => {
+  let { id } = useParams();
+  console.log(id)
   return (
     <>
-    <Profile />
+      <Edit />
     </>
   );
 };
 
-export default Show;
+export default EditInvoice;

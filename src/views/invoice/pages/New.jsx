@@ -2,17 +2,19 @@ import React from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
-import Profile from '../components/Profile'
-
 import {
   FlexboxGrid,
   Divider
 } from 'rsuite';
 
+import FormNew from '../components/Form'
+
 const Show = (props) => {
+  let { id } = useParams();
+  console.log(id)
   return (
     <>
-    <Profile />
+      <FormNew />
     </>
   );
 };

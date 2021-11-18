@@ -78,7 +78,7 @@ function List() {
   // this useEffect will run once
   // similar to componentDidMount()
   useEffect(() => {
-    fetch("https://beauty365api.herokuapp.com/api/v1/establecimientos")
+    fetch("https://beauty365api.herokuapp.com/api/v1/productos")
       .then(res => res.json())
       .then(
         (result) => {
@@ -127,8 +127,8 @@ function List() {
       }}
       > 
         <Column width={200}>
-          <HeaderCell>Prefijo</HeaderCell>
-          <Cell dataKey="prefijo" />
+          <HeaderCell>Codigo</HeaderCell>
+          <Cell dataKey="code" />
         </Column>
         <Column flexGrow={1}>
           <HeaderCell>Nombre</HeaderCell>

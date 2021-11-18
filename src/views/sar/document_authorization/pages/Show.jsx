@@ -1,23 +1,18 @@
 import React from 'react';
-import axios from 'axios';
 
-import {
-  FlexboxGrid,
-  Divider
-} from 'rsuite';
+import { Panel, Grid } from 'rsuite';
 
 import Profile from '../components/Profile'
 
-const Show = () => {
- 
+const Show = (props) => {
+
   return (
     <>
-    <div>
-        <h5>Mostrar Documento</h5>
-        <h5>View: sar/document_authorization/components/Profile</h5>
-        <Divider />
-    </div>
-    <Profile/>
+    <Grid fluid>
+      <Panel bordered>
+        <Profile/>
+      </Panel>
+    </Grid>
     </>
   );
 };
