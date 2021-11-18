@@ -1,11 +1,9 @@
-import { BrowserRouter as Router, Route ,Link, Routes} from "react-router-dom";
+import { BrowserRouter as Router, Route , Routes} from "react-router-dom";
 
 import Admin from './layouts/Admin';
 
-
-import logo from './logo.svg';
 //import './App.css';
-import 'rsuite/dist/rsuite.min.css'; // or css
+//import 'rsuite/dist/rsuite.min.css'; // or css
 
 function App() {
   return (

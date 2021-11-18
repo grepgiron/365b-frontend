@@ -16475,10 +16475,16 @@ a code{
   line-height:120px
 }
 
+.puto{
+
+  box-shadow:0 4px 4px rgba(0,0,0,.12),0 0 10px rgba(0,0,0,.06);
+}
+
 .show-fake-browser.sidebar-page .rs-sidebar{
   -webkit-box-shadow:0 4px 4px rgba(0,0,0,.12),0 0 10px rgba(0,0,0,.06);
   box-shadow:0 4px 4px rgba(0,0,0,.12),0 0 10px rgba(0,0,0,.06);
   height:100vh;
+  background-color:#fff;
 }
 .show-fake-browser.sidebar-page .rs-sidenav{
   -webkit-box-flex:1;
@@ -17035,7 +17041,7 @@ a code{
   --font-family-mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace
 }
 body{
-  background-color:#fff
+  background-color:#efefefc7
 }
 body.rs-theme-dark,body.rs-theme-high-contrast{
   background-color:#0f131a

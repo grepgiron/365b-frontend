@@ -15,7 +15,7 @@ const Show = (props) => {
   return (
     <>
     <div>
-        <h5>Mostrar Establecimientos</h5>
+        <h5>Mostrar Productos</h5>
         <h5>View: sar/establishments/components/Profile</h5>
         <Divider />
     </div>

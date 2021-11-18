@@ -4,6 +4,7 @@ import {
   ButtonToolbar,
   Row,
   Col,
+  Panel,
   Divider
 } from 'rsuite';
 
@@ -19,6 +20,7 @@ function List() {
   }
   return (
     <>
+    <Panel bordered>
       <Row>
         <Col xs={9} >
           <h3>Editar esta View</h3>
@@ -36,11 +38,9 @@ function List() {
       </Row>
       <Divider />
       <div>
-        <h5>Poner Lista aqui</h5>
-        <h5>View: sar/document_authorization/components/List</h5>
-        <Divider />
         <ListNew />
       </div>
+    </Panel>
     </>
   );
 }
