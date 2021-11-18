@@ -10,7 +10,8 @@ import {
   Schema,
   Input, 
   InputPicker,
-  Radio
+  Radio,
+  Toggle
 } from 'rsuite';
 import FormControl from 'rsuite/esm/FormControl';
 
@@ -131,7 +132,6 @@ const FormNew = () => {
       onChange={setFormValue}
       formValue={formValue}
     >
-      {console.log(formValue)}
       <Form.Group >
         <Form.ControlLabel>Establecimiento</Form.ControlLabel>
         <Form.Control name="establecimiento" valueKey="_id"

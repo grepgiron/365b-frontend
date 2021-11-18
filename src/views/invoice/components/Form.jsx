@@ -56,13 +56,13 @@ const ProductItem = ({ rowValue = {}, onChange, rowIndex, rowError }) => {
 
   return (
     <>
-      <Col xs={8}>
+      <Col xs={9}>
         <Cell>
           <Input value={rowValue.nombre} onChange={handleChangeName} style={{ marginRight: 100}} />
           {rowError ? <ErrorMessage>{rowError.name.errorMessage}</ErrorMessage> : null}
         </Cell>
       </Col>
-      <Col  xs={4}>
+      <Col  xs={3}>
         <Cell>
           <InputNumber
 
@@ -74,19 +74,25 @@ const ProductItem = ({ rowValue = {}, onChange, rowIndex, rowError }) => {
           {rowError ? <ErrorMessage>{rowError.quantity.errorMessage}</ErrorMessage> : null}
         </Cell>
       </Col>
-      <Col xs={4}>
-        <Cell>
-          <Input value={rowValue.precio} onChange={handleChangePrice}/>
-          {rowError ? <ErrorMessage>{rowError.name.errorMessage}</ErrorMessage> : null}
-        </Cell>
-      </Col>
-      <Col xs={4}>
+      <Col xs={3}>
         <Cell>
           <Input readOnly value={rowValue.isv} onChange={handleChangeISV}/>
           {rowError ? <ErrorMessage>{rowError.name.errorMessage}</ErrorMessage> : null}
         </Cell>
       </Col>
-      <Col xs={4}>
+      <Col xs={3}>
+        <Cell>
+          <Input value={rowValue.precio} onChange={handleChangePrice}/>
+          {rowError ? <ErrorMessage>{rowError.name.errorMessage}</ErrorMessage> : null}
+        </Cell>
+      </Col>
+      <Col xs={3}>
+        <Cell>
+          <Input readOnly value={rowValue.isv} onChange={handleChangeISV}/>
+          {rowError ? <ErrorMessage>{rowError.name.errorMessage}</ErrorMessage> : null}
+        </Cell>
+      </Col>
+      <Col xs={3}>
         <Cell>
           <Input readOnly value={rowValue.total} onChange={handleChangeTotal} />
           {rowError ? <ErrorMessage>{rowError.name.errorMessage}</ErrorMessage> : null}
@@ -119,19 +125,22 @@ const ProductInputControl = ({ value = [], onChange, fieldError }) => {
     <>
     <Grid fluid>
       <Row>
-        <Col xs={8}>
+        <Col xs={9}>
           <Cell>Producto / Servicio</Cell>
         </Col>
-        <Col xs={4}>
+        <Col xs={3}>
           <Cell>Cantidad</Cell>
         </Col>
-        <Col xs={4}>
+        <Col xs={3}>
           <Cell>Precio</Cell>
         </Col>
-        <Col xs={4}>
+        <Col xs={3}>
+          <Cell>Descuento</Cell>
+        </Col>
+        <Col xs={3}>
           <Cell>ISV</Cell>
         </Col>
-        <Col xs={4}>
+        <Col xs={3}>
           <Cell>Total</Cell>
         </Col>
       </Row>

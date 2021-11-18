@@ -31,18 +31,18 @@ const TextField = React.forwardRef((props, ref) => {
 const FormNew = (props) => {
   const [formError, setFormError] = React.useState({});
   const [formValue, setFormValue] = React.useState({
-    nombre: '',
-    prefijo: ''
+    code: '',
+    nombre: ''
   });
 
   let history = useNavigate();
-  console.log(history);
+  //console.log(history);
   const handleSubmit = async() => {
     try {
       console.log(formValue);
       //Cambiar aqui ruta de direccion del API
       const response = await axios.post(
-        'https://beauty365api.herokuapp.com/api/v1/establecimientos/create',
+        'https://beauty365api.herokuapp.com/api/v1/categorias/create',
         qs.stringify(formValue), {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded"
@@ -50,7 +50,7 @@ const FormNew = (props) => {
         }).then(function(response){
           console.log(response.status);
           //Cambiar aqui ruta de redireccion
-          history(`/admin/sar/establecimiento/show/${response.data._id}`, { state: response.data._id })  
+          history(`/admin/sar/categorias/show/${response.data._id}`, { state: response.data._id })  
         })
       } catch(error) {
         console.log(error)
@@ -65,12 +65,12 @@ const FormNew = (props) => {
       formValue={formValue}
     >
       <Form.Group controlId="name-6">
-        <Form.ControlLabel>Nombre</Form.ControlLabel>
-        <Form.Control name="nombre" />
+        <Form.ControlLabel>code</Form.ControlLabel>
+        <Form.Control name="code" />
       </Form.Group>
       <Form.Group controlId="email-6">
-        <Form.ControlLabel>Prefijo</Form.ControlLabel>
-        <Form.Control name="prefijo" />
+        <Form.ControlLabel>nombre</Form.ControlLabel>
+        <Form.Control name="nombre" />
         <Form.HelpText tooltip>000</Form.HelpText>
       </Form.Group>
       <ButtonToolbar>

@@ -72,13 +72,13 @@ function List() {
 
   let match = useNavigate();
   function handleClick(event) {
-      match(event);
+      match(`/admin/inventario/categoria/show/${event}`, { state: response.data._id });
   }
   // Note: the empty deps array [] means
   // this useEffect will run once
   // similar to componentDidMount()
   useEffect(() => {
-    fetch("https://beauty365api.herokuapp.com/api/v1/categorias")
+    fetch("https://beauty365api.herokuapp.com/api/v1/establecimientos")
       .then(res => res.json())
       .then(
         (result) => {
@@ -106,7 +106,8 @@ function List() {
         <Col xs={9} >
           <h3>Editar esta View</h3>
         </Col>
-        <Col xs={3} xsPush={12}>  
+        <Col xs={3} xsPush={12}>
+          
           <ButtonToolbar className="inner-left">
             <IconButton 
               onClick={() => handleClick('nuevo')} 
@@ -117,7 +118,6 @@ function List() {
           </ButtonToolbar>
         </Col>
       </Row>
-
       <Divider />
       <Table
         height={300}
@@ -127,8 +127,8 @@ function List() {
       }}
       > 
         <Column width={200}>
-          <HeaderCell>Code</HeaderCell>
-          <Cell dataKey="code" />
+          <HeaderCell>Prefijo</HeaderCell>
+          <Cell dataKey="prefijo" />
         </Column>
         <Column flexGrow={1}>
           <HeaderCell>Nombre</HeaderCell>
@@ -140,11 +140,11 @@ function List() {
           <Cell className="link-group">
             {rowData => {
               function handleAction() {
-                match(`/admin/inventario/categorias/show/${rowData._id}`, { state: rowData._id });
+                alert(`id:${rowData._id}`);
               }
               return (
                 <span>
-                  <IconButton appearance="subtle" onClick={handleAction} icon={<Edit2 />} />
+                  <IconButton appearance="subtle" onClick={handleClick(rowData._id)} icon={<Edit2 />} />
                 </span>
               );
             }}
