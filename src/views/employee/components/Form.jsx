@@ -79,10 +79,11 @@ const FormEmployee = () => {
       
       <ButtonToolbar>
         <Button appearance="primary" onClick={handleSubmit}>
-          Submit
+          Guardar 
         </Button>
       </ButtonToolbar>
-    </Form>
+    </Form> 
+      
   );
 };
 
