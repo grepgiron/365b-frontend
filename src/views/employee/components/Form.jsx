@@ -71,9 +71,10 @@ const FormEmployee = () => {
       onCheck={setFormError}
       formValue={formValue}
       model={model}
-    >
-      <TextField name="nombres" label="nombres" />
-      <TextField name="telefono" label="telefono" />
+
+    > <TextField name="_id" label="ID" />
+      <TextField name="nombres" label="Nombres" />
+      <TextField name="telefono" label="Telefono" />
       <TextField name="dni" label="DNI" />
       <TextField name="email" label="Email" />
       
