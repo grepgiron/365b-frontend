@@ -3,87 +3,133 @@ import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
 import {
   Table,
-  Pagination
+  IconButton,
+  Pagination,
+  Divider
 } from 'rsuite';
 
-import value from './sample';
+// Iconos
+import Edit2 from '@rsuite/icons/legacy/Edit2';
+import VisibleIcon from '@rsuite/icons/Visible';
 
 const { HeaderCell, Cell, Column, ColumnGroup } = Table;
 
 function List() {
-  const [clientsArray, setClientsArray] = React.useState(null);
+  const [clientsArray, setClientsArray] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [limit, setLimit] = React.useState(10);
   const [page, setPage] = React.useState(1);
 
+  const [error, setError] = useState(null);
+
+  // let match = useNavigate();
+  // function handleClick(event) {
+  //   console.log(event);
+  //     match(`/admin/clientes/editar/${event}`, { state: response.data._id });
+  // }
+  // Celda para los botones de accion
+  let match = useNavigate();
+  const ActionCell = ({ rowData, dataKey, ...props }) => {
+    function editClient() {
+      // match(`/admin/clientes/editar/${rowData[dataKey]}`, { state: response.data._id });
+      match(`/admin/clientes/editar/${rowData[dataKey]}`);
+    }
+    function showClient() {
+      // match(`/admin/clientes/mostrar/${rowData[dataKey]}`, { state: response.data._id });
+      match(`/admin/clientes/${rowData[dataKey]}`);
+    }
+    return (
+      <Cell {...props} className="link-group">
+        <IconButton appearance="subtle" onClick={editClient} icon={<Edit2 />} />
+        <Divider vertical />
+        <IconButton appearance="subtle" onClick={showClient} icon={<VisibleIcon />} />
+      </Cell>
+    );
+  };
+
   useEffect(() => {
-      // GET request using axios with async/await
+      // GET request using axios
       axios.get('https://beauty365api.herokuapp.com/api/v1/clientes')
-        .then((response) => setClientsArray)
-      console.log(clientsArray)
+        .then((response) => {
+          if (response!==error) {
+            setClientsArray(response.data);
+            setLoading(true);
+            // Imprimir estado clientsArray despues de asignar valores
+            console.log(clientsArray);
+          } else {
+            setError(response);
+            setLoading(true);
+          }
+        })
   }, []);
     
 
-    const handleChangeLimit = dataKey => {
-      setPage(1);
-      setLimit(dataKey);
-    };
+  const handleChangeLimit = dataKey => {
+    setPage(1);
+    setLimit(dataKey);
+  };
 
-    const data = value.filter((v, i) => {
-      const start = limit * (page - 1);
-      const end = start + limit;
-      return i >= start && i < end;
-    });
-  
+  const data = clientsArray.filter((v, i) => {
+    const start = limit * (page - 1);
+    const end = start + limit;
+    return i >= start && i < end;
+  });
+    
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  } else if (!loading) {
+    return <div>Loading...</div>;
+  } else {
     return (
       <>
-        {console.log(axios.get('https://beauty365api.herokuapp.com/api/v1/clientes'))}
-        <Table height={420} data={data} loading={loading}>
-          <Column width={50} align="center" fixed>
-            <HeaderCell>Id</HeaderCell>
-            <Cell dataKey="id" />
-          </Column>
+      <Table height={420} data={clientsArray} loading={!loading}>
+        <Column flexGrow={1}>
+          <HeaderCell>DNI</HeaderCell>
+          <Cell dataKey="dni" />
+        </Column>
 
-          <Column width={100} fixed>
-            <HeaderCell>Primer Nombre</HeaderCell>
-            <Cell dataKey="firstName" />
-          </Column>
+        <Column flexGrow={1}>
+          <HeaderCell>Nombres</HeaderCell>
+          <Cell dataKey="nombres" />
+        </Column>
 
-          <Column width={100}>
-            <HeaderCell>Segundo Nombre</HeaderCell>
-            <Cell dataKey="lastName" />
-          </Column>
+        <Column flexGrow={1}>
+          <HeaderCell>Teléfono</HeaderCell>
+          <Cell dataKey="telefono" />
+        </Column>
 
-          <Column width={200}>
-            <HeaderCell>City</HeaderCell>
-            <Cell dataKey="city" />
-          </Column>
-          <Column width={200} flexGrow={1}>
-            <HeaderCell>Compa;ia</HeaderCell>
-            <Cell dataKey="companyName" />
-          </Column>
-        </Table>
-        <div style={{ padding: 20 }}>
-          <Pagination
-            prev
-            next
-            first
-            last
-            ellipsis
-            boundaryLinks
-            maxButtons={5}
-            size="xs"
-            layout={['total', '-', 'limit', '|', 'pager', 'skip']}
-            total={value.length}
-            limitOptions={[10, 20]}
-            limit={limit}
-            activePage={page}
-            onChangePage={setPage}
-            onChangeLimit={handleChangeLimit}
-          />
-        </div>
+        <Column flexGrow={1}>
+          <HeaderCell>Email</HeaderCell>
+          <Cell dataKey="email" />
+        </Column>
+
+        <Column flexGrow={1}>
+          <HeaderCell>Action</HeaderCell>
+          <ActionCell dataKey="_id" />
+        </Column>
+      </Table>
+      <div style={{ padding: 20 }}>
+        <Pagination
+          prev
+          next
+          first
+          last
+          ellipsis
+          boundaryLinks
+          maxButtons={5}
+          size="xs"
+          layout={['total', '-', 'limit', '|', 'pager', 'skip']}
+          total={clientsArray.length}
+          limitOptions={[10, 20]}
+          limit={limit}
+          activePage={page}
+          onChangePage={setPage}
+          onChangeLimit={handleChangeLimit}
+        />
+      </div>
       </>
     );
+  }
 }
 
 export default List;
