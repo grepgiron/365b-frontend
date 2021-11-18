@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 import {
@@ -6,31 +7,30 @@ import {
   Button,
   ButtonToolbar,
   Schema,
-  Input 
+  Input,
+  Message,
+  Divider
 } from 'rsuite';
-
-const Textarea = React.forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
 
 const { StringType, NumberType } = Schema.Types;
 
+// Modelo de esquema de datos
 const model = Schema.Model({
-  nombres: StringType().isRequired('This field is required.'),
-  telefono: StringType().isRequired('This field is required.'),
-  dni: NumberType(),
-  email:  StringType().isEmail('Please enter a valid email address.'),
+  nombres: StringType().isRequired('Es obligatorio escribir el nombre.'),
+  telefono: StringType().isRequired('Es obligatorio escribir el teléfono.'),
+  dni: NumberType().isRequired('Es obligatorio escribir el DNI.'),
+  email:  StringType().isEmail('Por favor ingrese un correo válido.').isRequired('El campo email es obligatorio.'),
 });
 
-const TextField = React.forwardRef((props, ref) => {
-  const { name, label, accepter, ...rest } = props;
-  return (
-    <Form.Group controlId={`${name}-4`} ref={ref}>
-      <Form.ControlLabel>{label} </Form.ControlLabel>
-      <Form.Control name={name} accepter={accepter} {...rest} />
-    </Form.Group>
-  );
-});
+// Plantilla para campos del formulario
+const TextField = ({ name, label, value, accepter, ...rest }) => (
+  <Form.Group controlId={`${name}-6`}>
+    <Form.ControlLabel>{label}</Form.ControlLabel>
+    <Form.Control name={name} value={value} accepter={accepter} {...rest} />
+  </Form.Group>
+);
 
-const FormClient = () => {
+const FormClient = (props) => {
   const formRef = React.useRef();
   const [formError, setFormError] = React.useState({});
   const [formValue, setFormValue] = React.useState({
@@ -39,60 +39,112 @@ const FormClient = () => {
     dni: '',
     email: ''
   });
+  const [error, setError] = useState(null);
+  const [showError, setShowError] = useState(false);
+  const [loading, setLoading] = React.useState(false);
   
+  let match = useNavigate();
+  function cancelarEditar() {
+    console.log(`Cancelar editar id: ${props.id}`);
+    match("/admin/clientes");
+  }
+  
+  // Mensaje de error
+    const errMessage = ({ rowData, dataKey, ...props }) => {
+      return (
+        <div>
+          <Divider />
+          <Message showIcon type="error">
+            Error. No fue posible editar el cliente.
+          </Message>
+        </div>
+      );
+    };
+  
+  // Recuperar info del cliente a editar segun ID
+  useEffect(() => {
+    // GET request using axios
+    axios.get('https://beauty365api.herokuapp.com/api/v1/clientes/'+props.id)
+      .then((response) => {
+        if (response!==error) {
+          setFormValue(response.data);
+          setLoading(true);
+        } else {
+          setError(response);
+          setLoading(true);
+        }
+      })
+  }, []);
 
+  // const handleSubmit = async() => {
   const handleSubmit = async() => {
-    if (!formRef.current.check()) {
-      console.error('Form Error');
-      return;
-    }
+    // if (!formRef.current.check()) {
+    //   console.error('Form Error');
+    //   return;
+    // }
+    let apiRes = null;
     try {
-      console.log(formValue);
-      // make axios post request
-      const response = await axios({
-        method: "POST",
-        url: 'https://beauty365api.herokuapp.com/api/v1/clientes',
-        data: formValue,
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      });
-      console.log(response)
+      if (Object.keys(formError).length === 0) {
+        console.log(formValue, 'Form Value');
+        setShowError(false);
+        // PUT request using axios
+        apiRes = await axios.put('https://beauty365api.herokuapp.com/api/v1/clientes/'+props.id, formValue);
+      }
+      else {
+        console.log(formError, 'Form Error');
+      }
     } catch(error) {
+      setShowError(true);
       console.log(error)
+    } finally {
+      console.log(apiRes);
+      if (apiRes!==error) {
+        setShowError(false);
+        setFormValue(apiRes.data);
+        setLoading(true);
+      } else {
+        setShowError(true);
+        setFormError(apiRes);
+        setLoading(true);
+      }
     }
-    console.log(formValue, 'Form Value');
   };
  
+  if (error) {
+    return (
+      // <div>Error: {error.message}</div>
+      <Message showIcon type="error">
+        Error. {error.message}
+      </Message>
+    );
+  } else if (!loading) {
+    return <div>Loading...</div>;
+  } else {
+    return (
+      <>
+        <Form
+          onChange={setFormValue}
+          onCheck={setFormError}
+          formValue={formValue}
+          model={model}
+          layout="horizontal"
+        >
+          <TextField name="nombres" label="Nombre" value={formValue.nombres} />
+          <TextField name="telefono" label="Telefono" value={formValue.telefono ? formValue.telefono:formValue.telefon} />
+          <TextField name="dni" label="DNI" value={formValue.dni} />
+          <TextField name="email" label="Email" value={formValue.email} />
 
-  return (
-    <Form layout="horizontal">
-    <Form.Group controlId="name-6">
-      <Form.ControlLabel>Nombre</Form.ControlLabel>
-      <Form.Control name="name" />
-      <Form.HelpText>Required</Form.HelpText>
-    </Form.Group>
-    <Form.Group controlId="name-6">
-      <Form.ControlLabel>Telefono</Form.ControlLabel>
-      <Form.Control name="name" />
-      <Form.HelpText>Required</Form.HelpText>
-    </Form.Group><Form.Group controlId="name-6">
-      <Form.ControlLabel>Identidad(DNI)</Form.ControlLabel>
-      <Form.Control name="name" />
-      <Form.HelpText>Required</Form.HelpText>
-    </Form.Group>
-    
-    <Form.Group controlId="email-6">
-      <Form.ControlLabel>Email</Form.ControlLabel>
-      <Form.Control name="email" type="email" />
-      <Form.HelpText tooltip>Required</Form.HelpText>
-    </Form.Group>
-    <Form.Group>
-      <ButtonToolbar>
-        <Button appearance="primary">Guardar Cambios</Button>
-        <Button appearance="default">Cancelar</Button>
-      </ButtonToolbar>
-    </Form.Group>
-  </Form>
-  );    
+          <Form.Group>
+            <ButtonToolbar>
+              <Button appearance="primary" onClick={handleSubmit}>Guardar Cambios</Button>
+              <Button appearance="default" onClick={cancelarEditar} >Cancelar</Button>
+            </ButtonToolbar>
+          </Form.Group>
+        </Form>
+        { showError ? <errMessage /> : null }
+      </>
+    );
+  }
 };
 
 export default FormClient;

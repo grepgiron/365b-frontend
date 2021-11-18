@@ -4,60 +4,63 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   Table,
   IconButton,
-  Pagination
+  Pagination,
+  Divider
 } from 'rsuite';
 
-import value from './sample';
-
+// Iconos
 import Edit2 from '@rsuite/icons/legacy/Edit2';
+import VisibleIcon from '@rsuite/icons/Visible';
 
 const { HeaderCell, Cell, Column, ColumnGroup } = Table;
 
 function List() {
-  const [clientsArray, setClientsArray] = React.useState(null);
+  const [clientsArray, setClientsArray] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [limit, setLimit] = React.useState(10);
   const [page, setPage] = React.useState(1);
 
   const [error, setError] = useState(null);
-  // const [isLoaded, setLoading] = useState(false);
-  // const [items, setClientsArray] = useState([]);
 
+  // let match = useNavigate();
+  // function handleClick(event) {
+  //   console.log(event);
+  //     match(`/admin/clientes/editar/${event}`, { state: response.data._id });
+  // }
+  // Celda para los botones de accion
   let match = useNavigate();
-  function handleClick(event) {
-    console.log(event);
-      // match(`/admin/clientes/editar/${event}`, { state: response.data._id });
-  }
+  const ActionCell = ({ rowData, dataKey, ...props }) => {
+    function editClient() {
+      // match(`/admin/clientes/editar/${rowData[dataKey]}`, { state: response.data._id });
+      match(`/admin/clientes/editar/${rowData[dataKey]}`);
+    }
+    function showClient() {
+      // match(`/admin/clientes/mostrar/${rowData[dataKey]}`, { state: response.data._id });
+      match(`/admin/clientes/${rowData[dataKey]}`);
+    }
+    return (
+      <Cell {...props} className="link-group">
+        <IconButton appearance="subtle" onClick={editClient} icon={<Edit2 />} />
+        <Divider vertical />
+        <IconButton appearance="subtle" onClick={showClient} icon={<VisibleIcon />} />
+      </Cell>
+    );
+  };
 
   useEffect(() => {
-      // GET request using axios with async/await
+      // GET request using axios
       axios.get('https://beauty365api.herokuapp.com/api/v1/clientes')
         .then((response) => {
           if (response!==error) {
-            console.log(response.data);
             setClientsArray(response.data);
-            console.log(clientsArray.length);
             setLoading(true);
+            // Imprimir estado clientsArray despues de asignar valores
+            console.log(clientsArray);
           } else {
             setError(response);
             setLoading(true);
           }
         })
-    // fetch("https://beauty365api.herokuapp.com/api/v1/establecimientos")
-    // .then(res => res.json())
-    // .then(
-    //   (result) => {
-    //     setLoading(true);
-    //     setClientsArray(result);
-    //   },
-    //   // Nota: es importante manejar errores aquí y no en 
-    //   // un bloque catch() para que no interceptemos errores
-    //   // de errores reales en los componentes.
-    //   (error) => {
-    //     setLoading(true);
-    //     setError(error);
-    //   }
-    // )
   }, []);
     
 
@@ -66,7 +69,7 @@ function List() {
     setLimit(dataKey);
   };
 
-  const data = value.filter((v, i) => {
+  const data = clientsArray.filter((v, i) => {
     const start = limit * (page - 1);
     const end = start + limit;
     return i >= start && i < end;
@@ -80,24 +83,29 @@ function List() {
     return (
       <>
       <Table height={420} data={clientsArray} loading={!loading}>
-        <Column width={50} align="center" fixed>
+        <Column flexGrow={1}>
           <HeaderCell>DNI</HeaderCell>
           <Cell dataKey="dni" />
         </Column>
 
-        <Column width={100} fixed>
+        <Column flexGrow={1}>
           <HeaderCell>Nombres</HeaderCell>
           <Cell dataKey="nombres" />
         </Column>
 
-        <Column width={100}>
+        <Column flexGrow={1}>
           <HeaderCell>Teléfono</HeaderCell>
           <Cell dataKey="telefono" />
         </Column>
 
-        <Column width={200}>
+        <Column flexGrow={1}>
           <HeaderCell>Email</HeaderCell>
           <Cell dataKey="email" />
+        </Column>
+
+        <Column flexGrow={1}>
+          <HeaderCell>Action</HeaderCell>
+          <ActionCell dataKey="_id" />
         </Column>
       </Table>
       <div style={{ padding: 20 }}>
@@ -119,50 +127,6 @@ function List() {
           onChangeLimit={handleChangeLimit}
         />
       </div>
-
-
-
-{/*       
-      <Table
-        height={300}
-        data={clientsArray}
-        onRowClick={data => {
-        console.log(data);
-      }}
-      > 
-        <Column width={200}>
-          <HeaderCell>DNI</HeaderCell>
-          <Cell dataKey="dni" />
-        </Column>
-        <Column flexGrow={1}>
-          <HeaderCell>Nombres</HeaderCell>
-          <Cell dataKey="nombres" />
-        </Column>
-        <Column flexGrow={1}>
-          <HeaderCell>Email</HeaderCell>
-          <Cell dataKey="email" />
-        </Column>
-        <Column flexGrow={1}>
-          <HeaderCell>Teléfono</HeaderCell>
-          <Cell dataKey="telefono" />
-        </Column>
-
-        <Column width={200}>
-          <HeaderCell>Action</HeaderCell>
-          <Cell className="link-group">
-            {rowData => {
-              function handleAction() {
-                alert(`id:${rowData._id}`);
-              }
-              return (
-                <span>
-                  <IconButton appearance="subtle" onClick={handleClick(rowData._id)} icon={<Edit2 />} />
-                </span>
-              );
-            }}
-          </Cell>
-        </Column>
-      </Table> */}
       </>
     );
   }
