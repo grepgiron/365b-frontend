@@ -40,6 +40,8 @@ function List() {
       setLimit(dataKey);
     };
 
+   
+
    /* const data = clientsArray.filter((v, i) => {
       const start = limit * (page - 1);
       const end = start + limit;
@@ -94,10 +96,6 @@ function List() {
             <Cell dataKey="telefono" />
           </Column>
 
-          <Column width={400}>
-            <HeaderCell>DNI</HeaderCell>
-            <Cell dataKey="dni" />
-          </Column >
 
           <Column width={400}>
             <HeaderCell>Habilidades</HeaderCell>
@@ -111,7 +109,8 @@ function List() {
             {rowData => {
               function handleAction() {
                 alert(`id: ${rowData._id}`);
-              }
+                //window.location= 'http://localhost:3000/admin/empleados/nuevo';
+                           }
               return (
                 <span>
                   <a onClick={handleAction}> Editar </a> | <a onClick={handleAction} > Eliminar </a>

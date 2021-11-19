@@ -1,4 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
+
+/*import axios from 'axios';
+import React, { useState, useEffect } from 'react';*/
 //importaciones de rsuitjs
 import {
   Divider
@@ -11,7 +14,13 @@ function Profile() {
     //Editar Aqui el perfil de empleado
     <>
     <div>
-        <a>Si no puede con los numeros alla esta el edificio de derecho</a>
+      
+
+
+
+
+
+
     </div>
     </>
   );

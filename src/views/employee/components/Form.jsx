@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-
+import qs from 'qs';
 //importaciones de Rsuitjs
 import {
   Form,
@@ -36,8 +36,7 @@ const FormEmployee = () => {
   const [formValue, setFormValue] = React.useState({
     nombres: '',
     telefono: '',
-    dni: '',
-    email: ''
+    habilidades: ''
   });
   
   //funciones de acciones
@@ -46,22 +45,50 @@ const FormEmployee = () => {
       console.error('Form Error');
       return;
     }
-    try {
-      console.log(formValue);
-      // make axios post request
-      const response = await axios({
-        method: "POST",
-        url: 'https://beauty365api.herokuapp.com/api/v1/clientes',
-        data: formValue,
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      });
-      console.log(response)
-    } catch(error) {
-      console.log(error)
-    }
+
+    var data = JSON.stringify(formValue);
+    
+
+    var config = {
+      method: 'post',
+      url: 'https://beauty365api.herokuapp.com/api/v1/empleados/create',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      data : data
+    };
+    
+    axios(config)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data));
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+
+    
+   /* try{
+    const response = await axios.post(
+     'https://beauty365api.herokuapp.com/api/v1/empleados/create',
+      //'https://beauty365api.herokuapp.com/api/v1/employee/nuevo',
+      qs.stringify(formValue), {
+        headers:{
+          "Access-Control-Allow-Origin":"*",
+          "Content-Type": "application/x-www-form-urlencoded"
+        }
+      }
+    ).then(function(response){
+      console.log('[response] ', response);
+    })
+  }catch(error){
+    console.log(error);
+  }*/
+  
     console.log(formValue, 'Form Value');
-  };
+  }
  
+
 
   return (
     //Editar aqui el formulario
@@ -72,11 +99,11 @@ const FormEmployee = () => {
       formValue={formValue}
       model={model}
 
-    > <TextField name="_id" label="ID" />
+    >
       <TextField name="nombres" label="Nombres" />
       <TextField name="telefono" label="Telefono" />
-      <TextField name="dni" label="DNI" />
-      <TextField name="email" label="Email" />
+      <TextField name="habilidades" label="Habilidad" />
+      
       
       <ButtonToolbar>
         <Button appearance="primary" onClick={handleSubmit}>
