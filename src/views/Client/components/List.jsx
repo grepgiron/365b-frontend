@@ -11,7 +11,7 @@ import value from './sample';
 const { HeaderCell, Cell, Column, ColumnGroup } = Table;
 
 function List() {
-  const [clientsArray, setClientsArray] = React.useState(null);
+  const [clientsArray, setClientsArray] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [limit, setLimit] = React.useState(10);
   const [page, setPage] = React.useState(1);
