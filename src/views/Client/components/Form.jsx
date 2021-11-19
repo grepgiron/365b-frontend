@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 import {
@@ -6,29 +7,27 @@ import {
   Button,
   ButtonToolbar,
   Schema,
-  Input 
+  Input,
+  Message
 } from 'rsuite';
-
-const Textarea = React.forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
 
 const { StringType, NumberType } = Schema.Types;
 
+// Modelo de esquema de datos
 const model = Schema.Model({
-  nombres: StringType().isRequired('This field is required.'),
-  telefono: StringType().isRequired('This field is required.'),
-  dni: NumberType(),
-  email:  StringType().isEmail('Please enter a valid email address.'),
+  nombres: StringType().isRequired('Es obligatorio escribir el nombre.'),
+  telefono: StringType().isRequired('Es obligatorio escribir el teléfono.'),
+  dni: NumberType().isRequired('Es obligatorio escribir el DNI.'),
+  email:  StringType().isEmail('Por favor ingrese un correo válido.').isRequired('El campo email es obligatorio.'),
 });
 
-const TextField = React.forwardRef((props, ref) => {
-  const { name, label, accepter, ...rest } = props;
-  return (
-    <Form.Group controlId={`${name}-4`} ref={ref}>
-      <Form.ControlLabel>{label} </Form.ControlLabel>
-      <Form.Control name={name} accepter={accepter} {...rest} />
-    </Form.Group>
-  );
-});
+// Plantilla para campos del formulario
+const TextField = ({ name, label, value, accepter, ...rest }) => (
+  <Form.Group controlId={`${name}-4`}>
+    <Form.ControlLabel>{label}</Form.ControlLabel>
+    <Form.Control name={name} accepter={accepter} {...rest} />
+  </Form.Group>
+);
 
 const FormClient = () => {
   const formRef = React.useRef();
@@ -39,59 +38,85 @@ const FormClient = () => {
     dni: '',
     email: ''
   });
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = React.useState(false);
   
-
+  let match = useNavigate();
+  function cancelarNuevo() {
+    console.log("Cancelar agregar nuevo cliente");
+    match("/admin/clientes");
+  }
+  
   const handleSubmit = async() => {
-    if (!formRef.current.check()) {
-      console.error('Form Error');
-      return;
-    }
+    // if (!formRef.current.check()) {
+    //   console.error('Form Error');
+    //   return;
+    // }
+    let apiRes = null;
     try {
-      console.log(formValue);
-      // make axios post request
-      const response = await axios({
-        method: "POST",
-        url: 'https://beauty365api.herokuapp.com/api/v1/clientes',
-        data: formValue,
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      });
-      console.log(response)
+      if (Object.keys(formError).length === 0) {
+        console.log(formValue, 'Form Value');
+        // POST request using axios
+        const response = await axios({
+          method: "POST",
+          url: 'https://beauty365api.herokuapp.com/api/v1/clientes',
+          data: formValue,
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        });
+      }
+      else {
+        console.log(formError, 'Form Error');
+      }
     } catch(error) {
       console.log(error)
+    } finally {
+      console.log(apiRes);
+      if (apiRes!==error) {
+        setFormValue(apiRes.data);
+        setLoading(true);
+      } else {
+        setFormError(apiRes);
+        setLoading(true);
+      }
     }
-    console.log(formValue, 'Form Value');
   };
  
+  useEffect(() => {
+    setLoading(true);
+  }, []);
 
-  return (
-    <Form layout="horizontal">
-      <Form.Group controlId="name-6">
-        <Form.ControlLabel>Username</Form.ControlLabel>
-        <Form.Control name="name" />
-        <Form.HelpText>Required</Form.HelpText>
-      </Form.Group>
-      <Form.Group controlId="email-6">
-        <Form.ControlLabel>Email</Form.ControlLabel>
-        <Form.Control name="email" type="email" />
-        <Form.HelpText tooltip>Required</Form.HelpText>
-      </Form.Group>
-      <Form.Group controlId="password-6">
-        <Form.ControlLabel>Password</Form.ControlLabel>
-        <Form.Control name="password" type="password" autoComplete="off" />
-      </Form.Group>
-      <Form.Group controlId="textarea-6">
-        <Form.ControlLabel>Textarea</Form.ControlLabel>
-        <Form.Control name="textarea" rows={5} accepter={Textarea} />
-      </Form.Group>
-      <Form.Group>
-        <ButtonToolbar>
-          <Button appearance="primary">Submit</Button>
-          <Button appearance="default">Cancel</Button>
-        </ButtonToolbar>
-      </Form.Group>
-    </Form>
-
-  );
+  if (error) {
+    return (
+      // <div>Error: {error.message}</div>
+      <Message showIcon type="error">
+        Error. {error.message}
+      </Message>
+    );
+  } else if (!loading) {
+    return <div>Loading...</div>;
+  } else {
+    return (
+      <Form
+        onChange={setFormValue}
+        onCheck={setFormError}
+        formValue={formValue}
+        model={model}
+        fluid
+      >
+        <TextField name="nombres" label="Nombre" value=""  />
+        <TextField name="telefono" label="Telefono" value="" />
+        <TextField name="dni" label="DNI" value="" />
+        <TextField name="email" label="Email" value="" />
+        <Form.Group>
+          <ButtonToolbar>
+            <Button appearance="primary" onClick={handleSubmit}>Agregar</Button>
+            <Button appearance="primary">Editar</Button>
+            <Button appearance="default" onClick={cancelarNuevo}>Cancelar</Button>
+          </ButtonToolbar>
+        </Form.Group>
+      </Form>
+    );
+  }
 };
 
 export default FormClient;

@@ -10,20 +10,23 @@ import {
 import ListNew from '../components/List'
 
 import PlusIcon from '@rsuite/icons/Plus';
-
+import EditIcon from '@rsuite/icons/Edit';
 
 function List() {
+
   let match = useNavigate();
   function handleClick(event) {
       match(event);
   }
+
   return (
     <>
       <Row>
         <Col xs={9} >
-          <h3>Editar esta View</h3>
+          <h3>Clientes</h3>
         </Col>
-        <Col xs={3} xsPush={12}>
+       
+       <Col xs={3} xsPush={12}>
           <ButtonToolbar className="inner-left">
             <IconButton 
               onClick={() => handleClick('nuevo')} 
@@ -34,11 +37,9 @@ function List() {
           </ButtonToolbar>
         </Col>
       </Row>
+
       <Divider />
       <div>
-        <h5>Poner Lista aqui</h5>
-        <h5>View: clients/components/List</h5>
-        <Divider />
         <ListNew />
       </div>
     </>

@@ -7,7 +7,8 @@ import {
   Form,
   Button,
   ButtonToolbar,
-  Schema
+  Schema,
+  Checkbox
 } from 'rsuite';
 
 
@@ -15,7 +16,7 @@ const { StringType, NumberType } = Schema.Types;
 
 const model = Schema.Model({
   nombre: StringType().isRequired('This field is required.'),
-  prefijo: StringType().isRequired('This field is required.')
+  credito: StringType().isRequired('This field is required.')
 });
 
 const TextField = React.forwardRef((props, ref) => {
@@ -31,18 +32,20 @@ const TextField = React.forwardRef((props, ref) => {
 const FormNew = (props) => {
   const [formError, setFormError] = React.useState({});
   const [formValue, setFormValue] = React.useState({
+    dias_pago: '',
     nombre: '',
-    prefijo: ''
+    credito: '',
+    active: null
   });
 
   let history = useNavigate();
-  console.log(history);
+  //console.log(history);
   const handleSubmit = async() => {
     try {
       console.log(formValue);
       //Cambiar aqui ruta de direccion del API
       const response = await axios.post(
-        'https://beauty365api.herokuapp.com/api/v1/unidades/create',
+        'https://beauty365api.herokuapp.com/api/v1/metodos_pago/create',
         qs.stringify(formValue), {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded"
@@ -50,7 +53,7 @@ const FormNew = (props) => {
         }).then(function(response){
           console.log(response.status);
           //Cambiar aqui ruta de redireccion
-          history(`/admin/inventario/unidades/show/${response.data._id}`, { state: response.data._id })  
+          history(`/admin/sar/categorias/show/${response.data._id}`, { state: response.data._id })  
         })
       } catch(error) {
         console.log(error)
@@ -58,24 +61,35 @@ const FormNew = (props) => {
       console.log(formValue, 'Form Value');
   }
 
+  function handleChange(event){
+
+  }
+
+
   return (
     <Form 
       onSubmit={handleSubmit}
       onChange={setFormValue}
       formValue={formValue}
     >
+      {console.log(formValue)}
       <Form.Group controlId="name-6">
-        <Form.ControlLabel>Codigo</Form.ControlLabel>
-        <Form.Control name="code" />
-      </Form.Group>
-      <Form.Group controlId="email-6">
         <Form.ControlLabel>Nombre</Form.ControlLabel>
         <Form.Control name="nombre" />
-        <Form.HelpText tooltip>000</Form.HelpText>
+      </Form.Group>
+      <Form.Group controlId="email-6">
+        <Checkbox name="credito">Credito</Checkbox>
+      </Form.Group>
+      <Form.Group controlId="name-6">
+        <Form.ControlLabel>Dias para Pago</Form.ControlLabel>
+        <Form.Control name="dias_pago" />
+      </Form.Group>
+      <Form.Group controlId="email-6">
+        <Checkbox name="active" value={true}>Activo</Checkbox>
       </Form.Group>
       <ButtonToolbar>
         <Button appearance="primary" type="submit">
-          Submit
+          Guardar
         </Button>
       </ButtonToolbar>
     </Form>

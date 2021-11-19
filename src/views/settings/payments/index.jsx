@@ -9,11 +9,11 @@ import Show from './pages/Show';
 import Edit from './pages/Edit';
 
 
-const Category = () => {
+const Payments = () => {
  
   return (
     <>
-    <h4>Categorias</h4>
+    <h4>Metodos de Pago</h4>
     <Panel >
       <Routes>
         <Route path='nuevo' element={<New/>}/>
@@ -26,4 +26,4 @@ const Category = () => {
   );
 };
 
-export default Category;
+export default Payments;
