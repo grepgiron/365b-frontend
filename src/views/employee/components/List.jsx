@@ -40,22 +40,53 @@ function List() {
       setLimit(dataKey);
     };
 
+   
+
    /* const data = clientsArray.filter((v, i) => {
       const start = limit * (page - 1);
       const end = start + limit;
       return i >= start && i < end;
     });*/
-  
+
+   // no me esta funcionando Popover y whisper 
+   /* const NameCell = ({ rowData, dataKey, ...props }) => {
+      const speaker = (
+        <Popover title="Descripcion">
+          <p>
+            <b>Nombre:</b> {rowData.nombres}{' '}
+          </p>
+          <p>
+            <b>Email:</b> {rowData.email}{' '}
+          </p>
+          <p>
+            <b>Telefono:</b> {rowData.telefono}{' '}
+          </p>
+          <p>
+            <b>DNI:</b> {rowData.dni}{' '}
+          </p>
+
+        </Popover>
+      );
+    
+      return (
+        <Cell {...props}>
+          <Whisper placement="top" speaker={speaker}>
+            <a>{rowData[dataKey].toLocaleString()}</a>
+          </Whisper>
+        </Cell>
+      );
+    };*/
+
     return (
       <>
        
-        <Table height={420} data={clientsArray} loading={loading}>
-          <Column width={50} align="center" fixed>
+        <Table height={400} data={clientsArray} loading={loading}>
+          <Column width={200} align="center" fixed>
             <HeaderCell>Id</HeaderCell>
             <Cell dataKey="_id" />
           </Column>
 
-          <Column  flexGrow>
+          <Column  width={200} fixed >
             <HeaderCell>Nombre</HeaderCell>
             <Cell dataKey="nombres" />
           </Column>
@@ -64,9 +95,29 @@ function List() {
             <HeaderCell>Telefono</HeaderCell>
             <Cell dataKey="telefono" />
           </Column>
-          <Column >
-            <HeaderCell>DNI</HeaderCell>
-            <Cell dataKey="dni" />
+
+
+          <Column width={400}>
+            <HeaderCell>Habilidades</HeaderCell>
+            <Cell dataKey="habilidades" />
+          </Column >
+
+
+          <Column width={120} fixed="right">
+            <HeaderCell>Action</HeaderCell>
+            <Cell>
+            {rowData => {
+              function handleAction() {
+                alert(`id: ${rowData._id}`);
+                //window.location= 'http://localhost:3000/admin/empleados/nuevo';
+                           }
+              return (
+                <span>
+                  <a onClick={handleAction}> Editar </a> | <a onClick={handleAction} > Eliminar </a>
+                </span>
+              );
+            }}
+            </Cell>
           </Column>
         </Table>
         
