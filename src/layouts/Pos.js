@@ -1,41 +1,46 @@
 import React from 'react';
-import { Route ,Link, Routes} from "react-router-dom";
+import { Route ,Routes} from "react-router-dom";
 
 import {
   Container,
   Content,
   Header,
-  Footer,
-  Panel
+  Navbar,
+  Nav,
+  Dropdown
 } from 'rsuite';
 
-import NavBar from '../components/NavBar'
+import 'rsuite/dist/rsuite.min.css'; // or css
 
-import Client from '../views/Client/index';
-import Employee from '../views/employee/index';
-import DocumentoAutorizacion from '../views/sar/document_authorization/index';
-import DocumentType from '../views/sar/document_type/index'
-
-import SidebarNav from '../components/SidebarNav';
-import Establishment from '../views/sar/establishments';
-import SalesPoint from '../views/sar/sales_point';
-import Category from '../views/settings/inventory/category';
-import Und from '../views/settings/inventory/und';
-import Product from '../views/settings/inventory/product';
-import PosForm from '../views/invoice/components/PosForm copy';
-import Payments from '../views/settings/payments';
+import PosForm from '../views/Pos/index';
 
 
 const Admin = () => {
-  const [expand, setExpand] = React.useState(true);
 
   return (
-    <Container className="navbar-page">
-
+    <Container className="show-fake-browser navbar-page">
+      <Header>
+        <Navbar appearance="inverse">
+          <Navbar.Header>
+            <a className="navbar-brand logo">BRAND</a>
+          </Navbar.Header>
+          <Navbar.Body>
+            <Nav>
+              <Nav.Item>POS</Nav.Item>
+              <Nav.Item>Ventas</Nav.Item>
+              <Nav.Item>Reportes</Nav.Item>
+            </Nav>
+            <Nav pullRight>
+              <Nav.Item >Settings</Nav.Item>
+            </Nav>
+          </Navbar.Body>
+        </Navbar>
+      </Header>
+      <Content>
         <Routes>
           <Route path='ventas/*' element={<PosForm />}/>
         </Routes>  
-
+      </Content>
     </Container>
   );
 };
