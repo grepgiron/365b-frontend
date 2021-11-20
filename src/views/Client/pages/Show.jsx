@@ -3,8 +3,7 @@ import axios from 'axios';
 import { useParams } from "react-router-dom";
 
 import {
-  FlexboxGrid,
-  Divider
+  FlexboxGrid
 } from 'rsuite';
 
 import Profile from '../components/Profile'
@@ -12,16 +11,16 @@ import Profile from '../components/Profile'
 const Show = () => {
 
   let { id } = useParams();
-  console.log("MOSTRAR CLIENTE: ", id);
  
   return (
     <>
-    <div>
-        <h5>Mostrar Perfil</h5>
-        <h5>View: clients/components/Profile</h5>
-        <Divider />
-    </div>
-    <Profile/>
+      <h5>Clientes</h5>
+      <br />
+      <FlexboxGrid>
+        <FlexboxGrid.Item colspan={12}>
+          <Profile id={id} />
+        </FlexboxGrid.Item>
+      </FlexboxGrid>
     </>
   );
 };

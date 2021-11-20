@@ -11,14 +11,17 @@ import FormClient from '../components/FormEdit';
 const EditClient = () => {
 
   let { id } = useParams();
-  console.log("EDITAR CLIENTE: ", id);
  
   return (
-    <FlexboxGrid>
-      <FlexboxGrid.Item colspan={12}>
-        <FormClient id={id} />
-      </FlexboxGrid.Item>
-    </FlexboxGrid>
+    <>
+      <h5>Editar cliente</h5>
+      <br />
+      <FlexboxGrid>
+        <FlexboxGrid.Item colspan={12}>
+          <FormClient id={id} />
+        </FlexboxGrid.Item>
+      </FlexboxGrid>
+    </>
   );
 };
 
