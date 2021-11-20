@@ -5,7 +5,9 @@ import {
   Table,
   IconButton,
   Pagination,
-  Divider
+  Divider,
+  Message,
+  Loader
 } from 'rsuite';
 
 // Iconos
@@ -48,19 +50,23 @@ function List() {
   };
 
   useEffect(() => {
-      // GET request using axios
-      axios.get('https://beauty365api.herokuapp.com/api/v1/clientes')
-        .then((response) => {
-          if (response!==error) {
-            setClientsArray(response.data);
-            setLoading(true);
-            // Imprimir estado clientsArray despues de asignar valores
-            console.log(clientsArray);
-          } else {
-            setError(response);
-            setLoading(true);
-          }
-        })
+    // GET request using axios
+    axios.get('https://beauty365api.herokuapp.com/api/v1/clientes', {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    }).then((response) => {
+      if (response!==error) {
+        setClientsArray(response.data);
+        setLoading(true);
+        // Imprimir estado clientsArray despues de asignar valores
+        console.log(clientsArray);
+      } else {
+        setError(response);
+        setLoading(true);
+      }
+    })
   }, []);
     
 
@@ -76,13 +82,13 @@ function List() {
   });
     
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <Message showIcon type="error">Error. {error.message}</Message>;
   } else if (!loading) {
-    return <div>Loading...</div>;
+    return <Loader content="loading..." />;
   } else {
     return (
       <>
-      <Table height={420} data={clientsArray} loading={!loading}>
+      <Table bordered striped height={420} data={clientsArray} loading={!loading}>
         <Column flexGrow={1}>
           <HeaderCell>DNI</HeaderCell>
           <Cell dataKey="dni" />

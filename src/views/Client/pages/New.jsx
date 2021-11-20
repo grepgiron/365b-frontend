@@ -10,11 +10,15 @@ import FormClient from '../components/Form';
 const NewClient = () => {
  
   return (
-    <FlexboxGrid>
-      <FlexboxGrid.Item colspan={12}>
-        <FormClient />
-      </FlexboxGrid.Item>
-    </FlexboxGrid>
+    <>
+      <h5>Agregar nuevo cliente</h5>
+      <br />
+      <FlexboxGrid>
+        <FlexboxGrid.Item colspan={12}>
+          <FormClient />
+        </FlexboxGrid.Item>
+      </FlexboxGrid>
+    </>
   );
 };
 
