@@ -20,6 +20,9 @@ import Product from '../views/settings/inventory/product';
 import Invoice from '../views/invoice';
 import Payments from '../views/settings/payments';
 
+import '../App.css';
+import 'rsuite/dist/rsuite.min.css'; // or css
+
 
 const Admin = () => {
   const [expand, setExpand] = React.useState(true);

@@ -31,15 +31,11 @@ const Admin = () => {
 
   return (
     <Container className="navbar-page">
-      <Header>
-        <NavBar />
-      </Header>
-      <Content style={{ margin: 20 }}>
+
         <Routes>
           <Route path='ventas/*' element={<PosForm />}/>
         </Routes>  
-      </Content>
-      <Footer className="footerbar">Footer</Footer>
+
     </Container>
   );
 };
