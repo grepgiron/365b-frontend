@@ -34,17 +34,17 @@ function Profile() {
     establecimiento: {
       _id: '',
       nombre: '',
-      prefijo: '',
+      prefijo: ''
     },
     documento_fiscal: {
       _id: '',
       nombre: '',
-      prefijo: '',
+      prefijo: ''
     },
     pos: {
       _id: '',
       nombre: '',
-      prefijo: '',
+      prefijo: ''
     },
     fecha_limite: '',
     cai: '',
@@ -71,6 +71,7 @@ function Profile() {
         <Panel bordered>
           <h3 class="page-heading">
             <span class="page-heading-text">Detalles</span>
+            {console.log(sales_point)}
           </h3>
           <Row>
             <Col>
@@ -106,6 +107,13 @@ function Profile() {
                   <span class="page-heading-text">Rango Final</span>
                 </h4>
                 <p>{sales_point.rango_final}</p> 
+                <h4 class="page-heading">
+                  <span class="page-heading-text">Formato de Factura</span>
+                </h4>
+                <p>{
+                sales_point.establecimiento.prefijo+'-'+
+                sales_point.pos.prefijo+'-'+
+                sales_point.documento_fiscal.prefijo+'-'}</p> 
                 <Tag color="green">ACTIVO</Tag>
               </div>    
             </Col>

@@ -10,7 +10,6 @@ import {
 import ListNew from '../components/List'
 
 import PlusIcon from '@rsuite/icons/Plus';
-import EditIcon from '@rsuite/icons/Edit';
 
 function List() {
 
@@ -39,9 +38,7 @@ function List() {
       </Row>
 
       <Divider />
-      <div>
-        <ListNew />
-      </div>
+      <ListNew />
     </>
   );
 }

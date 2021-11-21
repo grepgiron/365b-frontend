@@ -13,9 +13,12 @@
     "react": "^17.0.2",
     "react-bootstrap": "^2.0.2",
     "react-dom": "^17.0.2",
+    "react-json-view": "^1.21.3",
     "react-router-dom": "^6.0.2",
     "react-scripts": "4.0.3",
     "rsuite": "^5.2.0",
+    "sass": "^1.43.4",
+    "usetheform": "^3.4.1",
     "web-vitals": "^1.1.2"
   },
   "scripts": {

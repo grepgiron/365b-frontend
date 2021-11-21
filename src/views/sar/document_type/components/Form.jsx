@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import qs from 'qs';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import {
   Form,
@@ -7,7 +9,8 @@ import {
   Panel,
   ButtonToolbar,
   Schema,
-  Input 
+  Input,
+  Button 
 } from 'rsuite';
 
 const Textarea = React.forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
@@ -38,32 +41,39 @@ const FormNew = () => {
   });
   
 
+  let history = useNavigate();
   const handleSubmit = async() => {
-    if (!formRef.current.check()) {
-      console.error('Form Error');
-      return;
-    }
     try {
       console.log(formValue);
-      // make axios post request
-      const response = await axios({
-        method: "POST",
-        url: 'https://beauty365api.herokuapp.com/api/v1/clientes',
-        data: formValue,
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      });
-      console.log(response)
-    } catch(error) {
-      console.log(error)
+      //Cambiar aqui ruta de direccion del API
+      const response = await axios.post(
+        'https://beauty365api.herokuapp.com/api/v1/documentos_fiscal/create',
+        qs.stringify(formValue), {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/x-www-form-urlencoded"
+          }
+        }).then(function(response){
+          console.log(response.status);
+          //Cambiar aqui ruta de redireccion
+          history(`/admin/sar/tipo_documento/show/${response.data._id}`, { state: response.data._id })  
+        })
+      } catch(error) {
+        console.log(error)
     }
-    console.log(formValue, 'Form Value');
-  };
+      console.log(formValue, 'Form Value');
+  }
  
 
   return (
     <Grid fluid>
       <Panel bordered>
-        <Form layout="horizontal">
+        <Form 
+          onSubmit={handleSubmit}
+          onChange={setFormValue}
+          formValue={formValue}
+          layout="horizontal"
+        >
           <Form.Group controlId="name-6">
             <Form.ControlLabel>Nombre</Form.ControlLabel>
             <Form.Control name="nombre" />
@@ -72,6 +82,13 @@ const FormNew = () => {
             <Form.ControlLabel>Prefijo</Form.ControlLabel>
             <Form.Control name="prefijo" />
             <Form.HelpText tooltip>000</Form.HelpText>
+          </Form.Group>
+          <Form.Group>
+            <ButtonToolbar>
+              <Button appearance="primary" type="submit">
+                Registrar
+              </Button>
+            </ButtonToolbar>
           </Form.Group>
         </Form>
       </Panel>

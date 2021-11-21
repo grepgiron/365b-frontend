@@ -18,6 +18,10 @@ import Category from '../views/settings/inventory/category';
 import Und from '../views/settings/inventory/und';
 import Product from '../views/settings/inventory/product';
 import Invoice from '../views/invoice';
+import Payments from '../views/settings/payments';
+
+import '../App.css';
+import 'rsuite/dist/rsuite.min.css'; // or css
 
 
 const Admin = () => {
@@ -43,6 +47,7 @@ const Admin = () => {
             <Route path='inventario/categorias/*' element={<Category/>}/>
             <Route path='inventario/unidades/*' element={<Und/>}/>
             <Route path='inventario/productos/*' element={<Product />}/>
+            <Route path='metodo_pago/*' element={<Payments />}/>
           </Routes>  
         </Content>
       </Container>
