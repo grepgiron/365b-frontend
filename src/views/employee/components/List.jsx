@@ -38,17 +38,16 @@ function List() {
       console.log(clientsArray)
   }, [usuarioBorrado]);
     
-  useEffect(() => { 
-
-    
-    
-    
-  }, []);
 
     const handleChangeLimit = dataKey => {
       setPage(1);
       setLimit(dataKey);
     };
+
+    let match = useNavigate();
+  function handleClick(event) {
+      match(event);
+  }
 
    const borrar_usuario = (_id)=>{
 
@@ -69,8 +68,7 @@ function List() {
     .catch(function (error) {
       console.log(error);
     });
-    
-
+  
    }
 
    /* const data = clientsArray.filter((v, i) => {
@@ -138,13 +136,10 @@ function List() {
             <HeaderCell>Action</HeaderCell>
             <Cell>
             {rowData => {
-              function handleAction() {
-                alert(`id: ${rowData._id}`);
-                //window.location= 'http://localhost:3000/admin/empleados/nuevo';
-                           }
+             
               return (
                 <span>
-                  <a onClick={handleAction}> Editar </a> | <a onClick={()=>borrar_usuario(rowData._id)} > Eliminar </a>
+                  <Link to={rowData._id}  onClick={()=>handleClick("_id")}> Editar </Link> | <a onClick={()=>borrar_usuario(rowData._id)} > Eliminar </a>
                 </span>
               );
             }}
