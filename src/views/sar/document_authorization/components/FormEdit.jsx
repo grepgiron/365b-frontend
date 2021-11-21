@@ -42,17 +42,22 @@ const FormNew = () => {
   const [edit, setEdit ] = React.useState(false)
   const [ postId, setPostId ] = React.useState(null);
   const [formValue, setFormValue] = React.useState({
-    nombre: '',
-    prefijo: ''
+    establecimiento: '',
+    documento_fiscal: '',
+    pos: '',
+    fecha_limite: '',
+    cai: '',
+    rango_inicial: '',
+    rango_final: ''
   });
 
   useEffect(() => {
     // PUT request using fetch with set headers
-    fetch('https://beauty365api.herokuapp.com/api/v1/documentos_autorizados/'+id)
+    fetch('https://beauty365api.herokuapp.com/api/v1/documentos_autorizados/simple/'+id)
       .then(response => response.json())
-      .then(data => {
-        setFormValue(data)
-        console.log('GET: ',data)
+      .then(result => {
+        setFormValue(result)
+        console.log('GET: ',result)
         }
       );
     fetch("https://beauty365api.herokuapp.com/api/v1/establecimientos")

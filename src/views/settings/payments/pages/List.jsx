@@ -78,7 +78,7 @@ function List() {
   // this useEffect will run once
   // similar to componentDidMount()
   useEffect(() => {
-    fetch("https://beauty365api.herokuapp.com/api/v1/categorias")
+    fetch("https://beauty365api.herokuapp.com/api/v1/metodos_pago")
       .then(res => res.json())
       .then(
         (result) => {

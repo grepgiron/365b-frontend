@@ -30,12 +30,13 @@ const TextField = React.forwardRef((props, ref) => {
 });
 
 const FormNew = (props) => {
-  const [formError, setFormError] = React.useState({});
+  const [formError, setFormError] = React.useState(false);
+  const [checked, setChecked] = React.useState(false);
   const [formValue, setFormValue] = React.useState({
     dias_pago: '',
     nombre: '',
-    credito: '',
-    active: null
+    credito: false,
+    active: false
   });
 
   let history = useNavigate();
@@ -61,10 +62,9 @@ const FormNew = (props) => {
       console.log(formValue, 'Form Value');
   }
 
-  function handleChange(event){
-
+  function handleChange(e){
+    console.log(e)
   }
-
 
   return (
     <Form 
@@ -73,19 +73,23 @@ const FormNew = (props) => {
       formValue={formValue}
     >
       {console.log(formValue)}
+      {console.log(checked)}
       <Form.Group controlId="name-6">
         <Form.ControlLabel>Nombre</Form.ControlLabel>
         <Form.Control name="nombre" />
       </Form.Group>
       <Form.Group controlId="email-6">
-        <Checkbox name="credito">Credito</Checkbox>
+        <Checkbox name="credito" onChange={setFormError}>Credito</Checkbox>
       </Form.Group>
       <Form.Group controlId="name-6">
         <Form.ControlLabel>Dias para Pago</Form.ControlLabel>
         <Form.Control name="dias_pago" />
       </Form.Group>
       <Form.Group controlId="email-6">
-        <Checkbox name="active" value={true}>Activo</Checkbox>
+        <Form.Control name='active' 
+          accepter={Checkbox} 
+          checked={checked}
+          onChange={handleChange} />
       </Form.Group>
       <ButtonToolbar>
         <Button appearance="primary" type="submit">

@@ -62,7 +62,7 @@ function Profile() {
   }, []);
 
   function handleClick(event) {
-    navigate(`/admin/sar/tipo_documento/editar/${id}`);
+    navigate(`/admin/sar/documentos_autorizacion/editar/${id}`);
   }
 
   return (

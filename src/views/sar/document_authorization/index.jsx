@@ -19,8 +19,8 @@ const DocumentAutorization = () => {
       <Panel>
         <Routes>
           <Route path='nuevo' element={<NewDocument/>}/>
-          <Route path='/show/:id' element={<ShowDocument/>}/>
-          <Route path='/editar/:id' element={<EditDocument/>}/>
+          <Route path='show/:id' element={<ShowDocument/>}/>
+          <Route path='editar/:id' element={<EditDocument/>}/>
           <Route path='/' element={<ListaDocument/>}/>
         </Routes> 
       </Panel>

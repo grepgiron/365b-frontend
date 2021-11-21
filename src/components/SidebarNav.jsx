@@ -66,7 +66,7 @@ const SidebarNav = ({ appearance, ...props }) => {
             <Nav.Item style={{ textDecoration: 'none' }} eventKey="1" active icon={<Dashboard />}>
             Dashboard
             </Nav.Item>
-            <Nav.Item style={{ textDecoration: 'none' }} eventKey="2" onSelect={() => handleClick('ventas')} icon={<BarChartIcon />}>
+            <Nav.Item style={{ textDecoration: 'none' }} eventKey="2" onSelect={() => handleClick('/pos')} icon={<BarChartIcon />}>
             Ventas
             </Nav.Item>
             <Nav.Item style={{ textDecoration: 'none' }} eventKey="3" icon={<AttachmentIcon />}>
@@ -86,6 +86,7 @@ const SidebarNav = ({ appearance, ...props }) => {
                   onSelect={() => handleClick('empleados')}
                   eventKey="6-1" icon={<PeoplesIcon/>}>Empleados</Dropdown.Item>
               <Dropdown.Item eventKey="6-2" icon={<DeviceIcon/>}>Maquinaria</Dropdown.Item>
+              <Dropdown.Item eventKey="6-5-2" onSelect={() => handleClick('metodo_pago')} icon={<TagFilterIcon/>}>Metodos de Pago</Dropdown.Item>
               <Dropdown.Item eventKey="6-3" onSelect={() => handleClick('inventario/categorias')} icon={<TreeIcon/>}>Categorias</Dropdown.Item>
               <Dropdown.Item eventKey="6-5-2" onSelect={() => handleClick('inventario/unidades')} icon={<TagFilterIcon/>}>Unidades</Dropdown.Item>
             </Dropdown>

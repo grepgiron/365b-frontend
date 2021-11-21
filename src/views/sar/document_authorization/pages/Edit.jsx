@@ -6,12 +6,14 @@ import {
   Divider
 } from 'rsuite';
 
+import FormEdit from '../components/FormEdit'
+
 
 const Edit = () => {
  
   return (
     <>
-    
+      <FormEdit />
     </>
   );
 };

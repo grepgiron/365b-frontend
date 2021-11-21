@@ -8,12 +8,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function Card(props) {
   const { product } = props;
   return (
-    <div class="card4" {...props}>
+    <div className="card4" {...props} >
       <p style={{ fontSize: 13}}>{product.nombre}</p>
       <p>L. {product.precio}</p>
-      <div class="dimmer"></div>
-      <div class="go-corner">
-        <div class="go-arrow">
+      <div className="dimmer"></div>
+      <div className="go-corner">
+        <div className="go-arrow">
           +
         </div>
       </div>
@@ -35,14 +35,6 @@ export default function Product(props) {
         onClick={() => onAdd(product)}
         style={{ cursor: "pointer", hover: "" }}
         />
-      {/* <Card>
-        <Card.Img variant="top"/>
-          <Card.Body>
-            <Card.Title >{product.nombre}</Card.Title>
-            <Card.Text>Lps. {product.precio}</Card.Text>
-            <Button variant="primary" onClick={() => onAdd(product)}>Agregar</Button>
-          </Card.Body>
-        </Card> */}
     </Col>
   );
 }

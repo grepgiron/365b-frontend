@@ -7,11 +7,20 @@ import MinusIcon from '@rsuite/icons/Minus';
 
 //import '../index.css'
 
+
+
 export default function Basket(props) {
-  const { cartItems, onAdd, onRemove } = props;
-  const itemsPrice = cartItems.reduce((a, c) => a + c.qty * c.precio, 0);
+  const { formValue, cartItems, onAdd, onRemove } = props;
+  const itemsPrice = (cartItems.reduce((a, c) => a + c.qty * c.precio, 0)/1.15);
   const taxPrice = itemsPrice * 0.15;
   const totalPrice = itemsPrice + taxPrice;
+
+  function handleClick() {
+    formValue.items = cartItems
+    console.log('CheckOut: '+ JSON.stringify(formValue))
+  }
+
+
   return (
       <Card>
         <Card.Header>
@@ -31,7 +40,6 @@ export default function Basket(props) {
           </Row>
 
         </Card.Header>
-        {cartItems.length === 0 && <div>Cart is empty</div>}
         <Card.Body>
           {cartItems.map((item) => (
             <Row key={item._id} style={{ padding: 2}}>
@@ -63,7 +71,6 @@ export default function Basket(props) {
               </Col>
             </Row>
           ))}
-          {cartItems.length !== 0 && (
             <>
               <hr></hr>
               <Row >
@@ -92,12 +99,11 @@ export default function Basket(props) {
               </Row>
               <hr />
               <div className="row">
-                <button onClick={() => alert('Implement Checkout!')}>
+                <button onClick={() => handleClick()}>
                   Checkout
                 </button>
               </div>
             </>
-          )}
         </Card.Body>
       </Card>
   );
