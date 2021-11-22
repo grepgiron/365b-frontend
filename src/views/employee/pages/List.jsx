@@ -10,7 +10,7 @@ import {
 import ListNew from '../components/List'
 
 import PlusIcon from '@rsuite/icons/Plus';
-//Daniel 
+//
 
 function List() {
   let match = useNavigate();
@@ -29,7 +29,7 @@ function List() {
               onClick={() => handleClick('nuevo')} 
               icon={<PlusIcon />} 
               appearance="primary">
-              Add
+              Nuevo Empleado 
             </IconButton>
           </ButtonToolbar>
         </Col>
