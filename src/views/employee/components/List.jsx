@@ -10,6 +10,7 @@ import {
 //import value from './sample';
 
 const { HeaderCell, Cell, Column, ColumnGroup } = Table;
+ 
 
 function List() {
   const [clientsArray, setClientsArray] = React.useState([]);
@@ -17,14 +18,17 @@ function List() {
   const [loading, setLoading] = React.useState(false);
   const [limit, setLimit] = React.useState(10);
   const [page, setPage] = React.useState(1);
+  const [usuarioBorrado, setusuarioBorrado] = React.useState("");
 
   useEffect(() => { // es lo primero que carga al iniciar el componente, carga toda la informacion que ya esta cargada al momento de iniciar una pagina
       // GET request using axios with async/await
+
       fetch('https://beauty365api.herokuapp.com/api/v1/empleados')
         .then(response => response.json())
         .then((result ) => {
           setClientsArray(result)
           console.log(result)
+
         }, (error) => { setError(error)
           console.log(error)
 
@@ -32,7 +36,7 @@ function List() {
         
         )
       console.log(clientsArray)
-  }, []);
+  }, [usuarioBorrado]);
     
 
     const handleChangeLimit = dataKey => {
@@ -40,7 +44,32 @@ function List() {
       setLimit(dataKey);
     };
 
-   
+    let match = useNavigate();
+  function handleClick(event) {
+      match(event);
+  }
+
+   const borrar_usuario = (_id)=>{
+
+    var config = {
+      method: 'delete',
+      url: `https://beauty365api.herokuapp.com/api/v1/empleados/${_id}`,
+      headers: { }
+    };
+    
+    axios(config)
+    .then(function (response) {
+      //console.log(JSON.stringify(response.data));
+      window.alert("Usuario Borrado");
+      
+      setusuarioBorrado(_id);
+       
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  
+   }
 
    /* const data = clientsArray.filter((v, i) => {
       const start = limit * (page - 1);
@@ -107,13 +136,10 @@ function List() {
             <HeaderCell>Action</HeaderCell>
             <Cell>
             {rowData => {
-              function handleAction() {
-                alert(`id: ${rowData._id}`);
-                //window.location= 'http://localhost:3000/admin/empleados/nuevo';
-                           }
+             
               return (
                 <span>
-                  <a onClick={handleAction}> Editar </a> | <a onClick={handleAction} > Eliminar </a>
+                  <Link to={rowData._id}  onClick={()=>handleClick("_id")}> Editar </Link> | <a onClick={()=>borrar_usuario(rowData._id)} > Eliminar </a>
                 </span>
               );
             }}
