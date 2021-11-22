@@ -8,7 +8,6 @@ import {
   Button,
   ButtonToolbar,
   Schema,
-  Input,
   Message,
   Divider,
   Loader
@@ -50,6 +49,9 @@ const FormClient = (props) => {
   function volverListaClientes() {
     match("/admin/clientes");
   }
+  function verEditCliente(id) {
+    match("/admin/clientes/"+id);
+  }
   
   // Mensaje de error
   const ErrMessage = (props) => {
@@ -81,6 +83,7 @@ const FormClient = (props) => {
     //   console.error('Form Error');
     //   return;
     // }
+    setLoading(false);
     // VERIFICAR: Errores en el formulario
     if (Object.keys(formError).length === 0) {
       setShowErrorEmptyForm(false);
@@ -89,6 +92,7 @@ const FormClient = (props) => {
       if (formValue.nombres === "" || formValue.telefono === "" || formValue.dni === "" || formValue.email === "") {
         console.log(formError, 'Form Error');
         setShowErrorEmptyForm(true); // ERROR. Campos vacios
+        setLoading(true);
       } else {
         try {
           // PUT request using axios
@@ -104,27 +108,31 @@ const FormClient = (props) => {
               if (res.status === 200) {
                 // SUCCESS: El cliente fue editado
                 setShowError(false);
-                console.log(res.data, "SUCCESS");
-                volverListaClientes();
+                console.log(res.data, "SUCCESS X");
+                verEditCliente(res.data._id);
               } else {
                 // ERROR: HTTP Status != 200
                 setShowError(true);
+                setLoading(true);
               }
             } else {
               // ERROR: Servidor
               setShowError(true);
+              setLoading(true);
             }
           });
         } catch(error) {
           // ERROR: Servidor
           setShowError(true);
           console.log(error)
+          setLoading(true);
         }
       }
     }
     else {
       console.log(formError, 'Form Error');
       setShowErrorEmptyForm(true); // ERROR. Campos vacios o datos invalidos
+      setLoading(true);
     }
   };
  
@@ -136,6 +144,7 @@ const FormClient = (props) => {
     return (
       <>
         <Form
+          onSubmit={handleSubmit}
           onChange={setFormValue}
           onCheck={setFormError}
           formValue={formValue}
@@ -143,7 +152,7 @@ const FormClient = (props) => {
           fluid
         >
           <TextField name="nombres" label="Nombre" value={formValue.nombres} />
-          <TextField name="telefono" label="Telefono" value={formValue.telefono ? formValue.telefono:formValue.telefon} />
+          <TextField name="telefono" label="Telefono" value={formValue.telefono} />
           <TextField name="dni" label="DNI" value={formValue.dni} />
           <TextField name="email" label="Email" value={formValue.email} />
 

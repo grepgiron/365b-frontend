@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   IconButton,
   ButtonToolbar,
@@ -6,6 +6,8 @@ import {
   Col,
   Divider
 } from 'rsuite';
+
+import TituloView from '../../../components/titulo-views/tvs';
 
 import ListNew from '../components/List'
 
@@ -21,11 +23,8 @@ function List() {
   return (
     <>
       <Row>
-        <Col xs={9} >
-          <h3>Clientes</h3>
-        </Col>
-       
-       <Col xs={3} xsPush={12}>
+        <TituloView nombre="Clientes" />
+        <Col xs={24} md={4} lg={3} mdPush={11} lgPush={17}>
           <ButtonToolbar className="inner-left">
             <IconButton 
               onClick={() => handleClick('nuevo')} 

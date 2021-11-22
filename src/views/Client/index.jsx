@@ -12,16 +12,14 @@ import EditClient from './pages/Edit';
 const Client = () => {
  
   return (
-    <>
-      <Panel bordered>
-        <Routes>
-          <Route path='nuevo' element={<NewClient/>}/>
-          <Route path='/:id' element={<ShowClient/>}/>
-          <Route path='/editar/:id' element={<EditClient/>}/>
-          <Route path='/' element={<Lista/>}/>
-        </Routes> 
-      </Panel>
-    </>
+    <Panel bordered>
+      <Routes>
+        <Route path='nuevo' element={<NewClient/>}/>
+        <Route path='/:id' element={<ShowClient/>}/>
+        <Route path='/editar/:id' element={<EditClient/>}/>
+        <Route path='/' element={<Lista/>}/>
+      </Routes> 
+    </Panel>
   );
 };
 
