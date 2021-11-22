@@ -3,6 +3,8 @@ import { Col, Button } from 'react-bootstrap'
 
 import { Panel } from 'rsuite'
 
+import './style.scss'
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Card(props) {
@@ -21,6 +23,29 @@ function Card(props) {
   );
 }
 
+function Main(props) {
+  const { product } = props;
+  return (
+    <div {...props}>
+      <div>
+        <div class="shop__thumb">
+          <a href="#">
+            <div class="shop-thumb__img">
+              <img src="https://via.placeholder.com/120x120/FFA07A/000000" class="img-responsive" alt="..."/>
+            </div>
+            <p class="shop-thumb__title">
+              {product.nombre}
+            </p>
+            <div class="shop-thumb__price">
+              L. {product.precio}
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Product(props) {
   const { product, onAdd } = props;
   return (
@@ -30,7 +55,7 @@ export default function Product(props) {
       delete product['detalle'] &&
       delete product['descripcion'] &&
       delete product['code']}
-      <Card 
+      <Main 
         product={product} 
         onClick={() => onAdd(product)}
         style={{ cursor: "pointer", hover: "" }}

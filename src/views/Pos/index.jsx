@@ -90,10 +90,10 @@ function App() {
   return (
     <>
       <Row>
-        <Col xs={15}>
+        <Col xs={16}>
           <Main services={services} onAdd={onAdd}></Main>
         </Col>
-        <Col xs={9}>
+        <Col xs={8}>
           <Panel bordered header="Detalle de Venta">
             <Form
                 layout="inline"

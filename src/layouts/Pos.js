@@ -26,7 +26,7 @@ const Admin = () => {
   return (
     <Container className="show-fake-browser navbar-page">
       <Header>
-        <Navbar appearance="inverse">
+        <Navbar appearance="inverse" className="fixed-top">
           <Navbar.Header>
             <a className="navbar-brand logo">BRAND</a>
           </Navbar.Header>
@@ -42,7 +42,7 @@ const Admin = () => {
           </Navbar.Body>
         </Navbar>
       </Header>
-      <Content>
+      <Content style={{ marginTop: '70px'}}>
         <Routes>
           <Route path='ventas/*' element={<PosForm />}/>
         </Routes>  

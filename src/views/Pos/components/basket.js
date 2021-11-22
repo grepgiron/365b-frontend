@@ -1,16 +1,28 @@
 import React from 'react';
 
-import { Row, Col, ButtonToolbar, IconButton, Divider, Panel } from 'rsuite'
+import { 
+  Row,
+  Col, 
+  ButtonToolbar, 
+  IconButton, 
+  Divider, 
+  Panel,
+  Drawer,
+  Button 
+} from 'rsuite'
+
 import { Card } from 'react-bootstrap'
 import PlusIcon from '@rsuite/icons/Plus';
 import MinusIcon from '@rsuite/icons/Minus';
+import CreditCardPlusIcon from '@rsuite/icons/CreditCardPlus';
+import Invoice from './invoice';
 
 //import '../index.css'
 
 
-
 export default function Basket(props) {
   const { formValue, cartItems, onAdd, onRemove } = props;
+  const [openWithHeader, setOpenWithHeader] = React.useState(false);
   const itemsPrice = (cartItems.reduce((a, c) => a + c.qty * c.precio, 0)/1.15);
   const taxPrice = itemsPrice * 0.15;
   const totalPrice = itemsPrice + taxPrice;
@@ -20,11 +32,13 @@ export default function Basket(props) {
     formValue.sub_total = itemsPrice.toFixed(2);
     formValue.total = totalPrice.toFixed(2);
     formValue.impuesto = taxPrice.toFixed(2);
+    setOpenWithHeader(true);
     console.log('CheckOut: '+ JSON.stringify(formValue))
   }
 
 
   return (
+    <>
       <Card>
         <Card.Header>
           <Row>
@@ -77,37 +91,51 @@ export default function Basket(props) {
             <>
               <hr></hr>
               <Row >
-                <Col xs={12}></Col>
+                <Col xs={10}></Col>
                 <Col xs={7}>
                   <p style={{ fontWeight: 600}}>
                     Sub Total</p>
                 </Col>
-                <Col xs={5} style={{ textAlign: 'right'}}>Lps. {itemsPrice.toFixed(2)}</Col>
+                <Col xs={7} style={{ textAlign: 'right'}}>Lps. {itemsPrice.toFixed(2)}</Col>
               </Row>
               <Row >
-                <Col xs={12}></Col>
+                <Col xs={10}></Col>
                 <Col xs={7}>
                   <p style={{ fontWeight: 600}}>
                     ISV 15%</p>
                 </Col>
-                <Col xs={5} style={{ textAlign: 'right'}}>{taxPrice.toFixed(2)}</Col>
+                <Col xs={7} style={{ textAlign: 'right'}}>{taxPrice.toFixed(2)}</Col>
               </Row>
               <Row >
-                <Col xs={12}></Col>
+                <Col xs={10}></Col>
                 <Col xs={7}>
                   <p style={{ fontWeight: 600}}>
                     Total</p>
                 </Col>
-                <Col xs={5} style={{fontWeight: 600, textAlign: 'right'}}>{totalPrice.toFixed(2)}</Col>
+                <Col xs={7} style={{fontWeight: 600, textAlign: 'right'}}>{totalPrice.toFixed(2)}</Col>
               </Row>
-              <hr />
-              <div className="row">
-                <button onClick={() => handleClick()}>
-                  Checkout
-                </button>
-              </div>
+
+              <Row>
+                <Col md={4} mdOffset={1}>
+                  <IconButton appearance='primary' icon={<CreditCardPlusIcon/>} onClick={() => handleClick()}>
+                    Cobrar
+                  </IconButton>
+                </Col>
+              </Row>
             </>
         </Card.Body>
       </Card>
+      <Drawer open={openWithHeader} onClose={() => setOpenWithHeader(false)}>
+        <Drawer.Header>
+          <Drawer.Title>Detalle de Factura</Drawer.Title>
+          <Drawer.Actions>
+            <Button onClick={() => setOpenWithHeader(false)}>Cancelar</Button>
+          </Drawer.Actions>
+        </Drawer.Header>
+        <Drawer.Body>
+          <Invoice formValue={formValue}/>
+        </Drawer.Body>
+      </Drawer>
+      </>
   );
 }
