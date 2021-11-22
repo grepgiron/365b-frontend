@@ -94,11 +94,11 @@ function App() {
           <Main services={services} onAdd={onAdd}></Main>
         </Col>
         <Col xs={9}>
-          <Panel bordered>
-          <Form
-              layout="inline"
-              formValue={formValue}
-              onChange={setFormValue}
+          <Panel bordered header="Detalle de Venta">
+            <Form
+                layout="inline"
+                formValue={formValue}
+                onChange={setFormValue}
             >
               <Form.Group controlId="inputPicker">
                 <Form.ControlLabel>Cliente</Form.ControlLabel>
@@ -108,10 +108,10 @@ function App() {
               </Form.Group>
               <Form.Group controlId="datePicker">
                 <Form.ControlLabel>Fecha</Form.ControlLabel>
-                <Form.Control name="fecha" accepter={DatePicker}/>
+                <Form.Control name="fecha" accepter={DatePicker} placement="autoVerticalEnd"/>
               </Form.Group>
             </Form>
-            </Panel>
+          </Panel>
           <Basket
             formValue={formValue}
             cartItems={cartItems}

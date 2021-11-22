@@ -16,7 +16,10 @@ export default function Basket(props) {
   const totalPrice = itemsPrice + taxPrice;
 
   function handleClick() {
-    formValue.items = cartItems
+    formValue.items = cartItems;
+    formValue.sub_total = itemsPrice.toFixed(2);
+    formValue.total = totalPrice.toFixed(2);
+    formValue.impuesto = taxPrice.toFixed(2);
     console.log('CheckOut: '+ JSON.stringify(formValue))
   }
 
