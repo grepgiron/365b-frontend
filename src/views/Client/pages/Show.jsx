@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams } from "react-router-dom";
 
 import {
+  Col,
   FlexboxGrid
 } from 'rsuite';
 
@@ -17,7 +18,7 @@ const Show = () => {
       <h5>Clientes</h5>
       <br />
       <FlexboxGrid>
-        <FlexboxGrid.Item colspan={12}>
+        <FlexboxGrid.Item as={Col} colspan={24} md={18} lg={14}>
           <Profile id={id} />
         </FlexboxGrid.Item>
       </FlexboxGrid>

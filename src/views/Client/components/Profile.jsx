@@ -1,10 +1,8 @@
 import React, { useState, useEffect} from 'react'
 import { useNavigate } from "react-router-dom";
-import qs from 'qs';
 import axios from 'axios';
 
 import {
-  Divider,
   Grid,
   Panel,
   Row,
@@ -62,16 +60,20 @@ function Profile(props) {
       <>
         <Grid fluid>
           <Panel bordered>
-            <h3 class="page-heading">
-              <span class="page-heading-text">Detalles</span>
-            </h3>
             <Row>
-              <Col>
-                <ButtonToolbar>
+              <Col xs={24} md={8} lg={6}>
+                <h3 class="page-heading">
+                  <span class="page-heading-text">Detalles</span>
+                </h3>
+              </Col>
+              <Col xs={24} md={13} lg={12} mdPush={4} lgPush={7}>
+                <ButtonToolbar className="inner-left">
                   <IconButton appearance="primary" onClick={handleClick} icon={<Edit2 />}>Editar</IconButton>
-                  <Button appearance="default" onClick={volverListaClientes} >Cancelar</Button>
+                  <Button appearance="default" onClick={volverListaClientes} >Volver a lista</Button>
                 </ButtonToolbar>
-                <div class="markdown"> 
+              </Col>
+              <Col xs={24}>
+                <div class="markdown">
                   <h4 class="page-heading">
                     <span class="page-heading-text">Nombre</span>
                   </h4>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Table,
   IconButton,
@@ -14,7 +14,7 @@ import {
 import Edit2 from '@rsuite/icons/legacy/Edit2';
 import VisibleIcon from '@rsuite/icons/Visible';
 
-const { HeaderCell, Cell, Column, ColumnGroup } = Table;
+const { HeaderCell, Cell, Column } = Table;
 
 function List() {
   const [clientsArray, setClientsArray] = React.useState([]);
@@ -33,11 +33,9 @@ function List() {
   let match = useNavigate();
   const ActionCell = ({ rowData, dataKey, ...props }) => {
     function editClient() {
-      // match(`/admin/clientes/editar/${rowData[dataKey]}`, { state: response.data._id });
       match(`/admin/clientes/editar/${rowData[dataKey]}`);
     }
     function showClient() {
-      // match(`/admin/clientes/mostrar/${rowData[dataKey]}`, { state: response.data._id });
       match(`/admin/clientes/${rowData[dataKey]}`);
     }
     return (
@@ -88,28 +86,33 @@ function List() {
   } else {
     return (
       <>
-      <Table bordered striped height={420} data={clientsArray} loading={!loading}>
-        <Column flexGrow={1}>
+      <Table bordered striped height={420} data={data} loading={!loading}>
+        {/* <Column flexGrow={1}> */}
+        <Column width={190}>
           <HeaderCell>DNI</HeaderCell>
           <Cell dataKey="dni" />
         </Column>
 
-        <Column flexGrow={1}>
+        {/* <Column flexGrow={1}> */}
+        <Column width={240}>
           <HeaderCell>Nombres</HeaderCell>
           <Cell dataKey="nombres" />
         </Column>
 
-        <Column flexGrow={1}>
+        {/* <Column flexGrow={1}> */}
+        <Column width={120}>
           <HeaderCell>Teléfono</HeaderCell>
           <Cell dataKey="telefono" />
         </Column>
 
-        <Column flexGrow={1}>
+        {/* <Column flexGrow={1}> */}
+        <Column width={200}>
           <HeaderCell>Email</HeaderCell>
           <Cell dataKey="email" />
         </Column>
 
-        <Column flexGrow={1}>
+        {/* <Column flexGrow={1}> */}
+        <Column width={107}>
           <HeaderCell>Action</HeaderCell>
           <ActionCell dataKey="_id" />
         </Column>

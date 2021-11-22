@@ -1,33 +1,29 @@
 import React from 'react';
-import axios from 'axios';
 
 import {
-  FlexboxGrid,
-  Row,
   Col,
-  Panel,
-  Divider,
-  Grid
+  FlexboxGrid,
+  Panel
 } from 'rsuite';
+import '../styles.css';
 
-import FormEstablishment from '../components/Form';
+import FormUnd from '../components/Form';
 
-const New = () => {
+const NewUnd = () => {
  
   return (
-    <Grid fluid>
-      <Row>
-        <Col xs={12} className="markdown">
-          <h2 className="page-heading">Datos de nuevo tipo de unidad</h2>
+    <>
+      <h5>Agregar nuevo tipo de unidad</h5>
+      <br />
+      <FlexboxGrid>
+        <FlexboxGrid.Item as={Col} colspan={24} md={12} className="rs-code-view">
+          <FormUnd />
+        </FlexboxGrid.Item>
+        <FlexboxGrid.Item as={Col} colspan={24} md={11} mdPush={1} className="markdown espacio-item">
+          <h6 className="rs-form-control-label">Guía de Unidades</h6>
           <div className="rs-code-view">
-            <FormEstablishment />
-          </div>       
-        </Col>
-        <Col xs={12} className="markdown">
-          <h2 className="page-heading">Guia de Unidades</h2>
-          <div className="rs-code-view">
-            <Panel bordered bodyFill style={{ display: 'inline-block' }}>
-              <img src="https://via.placeholder.com/240x240" height="100" width="100" />
+            <Panel bordered bodyFill>
+              <img src="https://via.placeholder.com/240x240" height="100" width="100" alt="Placeholder imagen vacía fondo gris" />
               <Panel header="Establecimiento">
                 <p>
                   <small>
@@ -37,10 +33,10 @@ const New = () => {
               </Panel>
             </Panel>
           </div>
-        </Col>
-      </Row>
-    </Grid>
+        </FlexboxGrid.Item>
+      </FlexboxGrid>
+    </>
   );
 };
 
-export default New;
+export default NewUnd;

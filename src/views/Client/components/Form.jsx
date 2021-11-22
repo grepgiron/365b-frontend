@@ -8,7 +8,6 @@ import {
   Button,
   ButtonToolbar,
   Schema,
-  Input,
   Message,
   Divider,
   Loader
@@ -50,6 +49,9 @@ const FormClient = () => {
   function volverListaClientes() {
     match("/admin/clientes");
   }
+  function verNuevoCliente(id) {
+    match("/admin/clientes/"+id);
+  }
   
   // Mensaje de error
   const ErrMessage = (props) => {
@@ -70,6 +72,7 @@ const FormClient = () => {
     //   console.error('Form Error');
     //   return;
     // }
+    setLoading(false);
     // VERIFICAR: Errores en el formulario
     if (Object.keys(formError).length === 0) {
       setShowErrorEmptyForm(false);
@@ -78,6 +81,7 @@ const FormClient = () => {
       if (formValue.nombres === "" || formValue.telefono === "" || formValue.dni === "" || formValue.email === "") {
         console.log(formError, 'Form Error');
         setShowErrorEmptyForm(true); // ERROR. Campos vacios
+        setLoading(true);
       } else {
         try {
           const apiRes = await axios.post('https://beauty365api.herokuapp.com/api/v1/clientes', 
@@ -94,26 +98,30 @@ const FormClient = () => {
                 // SUCCESS: El cliente fue editado
                 setShowError(false);
                 console.log(res.data, "SUCCESS");
-                volverListaClientes();
+                verNuevoCliente(res.data._id);
               } else {
                 // ERROR: HTTP Status != 200
                 setShowError(true);
+                setLoading(true);
               }
             } else {
               // ERROR: Servidor
               setShowError(true);
+              setLoading(true);
             }
           });
         } catch(error) {
           // ERROR: Servidor
           setShowError(true);
           console.log(error)
+          setLoading(true);
         }
       }
     }
     else {
       console.log(formError, 'Form Error');
       setShowErrorEmptyForm(true); // ERROR. Campos vacios o datos invalidos
+      setLoading(true);
     }
   };
  
@@ -125,6 +133,7 @@ const FormClient = () => {
     return (
       <>
         <Form
+          onSubmit={handleSubmit}
           onChange={setFormValue}
           onCheck={setFormError}
           formValue={formValue}
@@ -139,7 +148,6 @@ const FormClient = () => {
           <Form.Group>
             <ButtonToolbar>
               <Button appearance="primary" onClick={handleSubmit}>Agregar</Button>
-              <Button appearance="primary">Editar</Button>
               <Button appearance="default" onClick={volverListaClientes}>Cancelar</Button>
             </ButtonToolbar>
           </Form.Group>
