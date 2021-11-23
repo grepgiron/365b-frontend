@@ -28,15 +28,15 @@ function Main(props) {
   return (
     <div {...props}>
       <div>
-        <div class="shop__thumb">
-          <a href="#">
-            <div class="shop-thumb__img">
-              <img src="https://via.placeholder.com/120x120/FFA07A/000000" class="img-responsive" alt="..."/>
+        <div className="shop__thumb">
+          <a>
+            <div className="shop-thumb__img">
+              <img src="https://via.placeholder.com/120x120/A66D58/000000" className="img-responsive" alt="..."/>
             </div>
-            <p class="shop-thumb__title">
+            <p className="shop-thumb__title">
               {product.nombre}
             </p>
-            <div class="shop-thumb__price">
+            <div className="shop-thumb__price">
               L. {product.precio}
             </div>
           </a>

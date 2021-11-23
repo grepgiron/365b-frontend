@@ -1,22 +1,22 @@
-import React from 'react';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { Row, Col } from 'rsuite'
 
-import {
-  FlexboxGrid,
-  Divider
-} from 'rsuite';
+import ListInvoice from '../components/List'
+import Show from './Show'
 
-import List from '../components/List'
+import './style.scss'
 
-const Show = (props) => {
-  let { id } = useParams();
-  console.log(id)
+function List() {
+
   return (
     <>
-      <List /> 
+      <Row>
+      
+      </Row>
+      <Row>
+        <ListInvoice />
+      </Row>
     </>
   );
-};
+}
 
-export default Show;
+export default List;

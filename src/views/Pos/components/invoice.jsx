@@ -34,90 +34,90 @@ function Invoice(props) {
 
   return (
     <>
-      <div class="mb-12">
-        <div class="row d-flex justify-content-center">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="upper p-4">
-                <div class="d-flex justify-content-between">
+      <div className="mb-12">
+        <div className="row d-flex justify-content-center">
+          <div className="col-md-12">
+            <div className="card">
+              <div className="upper p-4">
+                <div className="d-flex justify-content-between">
                   {/* Poner Aqui dato de la empresa */}
-                  <div class="d-flex flex-row align-items-center">
-                    <img src="https://i.imgur.com/HKne8Oc.jpg" width="60" class="rounded-circle"/>
-                    <div class="add">
-                      <span class="font-weight-bold d-block">Nombre</span>
-                      <span class="font-weight-bold d-block">RTN</span>
-                      <small class="font-weight-bold d-block">direccion</small>
-                      <small class="font-weight-bold d-block">telefono / correo</small>
+                  <div className="d-flex flex-row align-items-center">
+                    <img src="https://i.imgur.com/HKne8Oc.jpg" width="60" className="rounded-circle"/>
+                    <div className="add">
+                      <span className="font-weight-bold d-block">Nombre</span>
+                      <span className="font-weight-bold d-block">RTN</span>
+                      <small className="font-weight-bold d-block">direccion</small>
+                      <small className="font-weight-bold d-block">telefono / correo</small>
                     </div> 
                   </div>
                   {/* Poner Aqui dato de la factura */}
-                  <div class="col col-lg-4 text-center"> 
-                    <small class="font-weight-bold d-block"># factura</small>
-                    <small class="font-weight-bold d-block">
+                  <div className="col col-lg-4 text-center"> 
+                    <small className="font-weight-bold d-block"># factura</small>
+                    <small className="font-weight-bold d-block">
                       {formValue.fecha !== null && new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit',}).format(formValue.fecha)}</small>
-                    <small class="font-weight-bold d-block">cai</small>
+                    <small className="font-weight-bold d-block">cai</small>
                     <small>123456789123456789123456789123456789</small>
                   </div>
                 </div>
                 <hr/>
                 {/* Poner Aqui dato del Cliente */}
                 <div>
-                  <div class="d-flex justify-content-between">
-                    <div class="d-flex flex-row align-items-center"> 
-                      <i class="fa fa-check-circle-o"></i>
-                      <span class="ml-2">Nombre: {client.nombres}</span>
+                  <div className="d-flex justify-content-between">
+                    <div className="d-flex flex-row align-items-center"> 
+                      <i className="fa fa-check-circle-o"></i>
+                      <span className="ml-2">Nombre: {client.nombres}</span>
                     </div> 
                   </div>
                 </div>
                 <div>
-                  <div class="d-flex justify-content-between">
-                    <div class="d-flex flex-row align-items-center">
-                      <i class="fa fa-check-circle-o"></i>
-                      {client.dni !== '' ? <span class="ml-2">RTN: {client.dni}</span> : <span class="ml-2">RTN: {}</span>}
+                  <div className="d-flex justify-content-between">
+                    <div className="d-flex flex-row align-items-center">
+                      <i className="fa fa-check-circle-o"></i>
+                      {client.dni !== '' ? <span className="ml-2">RTN: {client.dni}</span> : <span className="ml-2">RTN: {}</span>}
                     </div>
                   </div>
                 </div>
                 <hr/>
-                <table class="table table-sm">
+                <table className="table table-sm">
                   <thead>
                   <tr>
                     <th>Detalle</th>
-                    <th class="text-center">Cantidad</th>
-                    <th class="text-center">Total</th>
+                    <th className="text-center">Cantidad</th>
+                    <th className="text-center">Total</th>
                   </tr>
                   </thead>
                   <tbody>
-                  {formValue.items.map((item, index) => (
-                    <tr>
+                  {formValue.productos.map((item, index) => (
+                    <tr key={index}>
                       <td>{item.nombre}</td>
-                      <td class="text-center">{item.qty}</td>
-                      <td class="text-end">{item.precio.toFixed(2)}</td>
+                      <td className="text-center">{item.cantidad}</td>
+                      <td className="text-end">{item.precio.toFixed(2)}</td>
                     </tr>
                   ))}
                   </tbody>
                 </table>
                 {/* Poner Aqui datos de items 
                 {formValue.items.map((item, index) => (
-                  <div class="d-flex justify-content-between">
-                    <div class="d-flex flex-row align-items-center">
-                      <i class="fa fa-check-circle-o"></i>
-                      <span class="ml-2">{item.nombre}</span>
+                  <div className="d-flex justify-content-between">
+                    <div className="d-flex flex-row align-items-center">
+                      <i className="fa fa-check-circle-o"></i>
+                      <span className="ml-2">{item.nombre}</span>
                     </div>
-                    <span class="font-weight-bold">{item.qty}</span>
-                    <span class="font-weight-bold">{item.precio}</span>
+                    <span className="font-weight-bold">{item.qty}</span>
+                    <span className="font-weight-bold">{item.precio}</span>
                   </div>
                 ))}*/}
-                <div class="row">
-                  <div class="col-6">
-                    <div class="d-flex flex-column">
+                <div className="row">
+                  <div className="col-6">
+                    <div className="d-flex flex-column">
                       <small>Total en letras</small>
                       <small>Rangos</small>
                       <small>Limite Emision</small>
                       <small>Mensage</small>
                     </div>
                   </div>
-                  <div class="col-3">
-                    <div class="d-flex flex-column text-end">
+                  <div className="col-3">
+                    <div className="d-flex flex-column text-end">
                       <span>Sub Total:</span>
                       <span>Excento:</span>
                       <span>ISV 15%:</span>
@@ -125,8 +125,8 @@ function Invoice(props) {
                       <span style={{ fontWeight: 600}}>Total:</span>
                     </div>
                   </div>
-                  <div class="col-3">
-                    <div class="d-flex flex-column text-end">
+                  <div className="col-3">
+                    <div className="d-flex flex-column text-end">
                       <span>{formValue.sub_total}</span>
                       <span>{'0.00'}</span>
                       <span>{formValue.impuesto}</span>

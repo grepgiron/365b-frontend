@@ -14,6 +14,7 @@ import '../App.css'
 import 'rsuite/dist/rsuite.min.css'; // or css
 
 import PosForm from '../views/Pos/index';
+import List from '../views/invoice/pages/List';
 
 
 const Admin = () => {
@@ -26,7 +27,7 @@ const Admin = () => {
   return (
     <Container className="show-fake-browser navbar-page">
       <Header>
-        <Navbar appearance="inverse" className="fixed-top">
+        <Navbar className="fixed-top">
           <Navbar.Header>
             <a className="navbar-brand logo">BRAND</a>
           </Navbar.Header>
@@ -44,7 +45,9 @@ const Admin = () => {
       </Header>
       <Content style={{ marginTop: '70px'}}>
         <Routes>
-          <Route path='ventas/*' element={<PosForm />}/>
+          <Route path='/' element={<PosForm />}/>
+          <Route path='ventas/*' element={<List />}/>
+          <Route path='reportes/*' element={<List />}/>
         </Routes>  
       </Content>
     </Container>

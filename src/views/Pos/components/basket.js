@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'axios';
+import qs from 'qs';
 
 import { 
   Row,
@@ -22,18 +24,51 @@ import Invoice from './invoice';
 
 export default function Basket(props) {
   const { formValue, cartItems, onAdd, onRemove } = props;
+  const { loading, setLoading } = React.useState(false);
   const [openWithHeader, setOpenWithHeader] = React.useState(false);
-  const itemsPrice = (cartItems.reduce((a, c) => a + c.qty * c.precio, 0)/1.15);
+  const itemsPrice = (cartItems.reduce((a, c) => a + c.cantidad * c.precio, 0)/1.15);
   const taxPrice = itemsPrice * 0.15;
   const totalPrice = itemsPrice + taxPrice;
 
   function handleClick() {
-    formValue.items = cartItems;
+    formValue.productos = cartItems;
     formValue.sub_total = itemsPrice.toFixed(2);
     formValue.total = totalPrice.toFixed(2);
     formValue.impuesto = taxPrice.toFixed(2);
     setOpenWithHeader(true);
     console.log('CheckOut: '+ JSON.stringify(formValue))
+  }
+
+  const handlePostInvoice = async () => {
+    //setLoading(true);
+    try {
+      const apiRes = await axios.post('https://beauty365api.herokuapp.com/api/v1/facturas/create', 
+      qs.stringify(formValue), {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }).then(function(res) {
+        console.log(res);
+        // VERIFICAR: ¿Error en la respuesta del servidor?
+          if (res.status === 200) {
+            // SUCCESS: El cliente fue editado
+            //setShowError(false);
+            console.log(res.data, "SUCCESS");
+            //verNuevoCliente(res.data._id);
+          } else {
+            // ERROR: HTTP Status != 200
+            //setShowError(true);
+            setLoading(true);
+          }
+      });
+    } catch(error) {
+      // ERROR: Servidor
+      //setShowError(true);
+      console.log(error)
+      setLoading(true);
+    }
+    //setOpenWithHeader(false);
   }
 
 
@@ -71,7 +106,7 @@ export default function Basket(props) {
                     color="red"
                   />
                   <Divider vertical />
-                  {item.qty}
+                  {item.cantidad}
                   <Divider vertical />
                   <IconButton
                     size="xs" 
@@ -84,7 +119,7 @@ export default function Basket(props) {
               </Col>
               <Col xs={5}>
               <p style={{ fontWeight: 600, textAlign: 'right'}}>
-                Lps. {item.precio.toFixed(2)}</p>
+                Lps. {item.precio.toFixed(2) * item.cantidad}</p>
               </Col>
             </Row>
           ))}
@@ -130,6 +165,7 @@ export default function Basket(props) {
           <Drawer.Title>Detalle de Factura</Drawer.Title>
           <Drawer.Actions>
             <Button onClick={() => setOpenWithHeader(false)}>Cancelar</Button>
+            <Button onClick={() => handlePostInvoice(formValue)} appearance='primary'>Generar</Button>
           </Drawer.Actions>
         </Drawer.Header>
         <Drawer.Body>

@@ -14,6 +14,7 @@ export default function Main(props) {
             <Row xs={12} md={4}>
               {services.map((product) => (
                 //console.log(product),
+                product = {...product, producto: product._id},
                 <Product key={product._id} product={product} onAdd={onAdd}></Product>
               ))}
             </Row>
