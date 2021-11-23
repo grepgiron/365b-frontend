@@ -51,6 +51,11 @@ function Profile() {
 
   }
 
+  let match = useNavigate();
+  function handleClick(event) {
+      match(event);
+  }
+
     const model = Schema.Model({
       nombres: StringType().isRequired('This field is required.'),
       telefono: StringType().isRequired('This field is required.'),
@@ -76,7 +81,7 @@ function Profile() {
       axios(config)
       .then(function (response) {
        // setdatosEmpleado({...response.data});
-        setFormValue({...response.data});
+        setFormValue({...response.data, telefono: `${response.data.telefono}`});
         console.log(`id = ${response.data._id}`);
 
         
@@ -126,12 +131,14 @@ function Profile() {
       <TextField  name="telefono" label="Telefono" />
       <TextField  name="habilidades" label="Habilidad" />
       
-      
-      <ButtonToolbar>
-        <Button appearance="primary" onClick={handleSubmit}>
-          Guardar Cambios
-        </Button>
-      </ButtonToolbar>
+      <Form.Group>
+        <ButtonToolbar>
+          <Button appearance="primary" onClick={()=>handleSubmit}>
+            Guardar Cambios
+          </Button>
+          <Button appearance="default" onClick={()=>handleClick("/admin/empleados")} >Regresar</Button>
+        </ButtonToolbar>
+      </Form.Group>
     </Form> 
     
       

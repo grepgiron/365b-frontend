@@ -3,9 +3,14 @@ import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
 import {
   Table,
-  Pagination
+  Pagination,
+  IconButton,
+  Divider 
 } from 'rsuite';
 
+import Edit2 from '@rsuite/icons/legacy/Edit2';
+import VisibleIcon from '@rsuite/icons/Visible';
+import TrashIcon from '@rsuite/icons/Trash';
 
 //import value from './sample';
 
@@ -139,7 +144,11 @@ function List() {
              
               return (
                 <span>
-                  <Link to={rowData._id}  onClick={()=>handleClick("_id")}> Editar </Link> | <a onClick={()=>borrar_usuario(rowData._id)} > Eliminar </a>
+                 
+                  <Link  to={rowData._id}  onClick={()=>handleClick("_id")} >
+                    <IconButton  icon={<Edit2/>}/></Link>
+                  <Divider vertical />
+                  <IconButton onClick={()=>borrar_usuario(rowData._id)} icon={<TrashIcon />}/>
                 </span>
               );
             }}

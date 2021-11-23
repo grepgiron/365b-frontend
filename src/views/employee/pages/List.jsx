@@ -21,7 +21,7 @@ function List() {
     <>
       <Row>
         <Col xs={9} >
-          <h3>Editar esta View</h3>
+          <h3>Empleados</h3>
         </Col>
         <Col xs={3} xsPush={12}>
           <ButtonToolbar className="inner-left">
