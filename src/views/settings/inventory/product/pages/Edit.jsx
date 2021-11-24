@@ -5,14 +5,14 @@ import {
   FlexboxGrid
 } from 'rsuite';
 
-import FormDocument from '../components/Form';
+import Editar from '../components/FormEdit';
 
 const New = () => {
  
   return (
     <FlexboxGrid>
       <FlexboxGrid.Item colspan={12}>
-        <FormDocument />
+        <Editar/>
       </FlexboxGrid.Item>
     </FlexboxGrid>
   );
