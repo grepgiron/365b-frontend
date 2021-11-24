@@ -14,16 +14,14 @@ const Invoice = () => {
   return (
     <>
       <div class="markdown">
-        <h5>Ventas</h5>
+        <h5>Prefactura</h5>
       </div>
-      <Panel>
-        <Routes>
-          <Route path='nuevo' element={<NewInvoice/>}/>
-          <Route path='editar/:id' element={<EditInvoice/>}/>
-          <Route path='/show/:id' element={<ShowInvoice/>}/>
-          <Route path='/' element={<ListInvoice/>}/>
-        </Routes> 
-      </Panel>
+      <Routes>
+        <Route path='nuevo' element={<NewInvoice/>}/>
+        <Route path='editar/:id' element={<EditInvoice/>}/>
+        <Route path='show/:id' element={<ShowInvoice/>}/>
+        <Route path='/' element={<ListInvoice/>}/>
+      </Routes> 
     </>
   );
 };

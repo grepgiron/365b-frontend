@@ -1,6 +1,7 @@
 import { Row, Col } from 'rsuite'
 
 import Profile from '../components/Profile'
+import PreInvoice from '../components/PreInvoice'
 
 function Show(props) {
   const { invoice } = props
@@ -8,7 +9,7 @@ function Show(props) {
     <>
       <Row>
         <Col xs={24}>
-          <Profile />
+          <PreInvoice />
         </Col>
       </Row>
     </>

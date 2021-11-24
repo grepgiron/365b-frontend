@@ -604,9 +604,9 @@ span.CodeMirror-selectedtext{
   --rs-bg-info:#e9f5fe;
   --rs-bg-warning:#fff9e6;
   --rs-bg-error:#fde9ef;
-  --rs-text-link:#1675e0;
-  --rs-text-link-hover:#0a5dc2;
-  --rs-text-link-active:#004299;
+  --rs-text-link:#ffffff;
+  --rs-text-link-hover:#ffffff;
+  --rs-text-link-active:#ffffff;
   --rs-text-primary:#575757;
   --rs-text-secondary:#8e8e93;
   --rs-text-tertiary:#a6a6a6;

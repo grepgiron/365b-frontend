@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from 'react'
 import { Card, Row } from 'react-bootstrap';
 
-import { Col, InputPicker, DatePicker, Form, Panel } from 'rsuite'
+import { Col, InputPicker, Input, Form, Panel } from 'rsuite'
 
 //import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -20,7 +20,7 @@ function App() {
   const [clients, setClients] = useState([])
   const [ formValue, setFormValue ] = React.useState({
     cliente: '',
-    fecha: null,
+    fecha: '',
     productos: [],
     sub_total: '',
     impuesto: '',
@@ -109,7 +109,7 @@ function App() {
               </Form.Group>
               <Form.Group controlId="datePicker">
                 <Form.ControlLabel>Fecha</Form.ControlLabel>
-                <Form.Control name="fecha" accepter={DatePicker} placement="autoVerticalEnd"/>
+                <Form.Control name="fecha" accepter={Input} type="date" placement="autoVerticalEnd"/>
               </Form.Group>
             </Form>
           </Panel>

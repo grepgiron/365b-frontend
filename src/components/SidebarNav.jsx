@@ -23,7 +23,7 @@ const headerStyles = {
     padding: 18,
     fontSize: 16,
     height: 56,
-    background: '#34b3ff',
+    background: '#402015',
     color: ' #fff',
     whiteSpace: 'nowrap',
     overflow: 'hidden'
@@ -63,7 +63,7 @@ const SidebarNav = ({ appearance, ...props }) => {
       >
         <Sidenav.Body>
           <Nav {...props}>
-            <Nav.Item style={{ textDecoration: 'none' }} eventKey="1" active icon={<Dashboard />}>
+            <Nav.Item style={{ textDecoration: 'none' }} eventKey="1" icon={<Dashboard />}>
             Dashboard
             </Nav.Item>
             <Nav.Item style={{ textDecoration: 'none' }} eventKey="2" onSelect={() => handleClick('/pos')} icon={<BarChartIcon />}>

@@ -33,10 +33,10 @@ function List() {
   let match = useNavigate();
   const ActionCell = ({ rowData, dataKey, ...props }) => {
     function editClient() {
-      match(`/admin/clientes/editar/${rowData[dataKey]}`);
+      match(`show/editar/${rowData[dataKey]}`);
     }
     function showClient() {
-      match(`/admin/clientes/${rowData[dataKey]}`);
+      match(`show/${rowData[dataKey]}`);
     }
     return (
       <Cell {...props} className="link-group">
@@ -87,7 +87,7 @@ function List() {
       <>
       <Table bordered striped height={420} data={data} loading={!loading}>
         {/* <Column flexGrow={1}> */}
-        <Column width={50} align="center" fixed>
+        <Column width={50} fixed>
           <HeaderCell>#</HeaderCell>
           <Cell>
             {(rowData, rowIndex) => (rowIndex+1)}
@@ -97,15 +97,7 @@ function List() {
         <Column>
           <HeaderCell className="text-center">Fecha</HeaderCell>
           <Cell>
-            {(rowData, rowIndex) => (
-              new Intl.DateTimeFormat('en-US', 
-              { 
-                style: "currency",
-                currency: "GBP",
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0 
-              }).format(new Date(rowData.fecha))
-            )}
+            {(rowData) => (rowData.fecha)}
           </Cell>
         </Column>
         <Column flexGrow={1}>
@@ -114,25 +106,25 @@ function List() {
         </Column>
 
         {/* <Column flexGrow={1}> */}
-        <Column align="end">
+        <Column>
           <HeaderCell className="text-center">Sub Total</HeaderCell>
           <Cell dataKey="sub_total" />
         </Column>
         
         {/* <Column flexGrow={1}> */}
-        <Column  align="end">
+        <Column>
           <HeaderCell className="text-center">ISV</HeaderCell>
           <Cell dataKey="impuesto" />
         </Column>
 
         {/* <Column flexGrow={1}> */}
-        <Column  align="end">
+        <Column >
           <HeaderCell className="text-center">Total</HeaderCell>
           <Cell dataKey="total" />
         </Column>
 
         {/* <Column flexGrow={1}> */}
-        <Column  align="center">
+        <Column>
           <HeaderCell>Action</HeaderCell>
           <ActionCell dataKey="_id" />
         </Column>
