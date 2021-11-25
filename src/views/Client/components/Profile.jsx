@@ -41,11 +41,12 @@ function Profile(props) {
           setCliente(response.data);
           setLoading(true);
         } else {
+          console.log(response);
           setError(response);
           setLoading(true);
         }
       })
-  }, []);
+  }, [error, props.id]);
 
   function handleClick() {
     match('/admin/clientes/editar/'+props.id);
@@ -57,47 +58,45 @@ function Profile(props) {
     return <Loader content="loading..." />;
   } else {
     return (
-      <>
-        <Grid fluid>
-          <Panel bordered>
-            <Row>
-              <Col xs={24} md={8} lg={6}>
-                <h3 class="page-heading">
-                  <span class="page-heading-text">Detalles</span>
-                </h3>
-              </Col>
-              <Col xs={24} md={13} lg={12} mdPush={4} lgPush={7}>
-                <ButtonToolbar className="inner-left">
-                  <IconButton appearance="primary" onClick={handleClick} icon={<Edit2 />}>Editar</IconButton>
-                  <Button appearance="default" onClick={volverListaClientes} >Volver a lista</Button>
-                </ButtonToolbar>
-              </Col>
-              <Col xs={24}>
-                <div class="markdown">
-                  <h4 class="page-heading">
-                    <span class="page-heading-text">Nombre</span>
-                  </h4>
-                  <p>{cliente.nombres}</p>
-                  <h4 class="page-heading">
-                    <span class="page-heading-text">Teléfono</span>
-                  </h4>
-                  <p>{cliente.telefono}</p>
-                  <h4 class="page-heading">
-                    <span class="page-heading-text">DNI</span>
-                  </h4>
-                  <p>{cliente.dni}</p>
-                  <h4 class="page-heading">
-                    <span class="page-heading-text">Email</span>
-                  </h4>
-                  <p>{cliente.email}</p>
-                  <br />
-                  <Tag color="green">ACTIVO</Tag>
-                </div>    
-              </Col>
-            </Row>
-          </Panel>
-        </Grid>
-      </>
+      <Grid fluid>
+        <Panel bordered>
+          <Row>
+            <Col xs={24} md={8} lg={6}>
+              <h3 className="page-heading">
+                <span className="page-heading-text">Detalles</span>
+              </h3>
+            </Col>
+            <Col xs={24} md={13} lg={12} mdPush={4} lgPush={7}>
+              <ButtonToolbar className="inner-left">
+                <IconButton appearance="primary" onClick={handleClick} icon={<Edit2 />}>Editar</IconButton>
+                <Button appearance="default" onClick={volverListaClientes} >Volver a lista</Button>
+              </ButtonToolbar>
+            </Col>
+            <Col xs={24}>
+              <div className="markdown">
+                <h4 className="page-heading">
+                  <span className="page-heading-text">Nombre</span>
+                </h4>
+                <p>{cliente.nombres}</p>
+                <h4 className="page-heading">
+                  <span className="page-heading-text">Teléfono</span>
+                </h4>
+                <p>{cliente.telefono ? cliente.telefono : "-"}</p>
+                <h4 className="page-heading">
+                  <span className="page-heading-text">DNI</span>
+                </h4>
+                <p>{cliente.dni}</p>
+                <h4 className="page-heading">
+                  <span className="page-heading-text">Email</span>
+                </h4>
+                <p>{cliente.email}</p>
+                <br />
+                <Tag color="green">ACTIVO</Tag>
+              </div>    
+            </Col>
+          </Row>
+        </Panel>
+      </Grid>
     );
   }
 };

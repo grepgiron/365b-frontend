@@ -1,11 +1,12 @@
 import React from 'react';
-import { Route ,Link, Routes} from "react-router-dom";
+import { Route, Link, Routes} from "react-router-dom";
 
 import {
   Container,
   Content
 } from 'rsuite';
 
+import Services from '../views/Services/index';
 import Client from '../views/Client/index';
 import Employee from '../views/employee/index';
 import DocumentoAutorizacion from '../views/sar/document_authorization/index';
@@ -22,6 +23,7 @@ import Payments from '../views/settings/payments';
 
 import '../App.css';
 import 'rsuite/dist/rsuite.min.css'; // or css
+import services from './../views/Pos/acciones';
 
 
 const Admin = () => {
@@ -37,6 +39,7 @@ const Admin = () => {
       >
         <Content>
           <Routes>
+            <Route path='servicios/*' element={<Services/>}/>
             <Route path='clientes/*' element={<Client/>}/>
             <Route path='ventas/*' element={<Invoice />}/>
             <Route path='empleados/*' element={<Employee/>}/>
