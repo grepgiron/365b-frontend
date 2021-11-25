@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   IconButton,
   ButtonToolbar,
@@ -7,40 +7,37 @@ import {
   Divider
 } from 'rsuite';
 
+import TituloView from '../../../components/titulo-views/tvs';
+
 import ListNew from '../components/List'
 
 import PlusIcon from '@rsuite/icons/Plus';
-//
 
 function List() {
+
   let match = useNavigate();
   function handleClick(event) {
       match(event);
   }
+
   return (
     <>
       <Row>
-        <Col xs={9} >
-          <h3>Empleados</h3>
-        </Col>
-        <Col xs={3} xsPush={12}>
+        <TituloView nombre="Servicios" />
+        <Col xs={24} md={4} lg={3} mdPush={11} lgPush={17}>
           <ButtonToolbar className="inner-left">
             <IconButton 
               onClick={() => handleClick('nuevo')} 
               icon={<PlusIcon />} 
               appearance="primary">
-              Nuevo Empleado 
+              Add
             </IconButton>
           </ButtonToolbar>
         </Col>
       </Row>
+
       <Divider />
-      <div>
-        <h5>Poner Lista aqui</h5>
-        <h5>View: clients/components/List</h5>
-        <Divider />
-        <ListNew />
-      </div>
+      <ListNew />
     </>
   );
 }

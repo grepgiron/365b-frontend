@@ -69,8 +69,8 @@ const SidebarNav = ({ appearance, ...props }) => {
             <Nav.Item style={{ textDecoration: 'none' }} eventKey="2" onSelect={() => handleClick('/pos')} icon={<BarChartIcon />}>
             Ventas
             </Nav.Item>
-            <Nav.Item style={{ textDecoration: 'none' }} eventKey="3" icon={<AttachmentIcon />}>
-            Inventario
+            <Nav.Item style={{ textDecoration: 'none' }} eventKey="3" onSelect={() => handleClick('servicios')} icon={<AttachmentIcon />}>
+            Servicios
             </Nav.Item>
             <Nav.Item  style={{ textDecoration: 'none' }} eventKey="4" onSelect={() => handleClick('clientes')} icon={<PeoplesMapIcon />}>
             Clientes

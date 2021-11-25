@@ -18,7 +18,7 @@ const { StringType } = Schema.Types;
 // Modelo de esquema de datos
 const model = Schema.Model({
   nombre: StringType().isRequired('Es obligatorio escribir el nombre.'),
-  prefijo: StringType().isRequired('Es obligatorio escribir el prefijo.')
+  code: StringType().isRequired('Es obligatorio escribir el código.')
 });
 
 // Plantilla para campos del formulario
@@ -30,11 +30,11 @@ const TextField = ({ name, label, value, accepter, ...rest }) => (
 );
 
 const FormUnd = (props) => {
-  // const formRef = React.useRef();
+  const formRef = React.useRef();
   const [formError, setFormError] = React.useState({});
   const [formValue, setFormValue] = React.useState({
     nombre: '',
-    prefijo: ''
+    code: ''
   });
   const [error, setError] = useState(null);
   const [showError, setShowError] = useState(false);
@@ -72,63 +72,53 @@ const FormUnd = (props) => {
           setLoading(true);
         }
       })
-  }, []);
+  }, [error, props.id]);
 
   const handleSubmit = async() => {
-    // if (!formRef.current.check()) {
-    //   console.error('Form Error');
-    //   return;
-    // }
-    setLoading(false);
-    // VERIFICAR: Errores en el formulario
-    if (Object.keys(formError).length === 0) {
-      setShowErrorEmptyForm(false);
-      setShowError(false);
-      // VERIFICAR: Campos vacios
-      if (formValue.nombre === "" || formValue.code === "") {
-        console.log(formError, 'Form Error');
-        setShowErrorEmptyForm(true); // ERROR. Campos vacios
-        setLoading(true);
-      } else {
-        try {
-          // PUT request using axios
-          const apiRes = await axios.put('https://beauty365api.herokuapp.com/api/v1/unidades/'+props.id, qs.stringify(formValue), {
-            headers: {
-              "Access-Control-Allow-Origin": "*",
-              "Content-Type": "application/x-www-form-urlencoded"
-            }
-          }).then(function(res) {
-            console.log(res);
-            // VERIFICAR: ¿Error en la respuesta del servidor?
-            if (res!==error) {
-              if (res.status === 200) {
-                // SUCCESS: La unidad fue editada
-                setShowError(false);
-                console.log(res.data, "SUCCESS");
-                verEditUnd(res.data._id);
-              } else {
-                // ERROR: HTTP Status != 200
-                setShowError(true);
-                setLoading(true);
-              }
+    setShowErrorEmptyForm(false);
+    setShowError(false);
+    // Verificar errores en el formulario
+    if (!formRef.current.check()) {
+      setShowErrorEmptyForm(true);
+      console.error('Form Error');
+      return;
+    } else {
+      setLoading(false);
+      try {
+        // PUT request using axios
+        const apiRes = await axios.put('https://beauty365api.herokuapp.com/api/v1/unidades/'+props.id, qs.stringify(formValue), {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/x-www-form-urlencoded"
+          }
+        }).then(function(res) {
+          console.log(res);
+          // VERIFICAR: ¿Error en la respuesta del servidor?
+          if (res!==error) {
+            if (res.status === 200) {
+              // SUCCESS: La unidad fue editada
+              setShowError(false);
+              verEditUnd(res.data._id);
             } else {
-              // ERROR: Servidor
+              // ERROR: HTTP Status != 200
+              console.log(res);
               setShowError(true);
               setLoading(true);
             }
-          });
-        } catch(error) {
-          // ERROR: Servidor
-          setShowError(true);
-          console.log(error)
-          setLoading(true);
-        }
+          } else {
+            // ERROR: Servidor
+            console.log(res);
+            setShowError(true);
+            setLoading(true);
+          }
+        });
+      } catch(error) {
+        // ERROR: Servidor
+        console.log(error);
+        setShowError(true);
+        setLoading(true);
       }
-    }
-    else {
-      console.log(formError, 'Form Error');
-      setShowErrorEmptyForm(true); // ERROR. Campos vacios o datos invalidos
-      setLoading(true);
+      return;
     }
   };
  
@@ -140,6 +130,7 @@ const FormUnd = (props) => {
     return (
       <>
         <Form
+          ref={formRef}
           onSubmit={handleSubmit}
           onChange={setFormValue}
           onCheck={setFormError}

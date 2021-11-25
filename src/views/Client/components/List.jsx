@@ -23,12 +23,7 @@ function List() {
   const [page, setPage] = React.useState(1);
 
   const [error, setError] = useState(null);
-
-  // let match = useNavigate();
-  // function handleClick(event) {
-  //   console.log(event);
-  //     match(`/admin/clientes/editar/${event}`, { state: response.data._id });
-  // }
+  
   // Celda para los botones de accion
   let match = useNavigate();
   const ActionCell = ({ rowData, dataKey, ...props }) => {
@@ -58,15 +53,13 @@ function List() {
       if (response!==error) {
         setClientsArray(response.data);
         setLoading(true);
-        // Imprimir estado clientsArray despues de asignar valores
-        console.log(clientsArray);
       } else {
+        console.log(response);
         setError(response);
         setLoading(true);
       }
     })
-  }, []);
-    
+  }, [error]);
 
   const handleChangeLimit = dataKey => {
     setPage(1);
@@ -86,32 +79,27 @@ function List() {
   } else {
     return (
       <>
-      <Table bordered striped height={420} data={data} loading={!loading}>
-        {/* <Column flexGrow={1}> */}
+      <Table bordered striped={1} height={420} data={data} loading={!loading}>
         <Column width={190}>
           <HeaderCell>DNI</HeaderCell>
           <Cell dataKey="dni" />
         </Column>
 
-        {/* <Column flexGrow={1}> */}
         <Column width={240}>
           <HeaderCell>Nombres</HeaderCell>
           <Cell dataKey="nombres" />
         </Column>
 
-        {/* <Column flexGrow={1}> */}
         <Column width={120}>
           <HeaderCell>Teléfono</HeaderCell>
           <Cell dataKey="telefono" />
         </Column>
 
-        {/* <Column flexGrow={1}> */}
         <Column width={200}>
           <HeaderCell>Email</HeaderCell>
           <Cell dataKey="email" />
         </Column>
 
-        {/* <Column flexGrow={1}> */}
         <Column width={107}>
           <HeaderCell>Action</HeaderCell>
           <ActionCell dataKey="_id" />

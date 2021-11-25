@@ -17,56 +17,68 @@ import VisibleIcon from '@rsuite/icons/Visible';
 const { HeaderCell, Cell, Column } = Table;
 
 function List() {
-  const [undArray, setUndArray] = React.useState([]);
+  const [servicesArray, setServicesArray] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [limit, setLimit] = React.useState(10);
   const [page, setPage] = React.useState(1);
 
   const [error, setError] = useState(null);
+
   // Celda para los botones de accion
   let match = useNavigate();
   const ActionCell = ({ rowData, dataKey, ...props }) => {
-    function editUnd() {
-      match(`/admin/inventario/unidades/editar/${rowData[dataKey]}`);
+    function editService() {
+      match(`/admin/servicios/editar/${rowData[dataKey]}`);
     }
-    function showUnd() {
-      match(`/admin/inventario/unidades/${rowData[dataKey]}`);
+    function showService() {
+      match(`/admin/servicios/${rowData[dataKey]}`);
     }
     return (
       <Cell {...props} className="link-group">
-        <IconButton appearance="subtle" onClick={editUnd} icon={<Edit2 />} />
+        <IconButton appearance="subtle" onClick={editService} icon={<Edit2 />} />
         <Divider vertical />
-        <IconButton appearance="subtle" onClick={showUnd} icon={<VisibleIcon />} />
+        <IconButton appearance="subtle" onClick={showService} icon={<VisibleIcon />} />
       </Cell>
     );
   };
 
   useEffect(() => {
     // GET request using axios
-    axios.get('https://beauty365api.herokuapp.com/api/v1/unidades', {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/x-www-form-urlencoded"
-      }
+    axios.get('https://beauty365api.herokuapp.com/api/v1/servicios', {
+      headers: { "Access-Control-Allow-Origin": "*", "Content-Type": "application/x-www-form-urlencoded" }
     }).then((response) => {
+      var items;
       if (response!==error) {
-        setUndArray(response.data);
+        items = response.data;
+        return Promise.all(items.map((item) => {
+          return axios.get('https://beauty365api.herokuapp.com/api/v1/categorias/'+item.categoria, {
+            headers: { "Access-Control-Allow-Origin": "*", "Content-Type": "application/x-www-form-urlencoded" }
+          }).then((res) => {
+            item.categoria = res.data.nombre;
+            return item;
+          });
+        }));
+      } else {
+        return response;
+      }
+    }).then((items) => {
+      console.log(items);
+      if (items!==error) {
+        setServicesArray(items);
         setLoading(true);
       } else {
-        console.log(response);
-        setError(response);
+        setError(items);
         setLoading(true);
       }
-    })
+    });
   }, [error]);
-    
-
+  
   const handleChangeLimit = dataKey => {
     setPage(1);
     setLimit(dataKey);
   };
-
-  const data = undArray.filter((v, i) => {
+  
+  const data = servicesArray.filter((v, i) => {
     const start = limit * (page - 1);
     const end = start + limit;
     return i >= start && i < end;
@@ -80,14 +92,34 @@ function List() {
     return (
       <>
       <Table bordered striped={1} height={420} data={data} loading={!loading}>
-        <Column width={200}>
-          <HeaderCell>Code</HeaderCell>
+        <Column width={100}>
+          <HeaderCell>Código</HeaderCell>
           <Cell dataKey="code" />
         </Column>
 
-        <Column width={200}>
+        <Column width={240}>
           <HeaderCell>Nombre</HeaderCell>
           <Cell dataKey="nombre" />
+        </Column>
+
+        <Column width={220}>
+          <HeaderCell>Descripción</HeaderCell>
+          <Cell dataKey="descripcion" />
+        </Column>
+
+        <Column width={200}>
+          <HeaderCell>Detalle</HeaderCell>
+          <Cell dataKey="detalle" />
+        </Column>
+
+        <Column width={90}>
+          <HeaderCell>Precio</HeaderCell>
+          <Cell dataKey="precio" />
+        </Column>
+
+        <Column width={300}>
+          <HeaderCell>Categoría</HeaderCell>
+          <Cell dataKey="categoria" />
         </Column>
 
         <Column width={107}>
@@ -106,7 +138,7 @@ function List() {
           maxButtons={5}
           size="xs"
           layout={['total', '-', 'limit', '|', 'pager', 'skip']}
-          total={undArray.length}
+          total={servicesArray.length}
           limitOptions={[10, 20]}
           limit={limit}
           activePage={page}
