@@ -54,7 +54,7 @@ function Invoice(props) {
                   <div className="col col-lg-4 text-center"> 
                     <small className="font-weight-bold d-block"># factura</small>
                     <small className="font-weight-bold d-block">
-                      {formValue.fecha !== null && new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit',}).format(formValue.fecha)}</small>
+                      {formValue.fecha}</small>
                     <small className="font-weight-bold d-block">cai</small>
                     <small>123456789123456789123456789123456789</small>
                   </div>
