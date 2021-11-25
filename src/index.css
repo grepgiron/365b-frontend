@@ -9167,7 +9167,7 @@ textarea.rs-picker-search-input{
   color:var(--rs-navbar-default-hover-text)
 }
 .rs-navbar-default .rs-dropdown .rs-dropdown-menu-active~.rs-dropdown-toggle,.rs-navbar-default .rs-navbar-item.rs-navbar-item-active{
-  color:#1675e0;
+  color:#FFFFFF;
   color:var(--rs-navbar-default-selected-text)
 }
 .rs-navbar-inverse{
