@@ -14,8 +14,8 @@ import '../App.css'
 import 'rsuite/dist/rsuite.min.css'; // or css
 
 import PosForm from '../views/Pos/index';
-import List from '../views/invoice/pages/List';
-import Invoice from '../views/invoice/index'
+import InvoiceList from '../views/invoice/pages/List';
+import InvoiceIndex from '../views/invoice/index'
 
 
 const Admin = () => {
@@ -47,8 +47,8 @@ const Admin = () => {
       <Content style={{ marginTop: '70px'}}>
         <Routes>
           <Route path='/' element={<PosForm />}/>
-          <Route path='ventas/*' element={<Invoice />}/>
-          <Route path='reportes/*' element={<List />}/>
+          <Route path='ventas/*' element={<InvoiceIndex />}/>
+          <Route path='reportes/*' element={<InvoiceList />}/>
         </Routes>  
       </Content>
     </Container>

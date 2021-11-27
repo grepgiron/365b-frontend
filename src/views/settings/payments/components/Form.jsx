@@ -1,103 +1,173 @@
-import React from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import qs from 'qs';
-import { useNavigate, useLocation } from 'react-router-dom'
+import axios from 'axios';
 
 import {
   Form,
   Button,
   ButtonToolbar,
   Schema,
-  Checkbox
+  Message,
+  Divider,
+  Loader,
+  Checkbox,
+  CheckboxGroup
 } from 'rsuite';
-
 
 const { StringType, NumberType } = Schema.Types;
 
+// Modelo de esquema de datos
 const model = Schema.Model({
-  nombre: StringType().isRequired('This field is required.'),
-  credito: StringType().isRequired('This field is required.')
+  nombre: StringType("El nombre debe ser de tipo texto.").isRequired('Es obligatorio escribir el nombre.'),
+  dias_pago: NumberType("El dias pago debe ser un número.")
 });
 
-const TextField = React.forwardRef((props, ref) => {
-  const { name, label, accepter, ...rest } = props;
-  return (
-    <Form.Group controlId={`${name}-4`} ref={ref}>
-      <Form.ControlLabel>{label} </Form.ControlLabel>
-      <Form.Control name={name} accepter={accepter} {...rest} />
-    </Form.Group>
-  );
-});
+// Plantilla para campos del formulario
+const TextField = ({ name, label, value, accepter, ...rest }) => (
+  <Form.Group controlId={`${name}-4`}>
+    <Form.ControlLabel>{label}</Form.ControlLabel>
+    <Form.Control name={name} accepter={accepter} {...rest} />
+  </Form.Group>
+);
 
-const FormNew = (props) => {
-  const [formError, setFormError] = React.useState(false);
-  const [checked, setChecked] = React.useState(false);
+const FormClient = () => {
+  const formRef = React.useRef();
+  const [ isChecked, setIsChecked ] = useState(false);
+  const [ isCheckedCredit, setIsCheckedCredit ] = useState(false);
+  const [formError, setFormError] = React.useState({});
   const [formValue, setFormValue] = React.useState({
-    dias_pago: '',
+    active: '',
     nombre: '',
-    credito: false,
-    active: false
+    dias_pago: '',
+    credito: ''
   });
+  const [error, setError] = useState(null);
+  const [showError, setShowError] = useState(false);
+  const [showErrorEmptyForm, setShowErrorEmptyForm] = useState(false);
+  const [loading, setLoading] = React.useState(false);
+  
+  let match = useNavigate();
+  function volverListaMetodoPago() {
+    match("/admin/metodo_pago");
+  }
+  function verNuevoMetodoPago(id) {
+    match("/admin/metodo_pago/"+id);
+  }
+  
+  // Mensaje de error
+  const ErrMessage = (props) => {
+    return (
+      <div>
+        <Divider />
+        <Message showIcon type="error">{props.mensaje}</Message>
+      </div>
+    );
+  };
+ 
+  useEffect(() => {
+    setLoading(true);
+  }, []);
 
-  let history = useNavigate();
-  //console.log(history);
   const handleSubmit = async() => {
-    try {
-      console.log(formValue);
-      //Cambiar aqui ruta de direccion del API
-      const response = await axios.post(
-        'https://beauty365api.herokuapp.com/api/v1/metodos_pago/create',
+    setShowErrorEmptyForm(false);
+    setShowError(false);
+    // Verificar errores en el formulario
+    if (!formRef.current.check()) {
+      setShowErrorEmptyForm(true);
+      console.error('Form Error');
+      return;
+    } else {
+      setLoading(false);
+      try {
+        const apiRes = await axios.post('https://beauty365api.herokuapp.com/api/v1/metodos_pago/create', 
         qs.stringify(formValue), {
           headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/x-www-form-urlencoded'
           }
-        }).then(function(response){
-          console.log(response.status);
-          //Cambiar aqui ruta de redireccion
-          history(`/admin/sar/categorias/show/${response.data._id}`, { state: response.data._id })  
-        })
+        }).then(function(res) {
+          // VERIFICAR: ¿Error en la respuesta del servidor?
+          if (res!==error) {
+            if (res.status === 200) {
+              // SUCCESS: El cliente fue editado
+              setShowError(false);
+              verNuevoMetodoPago(res.data._id);
+            } else {
+              // ERROR: HTTP Status != 200
+              console.log(res);
+              setShowError(true);
+              setLoading(true);
+            }
+          } else {
+            // ERROR: Servidor
+            console.log(res);
+            setShowError(true);
+            setLoading(true);
+          }
+        });
       } catch(error) {
-        console.log(error)
+        // ERROR: Servidor
+        console.log(error);
+        setShowError(true);
+        setLoading(true);
+      }
     }
-      console.log(formValue, 'Form Value');
-  }
+  };
 
-  function handleChange(e){
-    console.log(e)
+  const handleChangeActive = () => {
+    setIsChecked(!isChecked);
+    setFormValue({...formValue, active: !isChecked ? 'true' : 'false'});
+  };
+  const handleChangeCredit = () => {
+    setIsCheckedCredit(!isCheckedCredit);
+    setFormValue({...formValue, credito: !isCheckedCredit ? 'true' : 'false'});
+  };
+ 
+  if (error) {
+    return <Message showIcon type="error">Error. {error.message}</Message>;
+  } else if (!loading) {
+    return <Loader content="loading..." />;
+  } else {
+    return (
+      <>
+        <Form
+          ref={formRef}
+          onSubmit={handleSubmit}
+          onChange={setFormValue}
+          onCheck={setFormError}
+          formValue={formValue}
+          model={model}
+          fluid
+          >
+          {console.log(model)}
+          <TextField name="nombre" label="Nombre" />
+          <TextField 
+            name="credito" 
+            label="Credito" 
+            accepter={Checkbox} 
+            checked={isCheckedCredit} 
+            onChange={handleChangeCredit}
+            />
+          <TextField name="dias_pago" label="Dias de Pago" type="number" />
+          <TextField 
+            name="active" 
+            label="Activo" 
+            accepter={Checkbox} 
+            checked={isChecked} 
+            onChange={handleChangeActive}
+            />
+          <Form.Group>
+            <ButtonToolbar>
+              <Button appearance="primary" onClick={handleSubmit}>Agregar</Button>
+              <Button appearance="default" onClick={volverListaMetodoPago}>Cancelar</Button>
+            </ButtonToolbar>
+          </Form.Group>
+        </Form>
+        { showErrorEmptyForm ? <ErrMessage mensaje="Error. Hay campos vacíos o datos inválidos." /> : (showError ? <ErrMessage mensaje="Error. No es posible editar el cliente en estos momentos" />: null) }
+      </>
+    );
   }
-
-  return (
-    <Form 
-      onSubmit={handleSubmit}
-      onChange={setFormValue}
-      formValue={formValue}
-    >
-      {console.log(formValue)}
-      {console.log(checked)}
-      <Form.Group controlId="name-6">
-        <Form.ControlLabel>Nombre</Form.ControlLabel>
-        <Form.Control name="nombre" />
-      </Form.Group>
-      <Form.Group controlId="email-6">
-        <Checkbox name="credito" onChange={setFormError}>Credito</Checkbox>
-      </Form.Group>
-      <Form.Group controlId="name-6">
-        <Form.ControlLabel>Dias para Pago</Form.ControlLabel>
-        <Form.Control name="dias_pago" />
-      </Form.Group>
-      <Form.Group controlId="email-6">
-        <Form.Control name='active' 
-          accepter={Checkbox} 
-          checked={checked}
-          onChange={handleChange} />
-      </Form.Group>
-      <ButtonToolbar>
-        <Button appearance="primary" type="submit">
-          Guardar
-        </Button>
-      </ButtonToolbar>
-    </Form>
-  );
 };
 
-export default FormNew;
+export default FormClient;
