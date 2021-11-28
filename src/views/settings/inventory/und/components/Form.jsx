@@ -81,29 +81,29 @@ const FormClient = () => {
             'Content-Type': 'application/x-www-form-urlencoded'
           }
         }).then(function(res) {
-          console.log(res);
           // VERIFICAR: ¿Error en la respuesta del servidor?
           if (res!==error) {
             if (res.status === 200) {
               // SUCCESS: El cliente fue editado
               setShowError(false);
-              console.log(res.data, "SUCCESS");
               verNuevaUnd(res.data._id);
             } else {
               // ERROR: HTTP Status != 200
+              console.log(res);
               setShowError(true);
               setLoading(true);
             }
           } else {
             // ERROR: Servidor
+            console.log(res);
             setShowError(true);
             setLoading(true);
           }
         });
       } catch(error) {
         // ERROR: Servidor
-        setShowError(true);
         console.log(error)
+        setShowError(true);
         setLoading(true);
       }
     }

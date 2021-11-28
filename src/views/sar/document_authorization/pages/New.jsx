@@ -1,20 +1,24 @@
 import React from 'react';
-import axios from 'axios';
 
 import {
+  Col,
   FlexboxGrid
 } from 'rsuite';
 
-import FormDocument from '../components/Form';
+import Form from '../components/Form';
 
 const New = () => {
  
   return (
-    <FlexboxGrid>
-      <FlexboxGrid.Item colspan={12}>
-        <FormDocument />
-      </FlexboxGrid.Item>
-    </FlexboxGrid>
+    <>
+      <h5>Agregar nuevo documento de autorización</h5>
+      <br />
+      <FlexboxGrid>
+        <FlexboxGrid.Item as={Col} colspan={24} md={12} className="rs-code-view">
+          <Form />
+        </FlexboxGrid.Item>
+      </FlexboxGrid>
+    </>
   );
 };
 

@@ -23,7 +23,7 @@ function List() {
   return (
     <>
       <Row>
-        <TituloView nombre="Clientes" />
+        <TituloView colmd={9} collg={4} nombre="Clientes" />
         <Col xs={24} md={4} lg={3} mdPush={11} lgPush={17}>
           <ButtonToolbar className="inner-left">
             <IconButton 

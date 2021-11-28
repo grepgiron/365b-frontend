@@ -1,48 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom'
-import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 import qs from 'qs';
+import axios from 'axios';
 
 import {
   Form,
   Button,
   ButtonToolbar,
   Schema,
-  Input, 
-  InputPicker,
-  Radio,
-  Toggle
+  Message,
+  Divider,
+  Loader,
+  SelectPicker
 } from 'rsuite';
-import FormControl from 'rsuite/esm/FormControl';
 
-const Textarea = React.forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
+const { StringType, NumberType, DateType } = Schema.Types;
 
-const { StringType, NumberType } = Schema.Types;
-
+// Modelo de esquema de datos
 const model = Schema.Model({
-  nombre: StringType().isRequired('This field is required.'),
-  prefijo: StringType().isRequired('This field is required.')
+  establecimiento: StringType("El establecimiento debe ser de tipo texto.").isRequired("Es obligatorio seleccionar un establecimiento."),
+  pos: StringType("El punto de venta debe ser de tipo texto.").isRequired("Es obligatorio seleccionar un punto de venta."),
+  documento_fiscal: StringType("El documento fiscal debe ser de tipo texto.").isRequired("Es obligatorio seleccionar un tipo de documento."),
+  // cai: StringType("El CAI debe ser de tipo texto.").pattern(/^(?:\d+[A-Z]|[A-Z]+\d)$/, "El CAI debe ").maxLength(37, "El límite máximo de caracteres es 37").isRequired(),
+  cai: StringType("El CAI debe ser de tipo texto.").maxLength(37, "El límite máximo de caracteres es 37").isRequired("Es obligatorio escribir el CAI."),
+  rango_inicial: NumberType("El rango inicial debe ser un número.").min(0, "El rango inicial debe ser un número mayor a 0.").max(99999999, "El rango inicial debe ser un número menor a 99999999.").isRequired("Es obligatorio ingresar el rango inicial."),
+  rango_final: NumberType("El rango final debe ser un número.").min(1, "El rango final debe ser un número mayor a 1.").max(99999999, "El rango final debe ser un número menor a 99999999.").isRequired("Es obligatorio ingresar el rango final."),
+  fecha_limite: DateType("La fecha límite debe ser de tipo fecha.").isRequired("Es obligatorio seleccionar una fecha límite.")
 });
+// Plantilla para campos del formulario
+const TextField = ({ name, label, accepter, ...rest }) => (
+  <Form.Group controlId={`${name}-19`}>
+    <Form.ControlLabel>{label}</Form.ControlLabel>
+    <Form.Control name={name} accepter={accepter} {...rest} />
+  </Form.Group>
+);
 
-const TextField = React.forwardRef((props, ref) => {
-  const { name, label, accepter, ...rest } = props;
-  return (
-    <Form.Group controlId={`${name}-4`} ref={ref}>
-      <Form.ControlLabel>{label} </Form.ControlLabel>
-      <Form.Control name={name} accepter={accepter} {...rest} />
-    </Form.Group>
-  );
-});
-
-const FormNew = () => {
+const FormDocAut = () => {
   const formRef = React.useRef();
   const [formError, setFormError] = React.useState({});
-  const [establecimientos, setEstablecimiento] = React.useState([]);
-  const [punto, setPunto] = React.useState([]);
-  const [documentos, setDocumentos] = React.useState([]);
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
   const [formValue, setFormValue] = React.useState({
+    _id: '',
     establecimiento: '',
     documento_fiscal: '',
     pos: '',
@@ -51,131 +48,153 @@ const FormNew = () => {
     rango_inicial: '',
     rango_final: ''
   });
+  const [establecimientos, setEstablecimientos] = React.useState([]);
+  const [puntos, setPuntos] = React.useState([]);
+  const [documentos, setDocumentos] = React.useState([]);
+  const [error, setError] = useState(null);
+  const [showError, setShowError] = useState(false);
+  const [showErrorEmptyForm, setShowErrorEmptyForm] = useState(false);
+  const [loading, setLoading] = React.useState(false);
   
+  let match = useNavigate();
+  function volverListaDocsAut() {
+    match("/admin/sar/documentos_autorizacion/");
+  }
+  function verNuevoDocAut(id) {
+    match("/admin/sar/documentos_autorizacion/show/"+id);
+  }
+  
+  // Mensaje de error
+  const ErrMessage = (props) => {
+    return (
+      <div>
+        <Divider />
+        <Message showIcon type="error">{props.mensaje}</Message>
+      </div>
+    );
+  };
+ 
   useEffect(() => {
-    fetch("https://beauty365api.herokuapp.com/api/v1/establecimientos")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          setEstablecimiento(result);
-        },
-        // Nota: es importante manejar errores aquí y no en 
-        // un bloque catch() para que no interceptemos errores
-        // de errores reales en los componentes.
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      )
-    fetch("https://beauty365api.herokuapp.com/api/v1/puntos_de_venta")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          setPunto(result);
-        },
-        // Nota: es importante manejar errores aquí y no en 
-        // un bloque catch() para que no interceptemos errores
-        // de errores reales en los componentes.
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      )
-    fetch("https://beauty365api.herokuapp.com/api/v1/documentos_fiscal")
-    .then(res => res.json())
-    .then(
-      (result) => {
-        setIsLoaded(true);
-        setDocumentos(result);
-      },
-      // Nota: es importante manejar errores aquí y no en 
-      // un bloque catch() para que no interceptemos errores
-      // de errores reales en los componentes.
-      (error) => {
-        setIsLoaded(true);
-        setError(error);
+    // GET establecimientos using axios
+    axios.get('https://beauty365api.herokuapp.com/api/v1/establecimientos')
+    .then((response) => {
+      if (response!==error) {
+        setEstablecimientos(response.data.map(a => { return { label: a.nombre, value: a._id} }));
+        // GET puntos de venta using axios
+        axios.get('https://beauty365api.herokuapp.com/api/v1/puntos_de_venta')
+        .then((resp) => {
+          if (resp!==error) {
+            setPuntos(resp.data.map(a => { return { label: a.nombre, value: a._id} }));
+            // GET tipos de documento using axios
+            axios.get('https://beauty365api.herokuapp.com/api/v1/documentos_fiscal')
+            .then((res) => {
+              if (res!==error) {
+                setDocumentos(res.data.map(a => { return { label: a.nombre, value: a._id} }));
+                setLoading(true);
+              } else {
+                setError(res);
+                setLoading(true);
+              }
+            });
+          } else {
+            setError(resp);
+            setLoading(true);
+          }
+        });
+      } else {
+        setError(response);
+        setLoading(true);
       }
-    )
-  }, [])
+    });
+  }, [error]);
 
-
-  let history = useNavigate();
   const handleSubmit = async() => {
-    try {
-      console.log(formValue);
-      //Cambiar aqui ruta de direccion del API
-      const response = await axios.post(
-        'https://beauty365api.herokuapp.com/api/v1/documentos_autorizados/create',
+    setShowErrorEmptyForm(false);
+    setShowError(false);
+    // Verificar errores en el formulario
+    if (!formRef.current.check()) {
+      setShowErrorEmptyForm(true);
+      console.error('Form Error');
+      return;
+    } else {
+      setLoading(false);
+      try {
+        const apiRes = await axios.post('https://beauty365api.herokuapp.com/api/v1/documentos_autorizados/create', 
         qs.stringify(formValue), {
           headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Content-Type": "application/x-www-form-urlencoded"
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/x-www-form-urlencoded'
           }
-        }).then(function(response){
-          console.log(response.status);
-          //Cambiar aqui ruta de redireccion
-          history(`/admin/sar/establecimiento/show/${response.data._id}`, { state: response.data._id })  
-        })
+        }).then(function(res) {
+          // VERIFICAR: ¿Error en la respuesta del servidor?
+          if (res!==error) {
+            if (res.status === 200) {
+              // SUCCESS: El establecimiento fue editado
+              setShowError(false);
+              verNuevoDocAut(res.data._id);
+            } else {
+              // ERROR: HTTP Status != 200
+              console.log(res);
+              setShowError(true);
+              setLoading(true);
+            }
+          } else {
+            // ERROR: Servidor
+              console.log(res);
+            setShowError(true);
+            setLoading(true);
+          }
+        });
       } catch(error) {
+        // ERROR: Servidor
         console.log(error)
+        setShowError(true);
+        setLoading(true);
+      }
     }
-      console.log(formValue, 'Form Value');
-  }
+  };
  
-
-  return (
-    <Form 
-      layout="horizontal"
-      onSubmit={handleSubmit}
-      onChange={setFormValue}
-      formValue={formValue}
-    >
-      <Form.Group >
-        <Form.ControlLabel>Establecimiento</Form.ControlLabel>
-        <Form.Control name="establecimiento" valueKey="_id"
-            labelKey="nombre" accepter={InputPicker} data={establecimientos}>
-        </Form.Control>
-      </Form.Group>
-      <Form.Group>
-        <Form.ControlLabel>Punto de Venta</Form.ControlLabel>
-        <Form.Control name="pos" valueKey="_id"
-            labelKey="nombre" accepter={InputPicker} data={punto}>
-        </Form.Control>
-      </Form.Group>
-      <Form.Group >
-        <Form.ControlLabel>Documento Fiscal</Form.ControlLabel>
-        <Form.Control name="documento_fiscal" valueKey="_id"
-          labelKey="nombre" accepter={InputPicker} data={documentos}>
-        </Form.Control>
-      </Form.Group>
-      <Form.Group>
-        <Form.ControlLabel>CAI</Form.ControlLabel>
-        <Form.Control name="cai" maxLength="37" style={{ width: 224 }}/>
-        <Form.HelpText tooltip>Respetar los guiones del formato</Form.HelpText>
-      </Form.Group>
-      <Form.Group>
-        <Form.ControlLabel>Rango Inicial</Form.ControlLabel>
-        <Form.Control name="rango_inicial" maxLength="8" style={{ width: 90 }}/>
-      </Form.Group>
-      <Form.Group>
-        <Form.ControlLabel>Rango Final</Form.ControlLabel>
-        <Form.Control name="rango_final" maxLength="8" style={{ width: 90 }}/>
-      </Form.Group>
-      <Form.Group>
-        <Form.ControlLabel>Fecha Limite de Emision</Form.ControlLabel>
-        <Form.Control name="fecha_limite" style={{ width: 224 }} type="date"/>
-      </Form.Group>
-      <Form.Group>
-        <ButtonToolbar>
-          <Button appearance="primary" type="submit">
-            Registrar
-          </Button>
-        </ButtonToolbar>
-      </Form.Group>
-    </Form>
-  );
+  if (error) {
+    return <Message showIcon type="error">Error. {error.message}</Message>;
+  } else if (!loading) {
+    return <Loader content="loading..." />;
+  } else {
+    return (
+      <>
+        <Form
+          ref={formRef}
+          onSubmit={handleSubmit}
+          onChange={setFormValue}
+          onCheck={setFormError}
+          formValue={formValue}
+          model={model}
+          fluid
+        >
+          <TextField name="establecimiento" label="Establecimiento" accepter={SelectPicker} style={{width: "100%"}} data={establecimientos} placeholder="Seleccione un establecimiento" />
+          <TextField name="pos" label="Punto de venta" accepter={SelectPicker} style={{width: "100%"}} data={puntos} placeholder="Seleccione un punto de venta" />
+          <TextField name="documento_fiscal" label="Documento fiscal" accepter={SelectPicker} style={{width: "100%"}} data={documentos} placeholder="Seleccione un documento fiscal" />
+          <Form.Group>
+            <Form.ControlLabel>CAI</Form.ControlLabel>
+            <Form.Control name="cai" maxLength="37" placeholder="553CDC-E2E034-C8488A-99831F-0B3E3C-69" />
+            <Form.HelpText tooltip>Respetar los guiones del formato</Form.HelpText>
+          </Form.Group>
+          <TextField name="rango_inicial" label="Rango inicial" maxLength="8" placeholder="1000" />
+          <TextField name="rango_final" label="Rango final" maxLength="8" placeholder="5000" />
+          <Form.Group>
+            <Form.ControlLabel>Fecha límite de emisión</Form.ControlLabel>
+            <Form.Control type="date" name="fecha_limite" placeholder="Seleccione una fecha" />
+          </Form.Group>
+          <Form.Group>
+            <ButtonToolbar>
+              <Button appearance="primary" onClick={handleSubmit}>Agregar</Button>
+              <Button appearance="default" onClick={volverListaDocsAut}>Cancelar</Button>
+            </ButtonToolbar>
+          </Form.Group>
+        </Form>
+        { showErrorEmptyForm ? <ErrMessage mensaje="Error. Hay campos vacíos o datos inválidos." /> : (showError ? <ErrMessage mensaje="Error. No es posible editar el establecimiento en estos momentos" />: null) }
+      </>
+    );
+  }
 };
 
-export default FormNew;
+export default FormDocAut;

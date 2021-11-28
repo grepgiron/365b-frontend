@@ -1,99 +1,148 @@
-import React from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import qs from 'qs';
-import { useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 import {
   Form,
-  Grid,
-  Panel,
+  Button,
   ButtonToolbar,
   Schema,
-  Input,
-  Button 
+  Message,
+  Divider,
+  Loader
 } from 'rsuite';
-
-const Textarea = React.forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
 
 const { StringType, NumberType } = Schema.Types;
 
+// Modelo de esquema de datos
 const model = Schema.Model({
-  nombre: StringType().isRequired('This field is required.'),
-  prefijo: StringType().isRequired('This field is required.')
+  nombre: StringType("El nombre debe ser de tipo texto.").isRequired('Es obligatorio escribir el nombre.'),
+  prefijo: NumberType("El prefijo debe ser un número.").isRequired('Es obligatorio escribir el prefijo.'),
 });
 
-const TextField = React.forwardRef((props, ref) => {
-  const { name, label, accepter, ...rest } = props;
-  return (
-    <Form.Group controlId={`${name}-4`} ref={ref}>
-      <Form.ControlLabel>{label} </Form.ControlLabel>
-      <Form.Control name={name} accepter={accepter} {...rest} />
-    </Form.Group>
-  );
-});
+// Plantilla para campos del formulario
+const TextField = ({ name, label, value, accepter, ...rest }) => (
+  <Form.Group controlId={`${name}-16`}>
+    <Form.ControlLabel>{label}</Form.ControlLabel>
+    <Form.Control name={name} accepter={accepter} {...rest} />
+  </Form.Group>
+);
 
-const FormNew = () => {
+const FormClient = () => {
   const formRef = React.useRef();
   const [formError, setFormError] = React.useState({});
   const [formValue, setFormValue] = React.useState({
     nombre: '',
     prefijo: ''
   });
+  const [error, setError] = useState(null);
+  const [showError, setShowError] = useState(false);
+  const [showErrorEmptyForm, setShowErrorEmptyForm] = useState(false);
+  const [loading, setLoading] = React.useState(false);
   
+  let match = useNavigate();
+  function volverListaEstablecimientos() {
+    match("/admin/sar/punto_venta/");
+  }
+  function verNuevoEstablecimiento(id) {
+    match("/admin/sar/punto_venta/show/"+id);
+  }
+  
+  // Mensaje de error
+  const ErrMessage = (props) => {
+    return (
+      <div>
+        <Divider />
+        <Message showIcon type="error">{props.mensaje}</Message>
+      </div>
+    );
+  };
+ 
+  useEffect(() => {
+    setLoading(true);
+  }, []);
 
-  let history = useNavigate();
   const handleSubmit = async() => {
-    try {
-      console.log(formValue);
-      //Cambiar aqui ruta de direccion del API
-      const response = await axios.post(
-        'https://beauty365api.herokuapp.com/api/v1/puntos_de_venta/create',
+    setShowErrorEmptyForm(false);
+    setShowError(false);
+    // Verificar errores en el formulario
+    if (!formRef.current.check()) {
+      setShowErrorEmptyForm(true);
+      console.error('Form Error');
+      return;
+    } else {
+      setLoading(false);
+      try {
+        const apiRes = await axios.post('https://beauty365api.herokuapp.com/api/v1/puntos_de_venta/create', 
         qs.stringify(formValue), {
           headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Content-Type": "application/x-www-form-urlencoded"
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/x-www-form-urlencoded'
           }
-        }).then(function(response){
-          console.log(response.status);
-          //Cambiar aqui ruta de redireccion
-          history(`/admin/sar/punto_venta/show/${response.data._id}`, { state: response.data._id })  
-        })
+        }).then(function(res) {
+          // VERIFICAR: ¿Error en la respuesta del servidor?
+          if (res!==error) {
+            if (res.status === 200) {
+              // SUCCESS: El establecimiento fue editado
+              setShowError(false);
+              verNuevoEstablecimiento(res.data._id);
+            } else {
+              // ERROR: HTTP Status != 200
+              console.log(res);
+              setShowError(true);
+              setLoading(true);
+            }
+          } else {
+            // ERROR: Servidor
+              console.log(res);
+            setShowError(true);
+            setLoading(true);
+          }
+        });
       } catch(error) {
+        // ERROR: Servidor
         console.log(error)
+        setShowError(true);
+        setLoading(true);
+      }
     }
-      console.log(formValue, 'Form Value');
-  }
+  };
  
-
-  return (
-    <Grid fluid>
-      <Panel bordered>
-        <Form 
+  if (error) {
+    return <Message showIcon type="error">Error. {error.message}</Message>;
+  } else if (!loading) {
+    return <Loader content="loading..." />;
+  } else {
+    return (
+      <>
+        <Form
+          ref={formRef}
           onSubmit={handleSubmit}
           onChange={setFormValue}
+          onCheck={setFormError}
           formValue={formValue}
-          layout="horizontal"
+          model={model}
+          fluid
         >
-          <Form.Group controlId="name-1">
-            <Form.ControlLabel>Nombre</Form.ControlLabel>
-            <Form.Control name="nombre" />
-          </Form.Group>
-          <Form.Group controlId="prefijo-1">
+          <TextField name="nombre" label="Nombre" />
+          <Form.Group controlId="prefijo-16">
             <Form.ControlLabel>Prefijo</Form.ControlLabel>
             <Form.Control name="prefijo" />
             <Form.HelpText tooltip>000</Form.HelpText>
           </Form.Group>
+
           <Form.Group>
             <ButtonToolbar>
-              <Button appearance="primary" type="submit">
-                Registrar
-              </Button>
+              <Button appearance="primary" onClick={handleSubmit}>Agregar</Button>
+              <Button appearance="default" onClick={volverListaEstablecimientos}>Cancelar</Button>
             </ButtonToolbar>
           </Form.Group>
         </Form>
-      </Panel>
-    </Grid>
-  );
+        { showErrorEmptyForm ? <ErrMessage mensaje="Error. Hay campos vacíos o datos inválidos." /> : (showError ? <ErrMessage mensaje="Error. No es posible editar el establecimiento en estos momentos" />: null) }
+      </>
+    );
+  }
 };
 
-export default FormNew;
+export default FormClient;

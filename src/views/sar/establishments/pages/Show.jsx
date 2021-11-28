@@ -1,18 +1,26 @@
 import React from 'react';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
+
+import {
+  Col,
+  FlexboxGrid
+} from 'rsuite';
 
 import Profile from '../components/Profile'
 
-import {
-  FlexboxGrid,
-  Divider
-} from 'rsuite';
+const Show = () => {
 
-const Show = (props) => {
+  let { id } = useParams();
+ 
   return (
     <>
-    <Profile />
+      <h5>Establecimientos</h5>
+      <br />
+      <FlexboxGrid>
+        <FlexboxGrid.Item as={Col} colspan={24} md={19} lg={15}>
+          <Profile id={id} />
+        </FlexboxGrid.Item>
+      </FlexboxGrid>
     </>
   );
 };

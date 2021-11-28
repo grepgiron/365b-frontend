@@ -77,8 +77,7 @@ const FormClient = () => {
       headers: { "Access-Control-Allow-Origin": "*", "Content-Type": "application/x-www-form-urlencoded" }
     }).then((response) => {
       if (response!==error) {
-        let data = response.data.map(a => { return { label: a.nombre, value: a._id} })
-        setFormCats(data);
+        setFormCats(response.data.map(a => { return { label: a.nombre, value: a._id} }));
         setLoading(true);
       } else {
         setError(response);
@@ -126,8 +125,8 @@ const FormClient = () => {
         });
       } catch(error) {
         // ERROR: Servidor
-        setShowError(true);
         console.log(error)
+        setShowError(true);
         setLoading(true);
       }
     }

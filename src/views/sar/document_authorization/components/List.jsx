@@ -1,150 +1,125 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Table,
-  Pagination,
   IconButton,
-  ButtonToolbar,
+  Pagination,
   Divider,
-  Row,
-  Loader,
-  Col
+  Message,
+  Loader
 } from 'rsuite';
 
+// Iconos
 import Edit2 from '@rsuite/icons/legacy/Edit2';
+import VisibleIcon from '@rsuite/icons/Visible';
 
-import PlusIcon from '@rsuite/icons/Plus';
-
-const { HeaderCell, Cell, Column, ColumnGroup } = Table;
-
-const ActionCell = ({ rowData, dataKey, ...props }) => {
-  function handleAction() {
-    alert(`id:${rowData[dataKey]}`);
-  }
-};
+const { HeaderCell, Cell, Column } = Table;
 
 function List() {
-  /* const [clientsArray, setClientsArray] = useState([]);
+  const [items, setItems] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
+  const [limit, setLimit] = React.useState(10);
+  const [page, setPage] = React.useState(1);
+
   const [error, setError] = useState(null);
-  const [data, setData] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(1);
+  // Celda para los botones de accion
+  let match = useNavigate();
+  const ActionCell = ({ rowData, dataKey, ...props }) => {
+    function editDocAut() {
+      match(`/admin/sar/documentos_autorizacion/editar/${rowData[dataKey]}`);
+    }
+    function showDocAut() {
+      match(`/admin/sar/documentos_autorizacion/show/${rowData[dataKey]}`);
+    }
+    return (
+      <Cell {...props} className="link-group">
+        <IconButton appearance="subtle" onClick={editDocAut} icon={<Edit2 />} />
+        <Divider vertical />
+        <IconButton appearance="subtle" onClick={showDocAut} icon={<VisibleIcon />} />
+      </Cell>
+    );
+  };
 
-  //Obetener data de Api
   useEffect(() => {
-      // GET request using axios with async/await
-      axios.get('https://beauty365api.herokuapp.com/api/v1/puntos_de_venta')
-      .then(res => {
-        setIsLoaded(true);
-        setClientsArray(JSON.stringify(res.data));
-      })
-      .catch(error => {    
-        setIsLoaded(true);
-        setError(error);
-      })
-
-  }, []);
+    // GET request using axios
+    axios.get('https://beauty365api.herokuapp.com/api/v1/documentos_autorizados', {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    }).then((response) => {
+      if (response!==error) {
+        setItems(response.data);
+        setLoading(true);
+      } else {
+        console.log(response);
+        setError(response);
+        setLoading(true);
+      }
+    })
+  }, [error]);
 
   const handleChangeLimit = dataKey => {
     setPage(1);
     setLimit(dataKey);
   };
 
-  if(error) {
-    return <div>Error: {error.message}</div>;  
-  } else if(!isLoaded) {
-    return <div>Loading...</div>;  
-  }else {
-    return (
-        <ul>
-        {clientsArray.map(item => (
-          <li key={item.id}>
-            {item.nombres} {item.price}
-          </li>
-        ))}
-      </ul>
-    );
-  } */
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [items, setItems] = useState([]);
-
-  // Note: the empty deps array [] means
-  // this useEffect will run once
-  // similar to componentDidMount()
-  let match = useNavigate();
-  function handleClick(event) {
-    match(event);
-}
-
-  useEffect(() => {
-    fetch("https://beauty365api.herokuapp.com/api/v1/documentos_autorizados")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          setItems(result);
-        },
-        // Nota: es importante manejar errores aquí y no en 
-        // un bloque catch() para que no interceptemos errores
-        // de errores reales en los componentes.
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      )
-  }, [])
-
+  const data = items.filter((v, i) => {
+    const start = limit * (page - 1);
+    const end = start + limit;
+    return i >= start && i < end;
+  });
+    
   if (error) {
-    return <div>Error: {error.message}</div>;
-  } else if (!isLoaded) {
-    return <><Loader content="loading..." /></>
+    return <Message showIcon type="error">Error. {error.message}</Message>;
+  } else if (!loading) {
+    return <Loader content="loading..." />;
   } else {
     return (
       <>
-      <Table
-        bordered striped
-        height={300}
-        data={items}
-        onRowClick={data => {
-        console.log(data);
-      }}
-      > 
-        <Column width={200}>
-          <HeaderCell>Fecha limite</HeaderCell>
+      <Table bordered striped={1} height={420} data={data} loading={!loading}>
+        <Column width={100}>
+          <HeaderCell>Fecha límite</HeaderCell>
           <Cell dataKey="fecha_limite" />
         </Column>
-        <Column flexGrow={1}>
-          <HeaderCell>cai</HeaderCell>
+        <Column width={350}>
+          <HeaderCell>CAI</HeaderCell>
           <Cell dataKey="cai" />
         </Column>
-        <Column width={200}>
+        <Column width={100}>
           <HeaderCell>Rango Inicial</HeaderCell>
           <Cell dataKey="rango_inicial" />
         </Column>
-        <Column width={200}>
+        <Column width={100}>
           <HeaderCell>Rango Final</HeaderCell>
           <Cell dataKey="rango_final" />
         </Column>
-        <Column width={200}>
+        <Column width={107}>
           <HeaderCell>Action</HeaderCell>
-          <Cell className="link-group">
-            {rowData => {
-              function handleAction() {
-                match(`/admin/sar/documentos_autorizacion/show/${rowData._id}`, { state: rowData._id });
-              }
-              return (
-                <span>
-                  <IconButton appearance="subtle" onClick={handleAction} icon={<Edit2 />} />
-                </span>
-              );
-            }}
-          </Cell>
+          <ActionCell dataKey="_id" />
         </Column>
       </Table>
-    </>
+      <div style={{ padding: 20 }}>
+        <Pagination
+          prev
+          next
+          first
+          last
+          ellipsis
+          boundaryLinks
+          maxButtons={5}
+          size="xs"
+          layout={['total', '-', 'limit', '|', 'pager', 'skip']}
+          total={items.length}
+          limitOptions={[10, 20]}
+          limit={limit}
+          activePage={page}
+          onChangePage={setPage}
+          onChangeLimit={handleChangeLimit}
+        />
+      </div>
+      </>
     );
   }
 }

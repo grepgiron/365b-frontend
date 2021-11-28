@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import { useParams } from "react-router-dom";
 
 import {
@@ -18,7 +17,7 @@ const Show = () => {
       <h5>Clientes</h5>
       <br />
       <FlexboxGrid>
-        <FlexboxGrid.Item as={Col} colspan={24} md={18} lg={14}>
+        <FlexboxGrid.Item as={Col} colspan={24} md={19} lg={15}>
           <Profile id={id} />
         </FlexboxGrid.Item>
       </FlexboxGrid>

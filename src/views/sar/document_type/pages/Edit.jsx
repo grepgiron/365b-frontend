@@ -1,24 +1,26 @@
 import React from 'react';
-import axios from 'axios';
+import { useParams } from "react-router-dom";
 
 import {
-  FlexboxGrid,
-  Divider,
-  Grid,
-  Panel
+  Col,
+  FlexboxGrid
 } from 'rsuite';
 
-import FormEdit from '../components/FormEdit'
+import Form from '../components/FormEdit';
 
 const Edit = () => {
+
+  let { id } = useParams();
  
   return (
     <>
-    <Grid fluid>
-      <Panel bordered>
-        <FormEdit />
-      </Panel>
-    </Grid>
+      <h5>Editar tipo de documento</h5>
+      <br />
+      <FlexboxGrid>
+        <FlexboxGrid.Item as={Col} colspan={24} md={18} lg={12}>
+          <Form id={id} />
+        </FlexboxGrid.Item>
+      </FlexboxGrid>
     </>
   );
 };
