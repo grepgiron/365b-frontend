@@ -48,6 +48,7 @@ const FormDocAut = (props) => {
     rango_inicial: '',
     rango_final: ''
   });
+
   const [establecimientos, setEstablecimientos] = React.useState([]);
   const [puntos, setPuntos] = React.useState([]);
   const [documentos, setDocumentos] = React.useState([]);
@@ -55,6 +56,7 @@ const FormDocAut = (props) => {
   const [showError, setShowError] = useState(false);
   const [showErrorEmptyForm, setShowErrorEmptyForm] = useState(false);
   const [loading, setLoading] = React.useState(false);
+
   
   let match = useNavigate();
   function volverListaDocsAut() {

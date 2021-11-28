@@ -3,18 +3,43 @@ import { Col, Button } from 'react-bootstrap'
 
 import { Panel } from 'rsuite'
 
+import './style.scss'
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Card(props) {
   const { product } = props;
   return (
-    <div class="card4" {...props}>
+    <div className="card4" {...props} >
       <p style={{ fontSize: 13}}>{product.nombre}</p>
       <p>L. {product.precio}</p>
-      <div class="dimmer"></div>
-      <div class="go-corner">
-        <div class="go-arrow">
+      <div className="dimmer"></div>
+      <div className="go-corner">
+        <div className="go-arrow">
           +
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Main(props) {
+  const { product } = props;
+  return (
+    <div {...props}>
+      <div>
+        <div className="shop__thumb">
+          <a>
+            <div className="shop-thumb__img">
+              <img src="https://via.placeholder.com/120x120/A66D58/000000" className="img-responsive" alt="..."/>
+            </div>
+            <p className="shop-thumb__title">
+              {product.nombre}
+            </p>
+            <div className="shop-thumb__price">
+              L. {product.precio}
+            </div>
+          </a>
         </div>
       </div>
     </div>
@@ -30,19 +55,11 @@ export default function Product(props) {
       delete product['detalle'] &&
       delete product['descripcion'] &&
       delete product['code']}
-      <Card 
+      <Main 
         product={product} 
         onClick={() => onAdd(product)}
         style={{ cursor: "pointer", hover: "" }}
         />
-      {/* <Card>
-        <Card.Img variant="top"/>
-          <Card.Body>
-            <Card.Title >{product.nombre}</Card.Title>
-            <Card.Text>Lps. {product.precio}</Card.Text>
-            <Button variant="primary" onClick={() => onAdd(product)}>Agregar</Button>
-          </Card.Body>
-        </Card> */}
     </Col>
   );
 }

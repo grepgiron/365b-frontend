@@ -23,7 +23,7 @@ const headerStyles = {
     padding: 18,
     fontSize: 16,
     height: 56,
-    background: '#34b3ff',
+    background: '#402015',
     color: ' #fff',
     whiteSpace: 'nowrap',
     overflow: 'hidden'
@@ -63,10 +63,10 @@ const SidebarNav = ({ appearance, ...props }) => {
       >
         <Sidenav.Body>
           <Nav {...props}>
-            <Nav.Item style={{ textDecoration: 'none' }} eventKey="1" active icon={<Dashboard />}>
+            <Nav.Item style={{ textDecoration: 'none' }} eventKey="1" icon={<Dashboard />}>
             Dashboard
             </Nav.Item>
-            <Nav.Item style={{ textDecoration: 'none' }} eventKey="2" onSelect={() => handleClick('ventas')} icon={<BarChartIcon />}>
+            <Nav.Item style={{ textDecoration: 'none' }} eventKey="2" onSelect={() => handleClick('/pos')} icon={<BarChartIcon />}>
             Ventas
             </Nav.Item>
             <Nav.Item style={{ textDecoration: 'none' }} eventKey="3" onSelect={() => handleClick('servicios')} icon={<AttachmentIcon />}>
@@ -86,6 +86,7 @@ const SidebarNav = ({ appearance, ...props }) => {
                   onSelect={() => handleClick('empleados')}
                   eventKey="6-1" icon={<PeoplesIcon/>}>Empleados</Dropdown.Item>
               <Dropdown.Item eventKey="6-2" icon={<DeviceIcon/>}>Maquinaria</Dropdown.Item>
+              <Dropdown.Item eventKey="6-5-2" onSelect={() => handleClick('metodo_pago')} icon={<TagFilterIcon/>}>Metodos de Pago</Dropdown.Item>
               <Dropdown.Item eventKey="6-3" onSelect={() => handleClick('inventario/categorias')} icon={<TreeIcon/>}>Categorias</Dropdown.Item>
               <Dropdown.Item eventKey="6-5-2" onSelect={() => handleClick('inventario/unidades')} icon={<TagFilterIcon/>}>Unidades</Dropdown.Item>
             </Dropdown>

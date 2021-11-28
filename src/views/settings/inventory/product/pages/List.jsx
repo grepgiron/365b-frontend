@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Component } from 'react';
 import axios from 'axios';
+import ReactDOM from 'react-dom';
 import { Link, useNavigate } from "react-router-dom";
 import {
   Table,
@@ -15,6 +16,8 @@ import Edit2 from '@rsuite/icons/legacy/Edit2';
 
 import PlusIcon from '@rsuite/icons/Plus';
 
+
+
 const { HeaderCell, Cell, Column, ColumnGroup } = Table;
 
 const ActionCell = ({ rowData, dataKey, ...props }) => {
@@ -24,115 +27,64 @@ const ActionCell = ({ rowData, dataKey, ...props }) => {
 };
 
 function List() {
-  /* const [clientsArray, setClientsArray] = useState([]);
-  const [error, setError] = useState(null);
-  const [data, setData] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(1);
 
-  //Obetener data de Api
-  useEffect(() => {
-      // GET request using axios with async/await
-      axios.get('https://beauty365api.herokuapp.com/api/v1/puntos_de_venta')
-      .then(res => {
-        setIsLoaded(true);
-        setClientsArray(JSON.stringify(res.data));
-      })
-      .catch(error => {    
-        setIsLoaded(true);
-        setError(error);
-      })
-
-  }, []);
-
-  const handleChangeLimit = dataKey => {
-    setPage(1);
-    setLimit(dataKey);
-  };
-
-  if(error) {
-    return <div>Error: {error.message}</div>;  
-  } else if(!isLoaded) {
-    return <div>Loading...</div>;  
-  }else {
-    return (
-        <ul>
-        {clientsArray.map(item => (
-          <li key={item.id}>
-            {item.nombres} {item.price}
-          </li>
-        ))}
-      </ul>
-    );
-  } */
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [items, setItems] = useState([]);
+  const [itemsP, setItemsP] = useState([]);
+  const [itemsC, setItemsC] = useState([]);
+  const [itemsU, setItemsU] = useState([]);
+  const [allDate, setAllDate] = useState([]);
 
-  let match = useNavigate();
-  function handleClick(event) {
-      match(event);
+  const allData = () => {
+    let url1 = "https://beauty365api.herokuapp.com/api/v1/productos";
+    let url2 = "https://beauty365api.herokuapp.com/api/v1/categorias";
+    let url3 = "https://beauty365api.herokuapp.com/api/v1/unidades";
+
+    const urlP = axios.get(url1);
+    const urlC = axios.get(url2);
+    const urlU = axios.get(url3);
+
+
+    axios.all([urlP, urlC, urlU]).then(axios.spread((...allDate) => {
+      const allDateUrlP = allDate[0].data;
+      const allDateUrlC = allDate[1].data;
+      const allDateUrlU = allDate[2].data;
+
+      setItemsP(allDateUrlP);
+      setItemsC(allDateUrlC);
+      setItemsU(allDateUrlU);
+      setAllDate(allDate);   
+       
+    }));
+
   }
-  // Note: the empty deps array [] means
-  // this useEffect will run once
-  // similar to componentDidMount()
+
   useEffect(() => {
-    fetch("https://beauty365api.herokuapp.com/api/v1/productos")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          setItems(result);
-        },
-        // Nota: es importante manejar errores aquí y no en 
-        // un bloque catch() para que no interceptemos errores
-        // de errores reales en los componentes.
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      )
+
+    allData();
+
   }, [])
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  } else if (!isLoaded) {
-    return <div>Loading...</div>;
-  } else {
-    return (
-      <>
-      <Row>
-        <Col xs={9} >
-          <h3>Editar esta View</h3>
-        </Col>
-        <Col xs={3} xsPush={12}>
-          
-          <ButtonToolbar className="inner-left">
-            <IconButton 
-              onClick={() => handleClick('nuevo')} 
-              icon={<PlusIcon />} 
-              appearance="primary">
-              Add
-            </IconButton>
-          </ButtonToolbar>
-        </Col>
-      </Row>
-      <Divider />
+  return (
+    <>
       <Table
         height={300}
-        data={items}
-        onRowClick={data => {
-        console.log(data);
-      }}
-      > 
-        <Column width={200}>
+        data={itemsP}
+      >
+
+        <Column flexGrow={1}>
           <HeaderCell>Codigo</HeaderCell>
           <Cell dataKey="code" />
         </Column>
+
         <Column flexGrow={1}>
           <HeaderCell>Nombre</HeaderCell>
           <Cell dataKey="nombre" />
+        </Column>
+
+        <Column flexGrow={1}>
+          <HeaderCell>Descripcion</HeaderCell>
+          <Cell dataKey="descripcion" />
         </Column>
 
         <Column width={200}>
@@ -140,20 +92,36 @@ function List() {
           <Cell className="link-group">
             {rowData => {
               function handleAction() {
-                match(`/admin/sar/establecimiento/show/${rowData._id}`, { state: rowData._id });
+                alert(`id:${rowData._id}`);
               }
               return (
                 <span>
-                  <IconButton appearance="subtle" onClick={handleAction} icon={<Edit2 />} />
+                  <Link to={"/admin/inventario/productos/editar/" + rowData._id}>
+                    {console.log(rowData._id)}
+                    Editar
+                  </Link>
+                  <br/>
+                  <Link to={"/admin/inventario/productos/show/" + rowData._id}>
+                    {console.log(rowData._id)}
+                    Ver
+                  </Link>
                 </span>
+                
               );
+              
             }}
+            
           </Cell>
+          
+          
         </Column>
+        
+
       </Table>
+
     </>
-    );
-  }
+  );
+
 }
 
 export default List;

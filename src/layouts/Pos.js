@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route ,Routes} from "react-router-dom";
+import { Route ,Routes, useNavigate } from "react-router-dom";
 
 import {
   Container,
@@ -10,35 +10,45 @@ import {
   Dropdown
 } from 'rsuite';
 
+import '../App.css'
 import 'rsuite/dist/rsuite.min.css'; // or css
 
 import PosForm from '../views/Pos/index';
+import InvoiceList from '../views/invoice/pages/List';
+import InvoiceIndex from '../views/invoice/index'
 
 
 const Admin = () => {
 
+  let navigate = useNavigate();
+  function handleClick(route){
+    navigate(route);
+  }
+
   return (
     <Container className="show-fake-browser navbar-page">
       <Header>
-        <Navbar appearance="inverse">
+        <Navbar className="fixed-top">
           <Navbar.Header>
-            <a className="navbar-brand logo">BRAND</a>
+            <a className="navbar-brand logo" style={{textDecoration: 'none'}}>365 Beauty</a>
           </Navbar.Header>
           <Navbar.Body>
             <Nav>
-              <Nav.Item>POS</Nav.Item>
-              <Nav.Item>Ventas</Nav.Item>
-              <Nav.Item>Reportes</Nav.Item>
+              <Nav.Item onClick={() => handleClick('/pos')}>POS</Nav.Item>
+              <Nav.Item onClick={() => handleClick('/pos/ventas')}>Ventas</Nav.Item>
+              <Nav.Item onClick={() => handleClick('/pos/reportes')}>Reportes</Nav.Item>
             </Nav>
             <Nav pullRight>
-              <Nav.Item >Settings</Nav.Item>
+              <Nav.Item onClick={() => handleClick('/admin')}>Admin</Nav.Item>
             </Nav>
           </Navbar.Body>
         </Navbar>
       </Header>
-      <Content>
+      <Content style={{ marginTop: '70px'}}>
         <Routes>
-          <Route path='ventas/*' element={<PosForm />}/>
+          <Route path='/' element={<PosForm />}/>
+          <Route path='ventas/*' element={<InvoiceIndex />}/>
+          <Route path='reportes/*' element={<InvoiceList />}/>
         </Routes>  
       </Content>
     </Container>

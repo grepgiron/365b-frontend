@@ -604,9 +604,9 @@ span.CodeMirror-selectedtext{
   --rs-bg-info:#e9f5fe;
   --rs-bg-warning:#fff9e6;
   --rs-bg-error:#fde9ef;
-  --rs-text-link:#1675e0;
-  --rs-text-link-hover:#0a5dc2;
-  --rs-text-link-active:#004299;
+  --rs-text-link:#ffffff;
+  --rs-text-link-hover:#ffffff;
+  --rs-text-link-active:#ffffff;
   --rs-text-primary:#575757;
   --rs-text-secondary:#8e8e93;
   --rs-text-tertiary:#a6a6a6;
@@ -715,11 +715,11 @@ span.CodeMirror-selectedtext{
   --rs-navs-tab-border:#d9d9d9;
   --rs-navs-subtle-border:#f7f7fa;
   --rs-navs-selected:#1675e0;
-  --rs-navbar-default-bg:#f7f7fa;
-  --rs-navbar-default-text:#575757;
+  --rs-navbar-default-bg:#402015;
+  --rs-navbar-default-text:#D9C8A9;
   --rs-navbar-default-selected-text:#1675e0;
-  --rs-navbar-default-hover-bg:#e5e5ea;
-  --rs-navbar-default-hover-text:#575757;
+  --rs-navbar-default-hover-bg:#A66D58;
+  --rs-navbar-default-hover-text:#ececec;
   --rs-navbar-inverse-bg:#3498ff;
   --rs-navbar-inverse-text:#fff;
   --rs-navbar-inverse-selected-bg:#1675e0;
@@ -9167,7 +9167,7 @@ textarea.rs-picker-search-input{
   color:var(--rs-navbar-default-hover-text)
 }
 .rs-navbar-default .rs-dropdown .rs-dropdown-menu-active~.rs-dropdown-toggle,.rs-navbar-default .rs-navbar-item.rs-navbar-item-active{
-  color:#1675e0;
+  color:#FFFFFF;
   color:var(--rs-navbar-default-selected-text)
 }
 .rs-navbar-inverse{
@@ -16500,6 +16500,7 @@ a code{
 .show-fake-browser.sidebar-page .rs-content{
   background-color:#fff;
   background-color:var(--rs-bg-card);
+  box-shadow:0 4px 4px rgba(0,0,0,.12),0 0 10px rgba(0,0,0,.06);
   margin:20px;
   padding:20px
 }
@@ -16510,6 +16511,8 @@ a code{
 .show-fake-browser.navbar-page .rs-content{
   background-color:#fff;
   background-color:var(--rs-bg-card);
+  box-shadow:0 4px 4px rgba(0,0,0,.12),0 0 10px rgba(0,0,0,.06);
+  border-radius: 3px;
   margin:20px;
   padding:20px
 }
@@ -17040,7 +17043,7 @@ a code{
   --font-family-mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace
 }
 body{
-  background-color:#efefefc7
+  background-color:#f0f0f0
 }
 body.rs-theme-dark,body.rs-theme-high-contrast{
   background-color:#0f131a

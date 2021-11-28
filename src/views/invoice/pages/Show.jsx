@@ -1,22 +1,19 @@
-import React from 'react';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { Row, Col } from 'rsuite'
 
-import {
-  FlexboxGrid,
-  Divider
-} from 'rsuite';
+import Profile from '../components/Profile'
+import PreInvoice from '../components/PreInvoice'
 
-import Profile from '../components/Profile';
-
-const Show = (props) => {
-  let { id } = useParams();
-  console.log(id)
+function Show(props) {
+  const { invoice } = props
   return (
     <>
-      <Profile />  
+      <Row>
+        <Col xs={24}>
+          <PreInvoice />
+        </Col>
+      </Row>
     </>
   );
-};
+}
 
 export default Show;
