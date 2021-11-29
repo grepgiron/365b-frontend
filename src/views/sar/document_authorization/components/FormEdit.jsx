@@ -131,7 +131,7 @@ const FormDocAut = (props) => {
     } else {
       setLoading(false);
       try {
-        const apiRes = await axios.put('https://beauty365api.herokuapp.com/api/v1/documentos_autorizados', 
+        const apiRes = await axios.put(`https://beauty365api.herokuapp.com/api/v1/documentos_autorizados/${props.id}`, 
         qs.stringify(formValue), {
           headers: {
             'Access-Control-Allow-Origin': '*',
