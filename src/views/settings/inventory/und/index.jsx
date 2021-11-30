@@ -12,11 +12,11 @@ import ListUnd from './pages/List';
 const Und = () => {
  
   return (
-    <Panel bordered header={<h4>Inventario</h4>}>
+    <Panel bordered>
       <Routes>
         <Route path='nuevo' element={<NewUnd/>}/>
+        <Route path='editar/:id' element={<EditUnd/>}/>
         <Route path='/:id' element={<ShowUnd/>}/>
-        <Route path='/editar/:id' element={<EditUnd/>}/>
         <Route path='/' element={<ListUnd/>}/>
       </Routes> 
     </Panel>

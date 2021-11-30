@@ -17,27 +17,26 @@ import VisibleIcon from '@rsuite/icons/Visible';
 const { HeaderCell, Cell, Column } = Table;
 
 function List() {
-  const [payments, setPayments] = React.useState([]);
+  const [undArray, setUndArray] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [limit, setLimit] = React.useState(10);
   const [page, setPage] = React.useState(1);
 
   const [error, setError] = useState(null);
-  
   // Celda para los botones de accion
   let match = useNavigate();
   const ActionCell = ({ rowData, dataKey, ...props }) => {
-    function editPayments() {
+    function editUnd() {
       match(`/admin/metodo_pago/editar/${rowData[dataKey]}`);
     }
-    function showPayments() {
+    function showUnd() {
       match(`/admin/metodo_pago/${rowData[dataKey]}`);
     }
     return (
       <Cell {...props} className="link-group">
-        <IconButton appearance="subtle" onClick={editPayments} icon={<Edit2 />} />
+        <IconButton appearance="subtle" onClick={editUnd} icon={<Edit2 />} />
         <Divider vertical />
-        <IconButton appearance="subtle" onClick={showPayments} icon={<VisibleIcon />} />
+        <IconButton appearance="subtle" onClick={showUnd} icon={<VisibleIcon />} />
       </Cell>
     );
   };
@@ -51,7 +50,7 @@ function List() {
       }
     }).then((response) => {
       if (response!==error) {
-        setPayments(response.data);
+        setUndArray(response.data);
         setLoading(true);
       } else {
         console.log(response);
@@ -60,13 +59,14 @@ function List() {
       }
     })
   }, [error]);
+    
 
   const handleChangeLimit = dataKey => {
     setPage(1);
     setLimit(dataKey);
   };
 
-  const data = payments.filter((v, i) => {
+  const data = undArray.filter((v, i) => {
     const start = limit * (page - 1);
     const end = start + limit;
     return i >= start && i < end;
@@ -80,18 +80,19 @@ function List() {
     return (
       <>
       <Table bordered striped={1} height={420} data={data} loading={!loading}>
-        <Column width={190}>
-          <HeaderCell>Codigo</HeaderCell>
-          <Cell dataKey="code" />
-        </Column>
 
-        <Column width={240}>
+        <Column width={200}>
           <HeaderCell>Nombre</HeaderCell>
           <Cell dataKey="nombre" />
         </Column>
 
+        <Column>
+          <HeaderCell>Activo</HeaderCell>
+          <Cell dataKey="active" />
+        </Column>
+
         <Column width={107}>
-          <HeaderCell>Action</HeaderCell>
+          <HeaderCell>Accion</HeaderCell>
           <ActionCell dataKey="_id" />
         </Column>
       </Table>
@@ -106,7 +107,7 @@ function List() {
           maxButtons={5}
           size="xs"
           layout={['total', '-', 'limit', '|', 'pager', 'skip']}
-          total={payments.length}
+          total={undArray.length}
           limitOptions={[10, 20]}
           limit={limit}
           activePage={page}

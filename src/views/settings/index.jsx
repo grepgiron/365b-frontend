@@ -12,19 +12,14 @@ import List from './pages/List'
 const Payments = () => {
  
   return (
-    <>
-      <div class="markdown">
-        <h5>Ventas</h5>
-      </div>
-      <Panel>
-        <Routes>
-          <Route path='nuevo' element={<New/>}/>
-          <Route path='editar/:id' element={<Edit/>}/>
-          <Route path='/show/:id' element={<Show/>}/>
-          <Route path='/' element={<List/>}/>
-        </Routes> 
-      </Panel>
-    </>
+    <Panel bordered>
+      <Routes>
+        <Route path='nuevo' element={<New/>}/>
+        <Route path='editar/:id' element={<Edit/>}/>
+        <Route path='/show/:id' element={<Show/>}/>
+        <Route path='/' element={<List/>}/>
+      </Routes> 
+    </Panel>
   );
 };
 

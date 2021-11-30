@@ -173,7 +173,7 @@ function Profile() {
                   <p style={{ fontWeight: 600, textAlign: 'right'}}>
                     Sub Total:</p>
                 </Col>
-                <Col xs={7} style={{ textAlign: 'right'}}>Lps. {invoice.sub_total.toFixed(2)}</Col>
+                <Col xs={7} style={{ textAlign: 'right'}}>Lps. {invoice.sub_total}</Col>
               </Row>
               <Row >
                 <Col xs={12}></Col>
@@ -189,7 +189,7 @@ function Profile() {
                   <p style={{ fontWeight: 600, textAlign: 'right'}}>
                     Total:</p>
                 </Col>
-                <Col xs={7} style={{ textAlign: 'right'}}>Lps. {invoice.total.toFixed(2)}</Col>
+                <Col xs={7} style={{ textAlign: 'right'}}>Lps. {invoice.total}</Col>
               </Row> 
             </Panel>
           </Col>

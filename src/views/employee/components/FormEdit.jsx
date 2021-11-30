@@ -17,24 +17,26 @@ const { StringType, NumberType } = Schema.Types;
 
 // Modelo de esquema de datos
 const model = Schema.Model({
-  code: NumberType("El codigo debe ser de tipo numero.").isRequired('Es obligatorio escribir el codigo.'),
-  nombre: StringType("El nombre debe ser de tipo texto.").isRequired('Es obligatorio escribir el nombre.')
+  nombres: StringType("El nombre debe ser de tipo texto.").isRequired('Es obligatorio escribir el nombre.'),
+  telefono: NumberType("El teléfono debe ser un número."),
+  habilidades: StringType("Las Habilidades debe ser de tipo texto.").isRequired('Es obligatorio escribir las habilidades.'),
 });
 
 // Plantilla para campos del formulario
 const TextField = ({ name, label, value, accepter, ...rest }) => (
-  <Form.Group controlId={`${name}-4`}>
+  <Form.Group controlId={`${name}-6`}>
     <Form.ControlLabel>{label}</Form.ControlLabel>
-    <Form.Control name={name} accepter={accepter} {...rest} />
+    <Form.Control name={name} value={value} accepter={accepter} {...rest} />
   </Form.Group>
 );
 
-const FormClient = () => {
+const FormClient = (props) => {
   const formRef = React.useRef();
   const [formError, setFormError] = React.useState({});
   const [formValue, setFormValue] = React.useState({
-    nombre: '',
-    code: '',
+    nombres: '',
+    telefono: '',
+    habilidades: ''
   });
   const [error, setError] = useState(null);
   const [showError, setShowError] = useState(false);
@@ -43,10 +45,10 @@ const FormClient = () => {
   
   let match = useNavigate();
   function volverListaClientes() {
-    match("/admin/inventario/categorias");
+    match("/admin/empleados");
   }
-  function verNuevoCliente(id) {
-    match("/admin/inventario/categorias/show/"+id);
+  function verEditCliente(id) {
+    match("/admin/empleados/"+id);
   }
   
   // Mensaje de error
@@ -58,10 +60,21 @@ const FormClient = () => {
       </div>
     );
   };
- 
+
+  // Recuperar info del cliente a editar segun ID
   useEffect(() => {
-    setLoading(true);
-  }, []);
+    // GET request using axios
+    axios.get('https://beauty365api.herokuapp.com/api/v1/empleados/'+props.id)
+      .then((response) => {
+        if (response!==error) {
+          setFormValue(response.data);
+          setLoading(true);
+        } else {
+          setError(response);
+          setLoading(true);
+        }
+      })
+  }, [error, props.id]);
 
   const handleSubmit = async() => {
     setShowErrorEmptyForm(false);
@@ -74,11 +87,11 @@ const FormClient = () => {
     } else {
       setLoading(false);
       try {
-        const apiRes = await axios.post('https://beauty365api.herokuapp.com/api/v1/categorias/create', 
-        qs.stringify(formValue), {
+        // PUT request using axios
+        const apiRes = await axios.put('https://beauty365api.herokuapp.com/api/v1/empleados/'+props.id, qs.stringify(formValue), {
           headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Content-Type': 'application/x-www-form-urlencoded'
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/x-www-form-urlencoded"
           }
         }).then(function(res) {
           // VERIFICAR: ¿Error en la respuesta del servidor?
@@ -86,23 +99,23 @@ const FormClient = () => {
             if (res.status === 200) {
               // SUCCESS: El cliente fue editado
               setShowError(false);
-              verNuevoCliente(res.data._id);
+              verEditCliente(res.data._id);
             } else {
               // ERROR: HTTP Status != 200
-              console.log(res);
+              console.log(res)
               setShowError(true);
               setLoading(true);
             }
           } else {
             // ERROR: Servidor
-            console.log(res);
+            console.log(res)
             setShowError(true);
             setLoading(true);
           }
         });
       } catch(error) {
         // ERROR: Servidor
-        console.log(error);
+        console.log(error)
         setShowError(true);
         setLoading(true);
       }
@@ -125,13 +138,14 @@ const FormClient = () => {
           model={model}
           fluid
         >
-          <TextField name="code" label="Codigo" />
-          <TextField name="nombre" label="Nombre" />
+          <TextField name="nombres" label="Nombre" value={formValue.nombres} />
+          <TextField name="telefono" label="Telefono" value={formValue.telefono ? formValue.telefono : ""} />
+          <TextField name="habilidades" label="Habilidades" value={formValue.habilidades} />
 
           <Form.Group>
             <ButtonToolbar>
-              <Button appearance="primary" onClick={handleSubmit}>Agregar</Button>
-              <Button appearance="default" onClick={volverListaClientes}>Cancelar</Button>
+              <Button appearance="primary" onClick={handleSubmit}>Guardar Cambios</Button>
+              <Button appearance="default" onClick={volverListaClientes} >Cancelar</Button>
             </ButtonToolbar>
           </Form.Group>
         </Form>

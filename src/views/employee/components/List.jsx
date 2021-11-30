@@ -1,163 +1,128 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Table,
-  Pagination,
   IconButton,
-  Divider 
+  Pagination,
+  Divider,
+  Message,
+  Loader
 } from 'rsuite';
 
+// Iconos
 import Edit2 from '@rsuite/icons/legacy/Edit2';
 import VisibleIcon from '@rsuite/icons/Visible';
-import TrashIcon from '@rsuite/icons/Trash';
 
-//import value from './sample';
-
-const { HeaderCell, Cell, Column, ColumnGroup } = Table;
- 
+const { HeaderCell, Cell, Column } = Table;
 
 function List() {
   const [clientsArray, setClientsArray] = React.useState([]);
-  const [error, setError] = React.useState(null); //variables con su metodo get y React.useState sirve para darle un estado a la constante creada
   const [loading, setLoading] = React.useState(false);
   const [limit, setLimit] = React.useState(10);
   const [page, setPage] = React.useState(1);
-  const [usuarioBorrado, setusuarioBorrado] = React.useState("");
 
-  useEffect(() => { // es lo primero que carga al iniciar el componente, carga toda la informacion que ya esta cargada al momento de iniciar una pagina
-      // GET request using axios with async/await
-
-      fetch('https://beauty365api.herokuapp.com/api/v1/empleados')
-        .then(response => response.json())
-        .then((result ) => {
-          setClientsArray(result)
-          console.log(result)
-
-        }, (error) => { setError(error)
-          console.log(error)
-
-        }
-        
-        )
-      console.log(clientsArray)
-  }, [usuarioBorrado]);
-    
-
-    const handleChangeLimit = dataKey => {
-      setPage(1);
-      setLimit(dataKey);
-    };
-
-    let match = useNavigate();
-  function handleClick(event) {
-      match(event);
-  }
-
-   const borrar_usuario = (_id)=>{
-
-    var config = {
-      method: 'delete',
-      url: `https://beauty365api.herokuapp.com/api/v1/empleados/${_id}`,
-      headers: { }
-    };
-    
-    axios(config)
-    .then(function (response) {
-      //console.log(JSON.stringify(response.data));
-      window.alert("Usuario Borrado");
-      
-      setusuarioBorrado(_id);
-       
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+  const [error, setError] = useState(null);
   
-   }
+  // Celda para los botones de accion
+  let match = useNavigate();
+  const ActionCell = ({ rowData, dataKey, ...props }) => {
+    function editClient() {
+      match(`/admin/empleados/editar/${rowData[dataKey]}`);
+    }
+    function showClient() {
+      match(`/admin/empleados/${rowData[dataKey]}`);
+    }
+    return (
+      <Cell {...props} className="link-group">
+        <IconButton appearance="subtle" onClick={editClient} icon={<Edit2 />} />
+        <Divider vertical />
+        <IconButton appearance="subtle" onClick={showClient} icon={<VisibleIcon />} />
+      </Cell>
+    );
+  };
 
-   /* const data = clientsArray.filter((v, i) => {
-      const start = limit * (page - 1);
-      const end = start + limit;
-      return i >= start && i < end;
-    });*/
+  useEffect(() => {
+    // GET request using axios
+    axios.get('https://beauty365api.herokuapp.com/api/v1/empleados', {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    }).then((response) => {
+      if (response!==error) {
+        setClientsArray(response.data);
+        setLoading(true);
+      } else {
+        console.log(response);
+        setError(response);
+        setLoading(true);
+      }
+    })
+  }, [error]);
 
-   // no me esta funcionando Popover y whisper 
-   /* const NameCell = ({ rowData, dataKey, ...props }) => {
-      const speaker = (
-        <Popover title="Descripcion">
-          <p>
-            <b>Nombre:</b> {rowData.nombres}{' '}
-          </p>
-          <p>
-            <b>Email:</b> {rowData.email}{' '}
-          </p>
-          <p>
-            <b>Telefono:</b> {rowData.telefono}{' '}
-          </p>
-          <p>
-            <b>DNI:</b> {rowData.dni}{' '}
-          </p>
+  const handleChangeLimit = dataKey => {
+    setPage(1);
+    setLimit(dataKey);
+  };
 
-        </Popover>
-      );
+  const data = clientsArray.filter((v, i) => {
+    const start = limit * (page - 1);
+    const end = start + limit;
+    return i >= start && i < end;
+  });
     
-      return (
-        <Cell {...props}>
-          <Whisper placement="top" speaker={speaker}>
-            <a>{rowData[dataKey].toLocaleString()}</a>
-          </Whisper>
-        </Cell>
-      );
-    };*/
-
+  if (error) {
+    return <Message showIcon type="error">Error. {error.message}</Message>;
+  } else if (!loading) {
+    return <Loader content="loading..." />;
+  } else {
     return (
       <>
-       
-        <Table height={400} data={clientsArray} loading={loading}>
-          <Column width={200} align="center" fixed>
-            <HeaderCell>Id</HeaderCell>
-            <Cell dataKey="_id" />
-          </Column>
-
-          <Column  width={200} fixed >
-            <HeaderCell>Nombre</HeaderCell>
-            <Cell dataKey="nombres" />
-          </Column>
-
-          <Column width={200}>
-            <HeaderCell>Telefono</HeaderCell>
-            <Cell dataKey="telefono" />
-          </Column>
-
-
-          <Column width={400}>
-            <HeaderCell>Habilidades</HeaderCell>
-            <Cell dataKey="habilidades" />
-          </Column >
-
-
-          <Column width={120} fixed="right">
-            <HeaderCell>Action</HeaderCell>
-            <Cell>
-            {rowData => {
-             
-              return (
-                <span>
-                 
-                  <Link  to={rowData._id}  onClick={()=>handleClick("_id")} >
-                    <IconButton  icon={<Edit2/>}/></Link>
-                  <Divider vertical />
-                  <IconButton onClick={()=>borrar_usuario(rowData._id)} icon={<TrashIcon />}/>
-                </span>
-              );
-            }}
-            </Cell>
-          </Column>
-        </Table>
+      <Table bordered striped={1} height={420} data={data} loading={!loading}>
         
+        <Column width={240}>
+          <HeaderCell>Nombres</HeaderCell>
+          <Cell dataKey="nombres" />
+        </Column>
+
+        <Column width={120}>
+          <HeaderCell>Teléfono</HeaderCell>
+          <Cell dataKey="telefono" />
+        </Column>
+
+        <Column width={200}>
+          <HeaderCell>Habilidades</HeaderCell>
+          <Cell dataKey="habilidades" />
+        </Column>
+
+        <Column width={107}>
+          <HeaderCell>Action</HeaderCell>
+          <ActionCell dataKey="_id" />
+        </Column>
+      </Table>
+      <div style={{ padding: 20 }}>
+        <Pagination
+          prev
+          next
+          first
+          last
+          ellipsis
+          boundaryLinks
+          maxButtons={5}
+          size="xs"
+          layout={['total', '-', 'limit', '|', 'pager', 'skip']}
+          total={clientsArray.length}
+          limitOptions={[10, 20]}
+          limit={limit}
+          activePage={page}
+          onChangePage={setPage}
+          onChangeLimit={handleChangeLimit}
+        />
+      </div>
       </>
     );
+  }
 }
 
 export default List;

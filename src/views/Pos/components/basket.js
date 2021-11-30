@@ -41,7 +41,18 @@ export default function Basket(props) {
 
   const handlePostInvoice = async () => {
     //setLoading(true);
-    try {
+    console.log('CheckOut: '+ JSON.stringify(formValue))
+    const requestOptions = {
+      method: 'POST',
+      headers: { 
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: qs.stringify(formValue)
+    };
+    fetch('https://beauty365api.herokuapp.com/api/v1/facturas/create', requestOptions)
+        .then(response => response.json())
+    /* try {
       const apiRes = await axios.post('https://beauty365api.herokuapp.com/api/v1/facturas/create', 
       qs.stringify(formValue), {
         headers: {
@@ -67,7 +78,7 @@ export default function Basket(props) {
       //setShowError(true);
       console.log(error)
       setLoading(true);
-    }
+    } */
     //setOpenWithHeader(false);
   }
 

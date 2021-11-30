@@ -38,7 +38,8 @@ function Profile(props) {
     fecha_limite: '',
     cai: '',
     rango_inicial: '',
-    rango_final: ''
+    rango_final: '',
+    is_active: null,
   });
   const [error, setError] = useState(null);
   const [loading, setLoading] = React.useState(false);
@@ -125,7 +126,7 @@ function Profile(props) {
                 sales_point.establecimiento.prefijo+'-'+
                 sales_point.pos.prefijo+'-'+
                 sales_point.documento_fiscal.prefijo+'-'}</p> 
-                <Tag color="green">ACTIVO</Tag>
+                { sales_point.is_active ? <Tag color="green">Activo</Tag> : <Tag color="red">Inactivo</Tag>}
               </div>    
             </Col>
           </Row>

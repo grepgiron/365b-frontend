@@ -1,21 +1,28 @@
 import React from 'react';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 
 import {
-  FlexboxGrid,
-  Divider
+  Col,
+  FlexboxGrid
 } from 'rsuite';
 
-import FormEdit from '../components/FormEdit'
+import FormUnd from '../components/FormEdit';
 
-const Show = (props) => {
+const EditUnd = () => {
 
+  let { id } = useParams();
+ 
   return (
     <>
-    <FormEdit />
+      <h5>Editar metodo de pago</h5>
+      <br />
+      <FlexboxGrid>
+        <FlexboxGrid.Item as={Col} colspan={24} md={18} lg={12}>
+          <FormUnd id={id} />
+        </FlexboxGrid.Item>
+      </FlexboxGrid>
     </>
   );
 };
 
-export default Show;
+export default EditUnd;

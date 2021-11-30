@@ -13,8 +13,7 @@ const Category = () => {
  
   return (
     <>
-    <h4>Categorias</h4>
-    <Panel >
+    <Panel bordered>
       <Routes>
         <Route path='nuevo' element={<New/>}/>
         <Route path='editar/:id' element={<Edit/>}/>

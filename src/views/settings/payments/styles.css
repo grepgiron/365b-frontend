@@ -1,0 +1,9 @@
+.espacio-item {
+    margin-top: 2rem;
+}
+
+@media screen and (min-width: 992px) {
+    .espacio-item {
+        margin-top: 0rem;
+    }
+}

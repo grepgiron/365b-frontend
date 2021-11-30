@@ -7,7 +7,7 @@ import {
   Divider
 } from 'rsuite';
 
-//import TituloView from '../../../components/titulo-views/tvs';
+import TituloView from '../../../../components/titulo-views/tvs';
 
 import ListNew from '../components/List'
 
@@ -23,6 +23,7 @@ function List() {
   return (
     <>
       <Row>
+        <TituloView colmd={9} collg={4} nombre="Metodos de Pago" />
         <Col xs={24} md={4} lg={3} mdPush={11} lgPush={17}>
           <ButtonToolbar className="inner-left">
             <IconButton 

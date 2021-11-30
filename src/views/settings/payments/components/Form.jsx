@@ -11,21 +11,20 @@ import {
   Message,
   Divider,
   Loader,
-  Checkbox,
-  CheckboxGroup
+  CheckboxGroup,
+  Checkbox
 } from 'rsuite';
 
 const { StringType, NumberType } = Schema.Types;
 
 // Modelo de esquema de datos
 const model = Schema.Model({
-  nombre: StringType("El nombre debe ser de tipo texto.").isRequired('Es obligatorio escribir el nombre.'),
-  dias_pago: NumberType("El dias pago debe ser un número.")
+  nombre: StringType("El nombre debe ser de tipo texto.").isRequired('Es obligatorio escribir el nombre.')
 });
 
 // Plantilla para campos del formulario
 const TextField = ({ name, label, value, accepter, ...rest }) => (
-  <Form.Group controlId={`${name}-4`}>
+  <Form.Group controlId={`${name}-8`}>
     <Form.ControlLabel>{label}</Form.ControlLabel>
     <Form.Control name={name} accepter={accepter} {...rest} />
   </Form.Group>
@@ -33,14 +32,12 @@ const TextField = ({ name, label, value, accepter, ...rest }) => (
 
 const FormClient = () => {
   const formRef = React.useRef();
-  const [ isChecked, setIsChecked ] = useState(false);
-  const [ isCheckedCredit, setIsCheckedCredit ] = useState(false);
   const [formError, setFormError] = React.useState({});
   const [formValue, setFormValue] = React.useState({
-    active: '',
     nombre: '',
     dias_pago: '',
-    credito: ''
+    credito: false,
+    active: false
   });
   const [error, setError] = useState(null);
   const [showError, setShowError] = useState(false);
@@ -48,10 +45,10 @@ const FormClient = () => {
   const [loading, setLoading] = React.useState(false);
   
   let match = useNavigate();
-  function volverListaMetodoPago() {
+  function volverListaUnds() {
     match("/admin/metodo_pago");
   }
-  function verNuevoMetodoPago(id) {
+  function verNuevaUnd(id) {
     match("/admin/metodo_pago/"+id);
   }
   
@@ -92,7 +89,7 @@ const FormClient = () => {
             if (res.status === 200) {
               // SUCCESS: El cliente fue editado
               setShowError(false);
-              verNuevoMetodoPago(res.data._id);
+              verNuevaUnd(res.data._id);
             } else {
               // ERROR: HTTP Status != 200
               console.log(res);
@@ -108,20 +105,11 @@ const FormClient = () => {
         });
       } catch(error) {
         // ERROR: Servidor
-        console.log(error);
+        console.log(error)
         setShowError(true);
         setLoading(true);
       }
     }
-  };
-
-  const handleChangeActive = () => {
-    setIsChecked(!isChecked);
-    setFormValue({...formValue, active: !isChecked ? 'true' : 'false'});
-  };
-  const handleChangeCredit = () => {
-    setIsCheckedCredit(!isCheckedCredit);
-    setFormValue({...formValue, credito: !isCheckedCredit ? 'true' : 'false'});
   };
  
   if (error) {
@@ -138,29 +126,29 @@ const FormClient = () => {
           onCheck={setFormError}
           formValue={formValue}
           model={model}
-          fluid
-          >
-          {console.log(model)}
-          <TextField name="nombre" label="Nombre" />
-          <TextField 
-            name="credito" 
-            label="Credito" 
+          
+        >
+          <TextField name="nombre" label="Nombre" />  
+          <TextField name="credito" label="Credito"
+            inline
             accepter={Checkbox} 
-            checked={isCheckedCredit} 
-            onChange={handleChangeCredit}
-            />
-          <TextField name="dias_pago" label="Dias de Pago" type="number" />
-          <TextField 
-            name="active" 
-            label="Activo" 
+            value={'true'} 
+            checked={formValue.credito}
+            onChange={(e) => { setFormValue({ ...formValue, credito: !formValue.credito }) }}
+          />
+          <TextField name="dias_pago" label="Dias de Pago" type="number" style={{ width: 100}}/>
+          <TextField name="active" label="Activo"
+            inline
             accepter={Checkbox} 
-            checked={isChecked} 
-            onChange={handleChangeActive}
-            />
+            value={'true'} 
+            checked={formValue.active}
+            onChange={(e) => { setFormValue({ ...formValue, active: !formValue.active }) }}
+          />
+          {console.log(formValue)}
           <Form.Group>
             <ButtonToolbar>
-              <Button appearance="primary" onClick={handleSubmit}>Agregar</Button>
-              <Button appearance="default" onClick={volverListaMetodoPago}>Cancelar</Button>
+              <Button appearance="primary" type="submit">Agregar</Button>
+              <Button appearance="default" onClick={volverListaUnds}>Cancelar</Button>
             </ButtonToolbar>
           </Form.Group>
         </Form>

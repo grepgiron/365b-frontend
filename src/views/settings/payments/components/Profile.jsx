@@ -22,8 +22,8 @@ function Profile(props) {
   const [payment, setPayment] = React.useState({
     nombre: '',
     dias_pago: '',
-    credito: '',
-    active: ''
+    credito: false,
+    active: false
   });
   const [error, setError] = useState(null);
   const [loading, setLoading] = React.useState(false);
@@ -49,6 +49,32 @@ function Profile(props) {
         }
       })
   }, [error, props.id]);
+
+  function handleCredit(event) {
+    if(event){
+      return (
+        <>
+          <h4 className="page-heading">
+            <span className="page-heading-text">Credito</span>
+          </h4>
+          { payment.credito ? <Tag color="cyan">Si</Tag> : <Tag color="red">Inactivo</Tag>}
+          <h4 className="page-heading">
+            <span className="page-heading-text">Dias de Pago</span>
+          </h4>
+          <p>{payment.dias_pago}</p>
+        </>
+      )
+    }else {
+      return (
+        <>
+          <h4 className="page-heading">
+            <span className="page-heading-text">Credito</span>
+          </h4>
+          <p>No</p>
+        </>
+      )
+    }
+  }
 
   function handleClick() {
     match('/admin/metodo_pago/editar/'+props.id);
@@ -77,24 +103,17 @@ function Profile(props) {
             <Col xs={24}>
               <div className="markdown">
                 <h4 className="page-heading">
-                  <span className="page-heading-text">Nombre</span>
+                  <span className="page-heading-text">Tipo de Pago</span>
                 </h4>
                 <p>{payment.nombre}</p>
                 {/* <h4 className="page-heading">
                   <span className="page-heading-text">Teléfono</span>
                 </h4>
                 <p>{payment.telefono ? payment.telefono : "-"}</p> */}
-                <h4 className="page-heading">
-                  <span className="page-heading-text">Dias de Pago</span>
-                </h4>
-                <p>{payment.dias_pago}</p>
-                <h4 className="page-heading">
-                  <span className="page-heading-text">Credito</span>
-                </h4>
-                <p>{payment.credito}</p>
+                {handleCredit(payment.credito)}
+                <br/>
                 <>{payment.active ? <Tag color="green">ACTIVO</Tag> : <Tag color="red">Inactivo</Tag>}</>
                 <br />
-                
               </div>    
             </Col>
           </Row>

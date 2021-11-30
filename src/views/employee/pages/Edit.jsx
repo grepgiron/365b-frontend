@@ -6,23 +6,23 @@ import {
   FlexboxGrid
 } from 'rsuite';
 
-import FormCatetory from '../components/FormEdit';
+import FormEmployee from '../components/FormEdit';
 
-const EditCategory = () => {
+const EditEmployee = () => {
 
   let { id } = useParams();
  
   return (
     <>
-      <h5>Editar categoria</h5>
+      <h5>Editar empleado</h5>
       <br />
       <FlexboxGrid>
         <FlexboxGrid.Item as={Col} colspan={24} md={18} lg={12}>
-          <FormCatetory id={id} />
+          <FormEmployee id={id} />
         </FlexboxGrid.Item>
       </FlexboxGrid>
     </>
   );
 };
 
-export default EditCategory;
+export default EditEmployee;
