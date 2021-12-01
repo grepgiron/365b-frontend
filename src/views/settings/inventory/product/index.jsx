@@ -12,11 +12,11 @@ import ShowEstablishment from './pages/Show';
 const Establishment = () => {
  
   return (
-    <Panel bordered header={<h4>Productos</h4>}>
+    <Panel bordered>
       <Routes>
         <Route path='nuevo' element={<NewEstablishment/>}/>
-        <Route path='/editar/:id' element={<EditProduct />}/>
-        <Route path='/show/:id' element={<ShowEstablishment/>}/>
+        <Route path='editar/:id' element={<EditProduct />}/>
+        <Route path='/:id' element={<ShowEstablishment/>}/>
         <Route path='/' element={<ListaProduct/>}/>
       </Routes> 
     </Panel>

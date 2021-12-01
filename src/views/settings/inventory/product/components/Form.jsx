@@ -1,48 +1,44 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom'
-import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 import qs from 'qs';
-
+import axios from 'axios';
 
 import {
   Form,
   Button,
   ButtonToolbar,
-  Input,
+  Schema,
+  Message,
+  Divider,
+  Loader,
   InputPicker,
-  Schema
+  Row,
+  Col
 } from 'rsuite';
-
-import FormControl from 'rsuite/esm/FormControl';
-
-const Textarea = React.forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
 
 const { StringType, NumberType } = Schema.Types;
 
-
-
+// Modelo de esquema de datos
 const model = Schema.Model({
-  nombre: StringType().isRequired('This field is required.'),
-  prefijo: StringType().isRequired('This field is required.')
+  nombre: StringType("El nombre debe ser de tipo texto.").isRequired('Es obligatorio escribir el nombre.'),
+  code: StringType("El codigo debe ser de tipo string.").isRequired('Es obligatorio escribir el codigo.'),
+  costo: NumberType("El costo debe ser un número.").isRequired('Es obligatorio escribir el costo'),
+  precio: NumberType("El precio debe ser un número.").isRequired('Es obligatorio escribir el precio.')
 });
 
-const TextField = React.forwardRef((props, ref) => {
-  const { name, label, accepter, ...rest } = props;
-  return (
-    <Form.Group controlId={`${name}-4`} ref={ref}>
-      <Form.ControlLabel>{label} </Form.ControlLabel>
-      <Form.Control name={name} accepter={accepter} {...rest} />
-    </Form.Group>
-  );
-});
+// Plantilla para campos del formulario
+const TextField = ({ name, label, value, accepter, ...rest }) => (
+  <Form.Group controlId={`${name}-4`}>
+    <Form.ControlLabel>{label}</Form.ControlLabel>
+    <Form.Control name={name} accepter={accepter} {...rest} />
+  </Form.Group>
+);
 
-const FormNew = (props) => {
+const FormClient = () => {
   const formRef = React.useRef();
   const [formError, setFormError] = React.useState({});
-  const [unidades, setUnidad] = React.useState([]);
-  const [categorias, setCategoria] = React.useState([]);
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [ categorias, setCategorias] = React.useState([]);
+  const [ unidades, setUnidades] = React.useState([]);
   const [formValue, setFormValue] = React.useState({
     code: '',
     nombre: '',
@@ -52,154 +48,146 @@ const FormNew = (props) => {
     precio: '',
     categoria: ''
   });
-
-
+  const [error, setError] = useState(null);
+  const [showError, setShowError] = useState(false);
+  const [showErrorEmptyForm, setShowErrorEmptyForm] = useState(false);
+  const [loading, setLoading] = React.useState(true);
+  
+  let match = useNavigate();
+  function volverListaClientes() {
+    match("/admin/inventario/productos");
+  }
+  function verNuevoCliente(id) {
+    match("/admin/inventario/productos/"+id);
+  }
+  
+  // Mensaje de error
+  const ErrMessage = (props) => {
+    return (
+      <div>
+        <Divider />
+        <Message showIcon type="error">{props.mensaje}</Message>
+      </div>
+    );
+  };
+ 
   useEffect(() => {
-    fetch("https://beauty365api.herokuapp.com/api/v1/unidades")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          setUnidad(result);
-        },
-        // Nota: es importante manejar errores aquí y no en 
-        // un bloque catch() para que no interceptemos errores
-        // de errores reales en los componentes.
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      )
-    fetch("https://beauty365api.herokuapp.com/api/v1/categorias")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          setCategoria(result);
-        },
-        // Nota: es importante manejar errores aquí y no en 
-        // un bloque catch() para que no interceptemos errores
-        // de errores reales en los componentes.
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-    )
-    
-  }, [])
+    // GET establecimientos using axios
+    axios.get('https://beauty365api.herokuapp.com/api/v1/categorias')
+    .then((response) => {
+      if (response!==error) {
+        setCategorias(response.data.map(a => { return { label: a.nombre, value: a._id} }));
+        // GET puntos de venta using axios
+        axios.get('https://beauty365api.herokuapp.com/api/v1/unidades')
+        .then((resp) => {
+          if (resp!==error) {
+            setUnidades(resp.data.map(a => { return { label: a.nombre, value: a._id} }));
+            
+          } else {
+            setError(resp);
+            setLoading(true);
+          }
+        });
+      } else {
+        setError(response);
+        setLoading(true);
+      }
+    });
+  }, []);
 
-
-  let history = useNavigate();
-  console.log(history);
   const handleSubmit = async() => {
-    try {
-      console.log(formValue);
-      //Cambiar aqui ruta de direccion del API
-      const response = await axios.post(
-        'https://beauty365api.herokuapp.com/api/v1/productos/nuevo',
+    setShowErrorEmptyForm(false);
+    setShowError(false);
+    // Verificar errores en el formulario
+    if (!formRef.current.check()) {
+      setShowErrorEmptyForm(true);
+      console.error('Form Error');
+      return;
+    } else {
+      setLoading(false);
+      try {
+        const apiRes = await axios.post('https://beauty365api.herokuapp.com/api/v1/productos/create', 
         qs.stringify(formValue), {
           headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/x-www-form-urlencoded'
           }
-        }).then(function(response){
-          console.log(response.status);
-          //Cambiar aqui ruta de redireccion
-          history(`/admin/inventario/producto/show/${response.data._id}`, { state: response.data._id })  
-        })
+        }).then(function(res) {
+          // VERIFICAR: ¿Error en la respuesta del servidor?
+          if (res!==error) {
+            if (res.status === 200) {
+              // SUCCESS: El cliente fue editado
+              setShowError(false);
+              verNuevoCliente(res.data._id);
+            } else {
+              // ERROR: HTTP Status != 200
+              console.log(res);
+              setShowError(true);
+              setLoading(true);
+            }
+          } else {
+            // ERROR: Servidor
+            console.log(res);
+            setShowError(true);
+            setLoading(true);
+          }
+        });
       } catch(error) {
-        console.log(error)
+        // ERROR: Servidor
+        console.log(error);
+        setShowError(true);
+        setLoading(true);
+      }
     }
-      console.log(formValue, 'Form Value');
-     
+  };
+ 
+  if (error) {
+    return <Message showIcon type="error">Error. {error.message}</Message>;
+  } else if (!loading) {
+    return <Loader content="loading..." />;
+  } else {
+    return (
+      <>
+        <Form
+          ref={formRef}
+          onSubmit={handleSubmit}
+          onChange={setFormValue}
+          onCheck={setFormError}
+          formValue={formValue}
+          model={model}
+          fluid
+        >
+          <TextField name="code" label="Codigo" />
+          <TextField name="nombre" label="Nombre" />
+          <TextField name="descripcion" label="Descripcion" />
+          <Row style={{ marginBottom: 25}}>
+            <Col xs={12}>
+              <TextField name="categoria" label="Categoria" accepter={InputPicker} valuekey='_id' labelkey="nombre" data={categorias}/>
+            </Col>
+            <Col xs={12}>
+              <TextField name="unidad" label="Und" accepter={InputPicker} valuekey='_id' labelkey="nombre" data={unidades}/>
+            </Col>
+          </Row>
+          <tr/>
+          <Row style={{ marginBottom: 25}}>
+            <Col xs={12}>
+              <TextField name="costo" label="Costo" type="number"/>
+            </Col>
+            <Col xs={12}>
+              <TextField name="precio" label="Precio" type="number"/>
+            </Col>
+          </Row>
+          <Form.Group>
+            <ButtonToolbar>
+              <Button appearance="primary" onClick={handleSubmit}>Agregar</Button>
+              <Button appearance="default" onClick={volverListaClientes}>Cancelar</Button>
+            </ButtonToolbar>
+          </Form.Group>
+        </Form>
+        { showErrorEmptyForm ? <ErrMessage mensaje="Error. Hay campos vacíos o datos inválidos." /> : (showError ? <ErrMessage mensaje="Error. No es posible editar el cliente en estos momentos" />: null) }
+      </>
+    );
   }
-
-  return (
-    /*<Form 
-      onSubmit={handleSubmit}
-      onChange={setFormValue}
-      formValue={formValue}
-    >
-      <Form.Group controlId="name-6">
-        <Form.ControlLabel>Nombre</Form.ControlLabel>
-        <Form.Control name="nombre" />
-      </Form.Group>
-      <Form.Group controlId="email-6">
-       
-        <Form.Control name="prefijo" />
-        <Form.HelpText tooltip>000</Form.HelpText>
-      </Form.Group>
-      <ButtonToolbar>
-        <Button appearance="primary" type="submit">
-          Submit
-        </Button>
-      </ButtonToolbar>
-    </Form>*/
-
-
-<Form 
-
-      layout="horizontal"
-      onSubmit={handleSubmit}
-      onChange={setFormValue}
-      formValue={formValue}
-    >
-      {console.log(formValue)}
-      <Form.Group controlId="code">
-        <Form.ControlLabel>Codigo</Form.ControlLabel>
-        <Form.Control name="code" />
-        <Form.HelpText>Code is required</Form.HelpText>
-      </Form.Group>
-
-      <Form.Group controlId="name">
-        <Form.ControlLabel>name</Form.ControlLabel>
-        <Form.Control name="name" />
-        <Form.HelpText>name is required</Form.HelpText>
-      </Form.Group>
-
-      <Form.Group controlId="descripcion">
-        <Form.ControlLabel>Descripcion</Form.ControlLabel>
-        <Form.Control name="descripcion" />
-        <Form.HelpText>Descripcion is required</Form.HelpText>
-      </Form.Group>
-
-      <Form.Group >
-        <Form.ControlLabel>Unidad</Form.ControlLabel>
-        <Form.Control name="unidad" valueKey="_id"
-            labelKey="nombre" accepter={InputPicker} data={unidades}>
-        </Form.Control>
-      </Form.Group>
-
-      <Form.Group controlId="costo">
-        <Form.ControlLabel>Costo</Form.ControlLabel>
-        <Form.Control name="costo" />
-        <Form.HelpText>costo is required</Form.HelpText>
-      </Form.Group>
-
-      <Form.Group controlId="precio">
-        <Form.ControlLabel>Precio</Form.ControlLabel>
-        <Form.Control name="precio" />
-        <Form.HelpText>precio is required</Form.HelpText>
-      </Form.Group>
-                       
-      <Form.Group>
-        <Form.ControlLabel>Categoria</Form.ControlLabel>
-        <Form.Control name="categoria" valueKey="_id"
-            labelKey="nombre" accepter={InputPicker} data={categorias}>
-        </Form.Control>
-      </Form.Group>
-
-      <Form.Group>
-        <ButtonToolbar>
-          <Button appearance="primary" type="submit">
-            Registrar Producto
-          </Button>
-        </ButtonToolbar>
-      </Form.Group>
-    </Form>
-
-
-
-  );
 };
 
-export default FormNew;
+export default FormClient;
