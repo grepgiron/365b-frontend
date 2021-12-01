@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 import qs from 'qs';
 
 import { 
@@ -20,6 +20,7 @@ import CreditCardPlusIcon from '@rsuite/icons/CreditCardPlus';
 import Invoice from './invoice';
 
 //import '../index.css'
+import 'react-perfect-scrollbar/dist/css/styles.css';
 
 
 export default function Basket(props) {
@@ -103,7 +104,9 @@ export default function Basket(props) {
           </Row>
 
         </Card.Header>
-        <Card.Body>
+        <Card.Body style={{ height: 200}}>
+          <PerfectScrollbar>
+            {cartItems.length == 0 && <p>Agregar servicios en el carrito</p>}
           {cartItems.map((item) => (
             <Row key={item._id} style={{ padding: 2}}>
               <Col xs={12}><p>{item.nombre}</p></Col>
@@ -134,6 +137,7 @@ export default function Basket(props) {
               </Col>
             </Row>
           ))}
+          </PerfectScrollbar>
             <>
               <hr></hr>
               <Row >
@@ -160,9 +164,9 @@ export default function Basket(props) {
                 </Col>
                 <Col xs={7} style={{fontWeight: 600, textAlign: 'right'}}>{totalPrice.toFixed(2)}</Col>
               </Row>
-
+              <Divider />
               <Row>
-                <Col md={4} mdOffset={1}>
+                <Col md={4} mdOffset={18}>
                   <IconButton appearance='primary' icon={<CreditCardPlusIcon/>} onClick={() => handleClick()}>
                     Cobrar
                   </IconButton>

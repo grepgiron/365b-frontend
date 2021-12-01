@@ -16,6 +16,7 @@ function App() {
   //const { products } = data;
   const [error, setError] = useState(null);
   const [services, setServices ] = useState([])
+  const [payments, setPayments ] = useState([])
   const [cartItems, setCartItems] = useState([]);
   const [clients, setClients] = useState([])
   const [ formValue, setFormValue ] = React.useState({
@@ -34,6 +35,20 @@ function App() {
       (result) => {
         setServices(result);
         //console.log(result);
+      },
+      // Nota: es importante manejar errores aquí y no en 
+      // un bloque catch() para que no interceptemos errores
+      // de errores reales en los componentes.
+      (error) => {
+        setError(error);
+      }
+    );
+    fetch("https://beauty365api.herokuapp.com/api/v1/metodos_pago")
+    .then(res => res.json())
+    .then(
+      (result) => {
+        setPayments(result);
+         console.log(result);
       },
       // Nota: es importante manejar errores aquí y no en 
       // un bloque catch() para que no interceptemos errores
@@ -91,28 +106,38 @@ function App() {
   return (
     <>
       <Row>
+        <Col xs={24}>
+          <Form
+            fluid
+            layout="inline"
+            formValue={formValue}
+            onChange={setFormValue}
+          >
+            <Form.Group controlId="inputPicker">
+              <Form.ControlLabel>Cliente:</Form.ControlLabel>
+              <Form.Control name="cliente" valueKey="_id"
+                labelKey="nombres" accepter={InputPicker} data={clients}>
+              </Form.Control>
+            </Form.Group>
+            <Form.Group controlId="inputPicker">
+              <Form.ControlLabel>Metodo de pago:</Form.ControlLabel>
+              <Form.Control name="metodo_pago" valueKey="_id"
+                labelKey="nombre" accepter={InputPicker} data={payments}>
+              </Form.Control>
+            </Form.Group>
+            <Form.Group controlId="datePicker">
+              <Form.ControlLabel>Fecha:</Form.ControlLabel>
+              <Form.Control name="fecha" accepter={Input} type="date" placement="autoVerticalEnd"/>
+            </Form.Group>
+          </Form>
+        </Col> 
+      </Row>
+      <Row>
         <Col xs={16}>
           <Main services={services} onAdd={onAdd}></Main>
         </Col>
         <Col xs={8}>
-          <Panel bordered header="Detalle de Venta">
-            <Form
-                layout="inline"
-                formValue={formValue}
-                onChange={setFormValue}
-            >
-              <Form.Group controlId="inputPicker">
-                <Form.ControlLabel>Cliente</Form.ControlLabel>
-                <Form.Control name="cliente" valueKey="_id"
-                    labelKey="nombres" accepter={InputPicker} data={clients}>
-                </Form.Control>
-              </Form.Group>
-              <Form.Group controlId="datePicker">
-                <Form.ControlLabel>Fecha</Form.ControlLabel>
-                <Form.Control name="fecha" accepter={Input} type="date" placement="autoVerticalEnd"/>
-              </Form.Group>
-            </Form>
-          </Panel>
+          
           <Basket
             formValue={formValue}
             cartItems={cartItems}

@@ -30,9 +30,6 @@ function Main(props) {
       <div>
         <div className="shop__thumb">
           <a>
-            <div className="shop-thumb__img">
-              <img src="https://via.placeholder.com/120x120/A66D58/000000" className="img-responsive" alt="..."/>
-            </div>
             <p className="shop-thumb__title">
               {product.nombre}
             </p>

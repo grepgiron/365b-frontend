@@ -25,6 +25,7 @@ import Rango from '../views/sar/range';
 import '../App.css';
 import 'rsuite/dist/rsuite.min.css'; // or css
 import services from './../views/Pos/acciones';
+import Appointment from '../views/appointment';
 
 
 const Admin = () => {
@@ -43,6 +44,7 @@ const Admin = () => {
             <Route path='servicios/*' element={<Services/>}/>
             <Route path='clientes/*' element={<Client/>}/>
             <Route path='ventas/*' element={<Invoice />}/>
+            <Route path='citas/*' element={<Appointment/>}/>
             <Route path='empleados/*' element={<Employee/>}/>
             <Route path='sar/documentos_autorizacion/*' element={<DocumentoAutorizacion/>}/>
             <Route path='sar/establecimiento/*' element={<Establishment/>}/>

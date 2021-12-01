@@ -12,17 +12,14 @@ import ListInvoice from './pages/List'
 const Invoice = () => {
  
   return (
-    <>
-      <div class="markdown">
-        <h5>Prefactura</h5>
-      </div>
+    <div className="pos-div">
       <Routes>
         <Route path='nuevo' element={<NewInvoice/>}/>
         <Route path='editar/:id' element={<EditInvoice/>}/>
         <Route path='show/:id' element={<ShowInvoice/>}/>
         <Route path='/' element={<ListInvoice/>}/>
       </Routes> 
-    </>
+    </div>
   );
 };
 

@@ -16504,16 +16504,20 @@ a code{
   margin:20px;
   padding:20px
 }
+
+.pos-div {
+  background-color:#fff;
+  background-color:var(--rs-bg-card);
+  box-shadow:0 4px 4px rgba(0,0,0,.12),0 0 10px rgba(0,0,0,.06);
+  padding:15px
+}
+
 .show-fake-browser.sidebar-page .nav-toggle{
   border-top:1px solid #e5e5ea;
   border-top:1px solid var(--rs-border-primary)
 }
 .show-fake-browser.navbar-page .rs-content{
-  background-color:#fff;
-  background-color:var(--rs-bg-card);
-  box-shadow:0 4px 4px rgba(0,0,0,.12),0 0 10px rgba(0,0,0,.06);
-  border-radius: 3px;
-  margin:20px;
+  margin:15px;
   padding:20px
 }
 .show-fake-browser.navbar-page .rs-footer{

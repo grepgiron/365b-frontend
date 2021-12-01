@@ -1,7 +1,13 @@
 import React from 'react';
-import Product from './product';
-import { Row, Card } from 'react-bootstrap';
+import PerfectScrollbar from 'react-perfect-scrollbar';
+import { 
+  Row, 
+  Card 
+} from 'react-bootstrap';
 
+import Product from './product';
+
+import 'react-perfect-scrollbar/dist/css/styles.css';
 
 import { Panel } from 'rsuite'
 
@@ -10,7 +16,8 @@ export default function Main(props) {
   return (
       <Card>
         <Card.Header>Servicios</Card.Header>
-        <Card.Body>
+        <Card.Body style={{ height: 420}}>
+          <PerfectScrollbar>
             <Row xs={12} md={4}>
               {services.map((product) => (
                 //console.log(product),
@@ -18,6 +25,7 @@ export default function Main(props) {
                 <Product key={product._id} product={product} onAdd={onAdd}></Product>
               ))}
             </Row>
+          </PerfectScrollbar>
         </Card.Body>
       </Card>
   );

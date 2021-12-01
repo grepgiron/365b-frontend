@@ -44,7 +44,7 @@ const Admin = () => {
           </Navbar.Body>
         </Navbar>
       </Header>
-      <Content style={{ marginTop: '70px'}}>
+      <Content  style={{ marginTop: '70px'}}>
         <Routes>
           <Route path='/' element={<PosForm />}/>
           <Route path='ventas/*' element={<InvoiceIndex />}/>
