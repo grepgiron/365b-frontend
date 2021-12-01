@@ -156,13 +156,13 @@ function Profile() {
                 <Column>
                   <HeaderCell className="text-end">Precio</HeaderCell>
                   <Cell className="text-end">
-                    {(rowData, rowIndex) => (rowData.precio.toFixed(2))}
+                    {(rowData, rowIndex) => (rowData.precio)}
                   </Cell>
                 </Column>
                 <Column>
                   <HeaderCell className="text-end">Total</HeaderCell>
                   <Cell className="text-end">
-                    {(rowData, rowIndex) => ((rowData.cantidad * rowData.precio).toFixed(2))}
+                    {(rowData, rowIndex) => ((rowData.cantidad * rowData.precio))}
                   </Cell>
                 </Column>
               </Table>
@@ -181,7 +181,7 @@ function Profile() {
                   <p style={{ fontWeight: 600, textAlign: 'right'}}>
                     ISV:</p>
                 </Col>
-                <Col xs={7} style={{ textAlign: 'right'}}>Lps. {invoice.impuesto.toFixed(2)}</Col>
+                <Col xs={7} style={{ textAlign: 'right'}}>Lps. {invoice.impuesto}</Col>
               </Row>
               <Row >
                 <Col xs={12}></Col>

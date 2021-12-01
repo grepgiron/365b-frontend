@@ -18,6 +18,8 @@ import PeoplesIcon from '@rsuite/icons/Peoples';
 import DeviceIcon from '@rsuite/icons/Device';
 import TreeIcon from '@rsuite/icons/Tree';
 import PeoplesMapIcon from '@rsuite/icons/PeoplesMap';
+import EventDetailIcon from '@rsuite/icons/EventDetail';
+import TagIcon from '@rsuite/icons/Tag';
 
 const headerStyles = {
     padding: 18,
@@ -75,8 +77,11 @@ const SidebarNav = ({ appearance, ...props }) => {
             <Nav.Item  style={{ textDecoration: 'none' }} eventKey="4" onSelect={() => handleClick('clientes')} icon={<PeoplesMapIcon />}>
             Clientes
             </Nav.Item>
-            <Nav.Item  style={{ textDecoration: 'none' }} eventKey="4" onSelect={() => handleClick('inventario/productos')} icon={<PeoplesMapIcon />}>
+            <Nav.Item  style={{ textDecoration: 'none' }} eventKey="4" onSelect={() => handleClick('inventario/productos')} icon={<TagIcon />}>
             Productos
+            </Nav.Item>
+            <Nav.Item  style={{ textDecoration: 'none' }} eventKey="4" onSelect={() => handleClick('inventario/productos')} icon={<EventDetailIcon />}>
+            Citas
             </Nav.Item>
             <Dropdown eventKey="6" title="Configuraciones" icon={<GearCircle />}>
               <Dropdown.Item 
@@ -92,6 +97,7 @@ const SidebarNav = ({ appearance, ...props }) => {
               <Dropdown.Item eventKey="5-1" onSelect={() => handleClick('sar/establecimiento')}>Establecimientos</Dropdown.Item>
               <Dropdown.Item eventKey="5-2" onSelect={() => handleClick('sar/punto_venta')}>Puntos de Venta</Dropdown.Item>
               <Dropdown.Item eventKey="5-3" onSelect={() => handleClick('sar/tipo_documento')}>Tipo de Documento</Dropdown.Item>
+              <Dropdown.Item eventKey="5-3" onSelect={() => handleClick('sar/rango/show')}>Rango de Facturas</Dropdown.Item>
             </Dropdown>
           </Nav>
         </Sidenav.Body>

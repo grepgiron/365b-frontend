@@ -20,6 +20,7 @@ import Und from '../views/settings/inventory/und';
 import Product from '../views/settings/inventory/product';
 import Invoice from '../views/invoice';
 import Payments from '../views/settings/payments';
+import Rango from '../views/sar/range';
 
 import '../App.css';
 import 'rsuite/dist/rsuite.min.css'; // or css
@@ -46,6 +47,7 @@ const Admin = () => {
             <Route path='sar/documentos_autorizacion/*' element={<DocumentoAutorizacion/>}/>
             <Route path='sar/establecimiento/*' element={<Establishment/>}/>
             <Route path='sar/punto_venta/*' element={<SalesPoint/>}/>
+            <Route path='sar/rango/*' element={<Rango />}/>
             <Route path='sar/tipo_documento/*' element={<DocumentType/>}/>
             <Route path='inventario/categorias/*' element={<Category/>}/>
             <Route path='inventario/unidades/*' element={<Und/>}/>
