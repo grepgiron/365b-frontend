@@ -75,12 +75,9 @@ const SidebarNav = ({ appearance, ...props }) => {
             <Nav.Item  style={{ textDecoration: 'none' }} eventKey="4" onSelect={() => handleClick('clientes')} icon={<PeoplesMapIcon />}>
             Clientes
             </Nav.Item>
-            <Dropdown eventKey="5" title="SAR" icon={<Magic />}>
-              <Dropdown.Item eventKey="5-4" onSelect={() => handleClick('sar/documentos_autorizacion')}>Documentos de Autorización</Dropdown.Item>
-              <Dropdown.Item eventKey="5-1" onSelect={() => handleClick('sar/establecimiento')}>Establecimientos</Dropdown.Item>
-              <Dropdown.Item eventKey="5-2" onSelect={() => handleClick('sar/punto_venta')}>Puntos de Venta</Dropdown.Item>
-              <Dropdown.Item eventKey="5-3" onSelect={() => handleClick('sar/tipo_documento')}>Tipo de Documento</Dropdown.Item>
-            </Dropdown>
+            <Nav.Item  style={{ textDecoration: 'none' }} eventKey="4" onSelect={() => handleClick('inventario/productos')} icon={<PeoplesMapIcon />}>
+            Productos
+            </Nav.Item>
             <Dropdown eventKey="6" title="Configuraciones" icon={<GearCircle />}>
               <Dropdown.Item 
                   onSelect={() => handleClick('empleados')}
@@ -89,6 +86,12 @@ const SidebarNav = ({ appearance, ...props }) => {
               <Dropdown.Item eventKey="6-5-2" onSelect={() => handleClick('metodo_pago')} icon={<TagFilterIcon/>}>Metodos de Pago</Dropdown.Item>
               <Dropdown.Item eventKey="6-3" onSelect={() => handleClick('inventario/categorias')} icon={<TreeIcon/>}>Categorias</Dropdown.Item>
               <Dropdown.Item eventKey="6-5-2" onSelect={() => handleClick('inventario/unidades')} icon={<TagFilterIcon/>}>Unidades</Dropdown.Item>
+            </Dropdown>
+            <Dropdown eventKey="5" title="SAR" icon={<Magic />}>
+              <Dropdown.Item eventKey="5-4" onSelect={() => handleClick('sar/documentos_autorizacion')}>Documentos de Autorización</Dropdown.Item>
+              <Dropdown.Item eventKey="5-1" onSelect={() => handleClick('sar/establecimiento')}>Establecimientos</Dropdown.Item>
+              <Dropdown.Item eventKey="5-2" onSelect={() => handleClick('sar/punto_venta')}>Puntos de Venta</Dropdown.Item>
+              <Dropdown.Item eventKey="5-3" onSelect={() => handleClick('sar/tipo_documento')}>Tipo de Documento</Dropdown.Item>
             </Dropdown>
           </Nav>
         </Sidenav.Body>
