@@ -21,6 +21,7 @@ import Product from '../views/settings/inventory/product';
 import Invoice from '../views/invoice';
 import Payments from '../views/settings/payments';
 import Rango from '../views/sar/range';
+import Comercio from '../views/settings/commerce';
 
 import '../App.css';
 import 'rsuite/dist/rsuite.min.css'; // or css
@@ -52,6 +53,7 @@ const Admin = () => {
             <Route path='sar/rango/*' element={<Rango />}/>
             <Route path='sar/tipo_documento/*' element={<DocumentType/>}/>
             <Route path='inventario/categorias/*' element={<Category/>}/>
+            <Route path='comercio/*' element={<Comercio />}/>
             <Route path='inventario/unidades/*' element={<Und/>}/>
             <Route path='inventario/productos/*' element={<Product />}/>
             <Route path='metodo_pago/*' element={<Payments />}/>

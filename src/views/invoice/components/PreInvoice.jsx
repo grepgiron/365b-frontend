@@ -123,7 +123,7 @@ function Profile() {
                     </Form.Group>
                   </Col>
                 </Row>
-              {JSON.stringify(client)}
+              {JSON.stringify(invoice)}
             </Panel>
           </Col>
           
