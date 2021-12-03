@@ -28,10 +28,10 @@ function List() {
   let match = useNavigate();
   const ActionCell = ({ rowData, dataKey, ...props }) => {
     function editClient() {
-      match(`/admin/clientes/editar/${rowData[dataKey]}`);
+      match(`/admin/citas/editar/${rowData[dataKey]}`);
     }
     function showClient() {
-      match(`/admin/clientes/${rowData[dataKey]}`);
+      match(`/admin/citas/${rowData[dataKey]}`);
     }
     return (
       <Cell {...props} className="link-group">
@@ -81,14 +81,10 @@ function List() {
     return (
       <>
       <Table bordered striped={1} height={420} data={data} loading={!loading}>
-        <Column width={190}>
-          <HeaderCell>DNI</HeaderCell>
-          <Cell dataKey="dni" />
-        </Column>
 
         <Column width={240}>
           <HeaderCell>Nombres</HeaderCell>
-          <Cell dataKey="nombres" />
+          <Cell dataKey="nombre" />
         </Column>
 
         <Column width={120}>
@@ -97,8 +93,13 @@ function List() {
         </Column>
 
         <Column width={200}>
-          <HeaderCell>Email</HeaderCell>
-          <Cell dataKey="email" />
+          <HeaderCell>Comentario</HeaderCell>
+          <Cell dataKey="comentario" />
+        </Column>
+
+        <Column width={200}>
+          <HeaderCell>Fecha</HeaderCell>
+          <Cell>{(rowData) => (rowData.fecha)}</Cell>
         </Column>
 
         <Column width={107}>

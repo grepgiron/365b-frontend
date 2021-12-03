@@ -10,10 +10,15 @@ import {
   Schema,
   Message,
   Divider,
-  Loader
+  Loader,
+  Row,
+  Col,
+  Input
 } from 'rsuite';
 
 const { StringType, NumberType } = Schema.Types;
+const Textarea = React.forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
+
 
 // Modelo de esquema de datos
 const model = Schema.Model({
@@ -34,23 +39,18 @@ const TextField = ({ name, label, value, accepter, ...rest }) => (
 const FormClient = (props) => {
   const formRef = React.useRef();
   const [formError, setFormError] = React.useState({});
-  const [formValue, setFormValue] = React.useState({
-    nombres: '',
-    telefono: '',
-    dni: '',
-    email: ''
-  });
+  const [formValue, setFormValue] = React.useState([]);
   const [error, setError] = useState(null);
   const [showError, setShowError] = useState(false);
   const [showErrorEmptyForm, setShowErrorEmptyForm] = useState(false);
   const [loading, setLoading] = React.useState(false);
   
   let match = useNavigate();
-  function volverListaClientes() {
-    match("/admin/clientes");
+  function volverListaCitas() {
+    match("/admin/citas");
   }
   function verEditCliente(id) {
-    match("/admin/clientes/"+id);
+    match("/admin/citas/"+id);
   }
   
   // Mensaje de error
@@ -66,7 +66,7 @@ const FormClient = (props) => {
   // Recuperar info del cliente a editar segun ID
   useEffect(() => {
     // GET request using axios
-    axios.get('https://beauty365api.herokuapp.com/api/v1/clientes/'+props.id)
+    axios.get('https://beauty365api.herokuapp.com/api/v1/citas/'+props.id)
       .then((response) => {
         if (response!==error) {
           setFormValue(response.data);
@@ -90,7 +90,7 @@ const FormClient = (props) => {
       setLoading(false);
       try {
         // PUT request using axios
-        const apiRes = await axios.put('https://beauty365api.herokuapp.com/api/v1/clientes/'+props.id, qs.stringify(formValue), {
+        const apiRes = await axios.put('https://beauty365api.herokuapp.com/api/v1/citas/'+props.id, qs.stringify(formValue), {
           headers: {
             "Access-Control-Allow-Origin": "*",
             "Content-Type": "application/x-www-form-urlencoded"
@@ -140,15 +140,28 @@ const FormClient = (props) => {
           model={model}
           fluid
         >
-          <TextField name="nombres" label="Nombre" value={formValue.nombres} />
-          <TextField name="telefono" label="Telefono" value={formValue.telefono ? formValue.telefono : ""} />
-          <TextField name="dni" label="DNI" value={formValue.dni} />
-          <TextField name="email" label="Email" value={formValue.email} />
-
+          <Row>
+            {console.log(formValue)}
+            <Col xs={12}>
+              <TextField name="nombre" label="Nombre" />
+              <TextField name="email" label="Email" />
+            </Col>
+              <Col xs={12}>
+                <TextField name="telefono" label="Telefono" />
+                <TextField name="dni" label="DNI" />
+              </Col>
+          </Row>
+          <Row style={{ marginTop: 20, marginBottom: 20}}>
+            <Col xs={12} md={12}>
+              <TextField name="fecha" label="Fecha y Hora" type="datetime-local"/>
+              <TextField name="comentario" label="Comentario" accepter={Textarea} row={4}/>
+            </Col>
+          </Row>
+          
           <Form.Group>
             <ButtonToolbar>
-              <Button appearance="primary" onClick={handleSubmit}>Guardar Cambios</Button>
-              <Button appearance="default" onClick={volverListaClientes} >Cancelar</Button>
+              <Button appearance="primary" onClick={handleSubmit}>Agregar</Button>
+              <Button appearance="default" onClick={volverListaCitas}>Cancelar</Button>
             </ButtonToolbar>
           </Form.Group>
         </Form>

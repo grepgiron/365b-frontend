@@ -40,11 +40,12 @@ function Profile(props) {
   // Recuperar info de tipo de documento a editar segun ID
   useEffect(() => {
     // GET request using axios
-    axios.get('https://beauty365api.herokuapp.com/api/v1/comercio')
+    axios.get('https://beauty365api.herokuapp.com/api/v1/comerciales')
       .then((response) => {
         //console.log(response)
         if (response!==error) {
-          setEstablecimientos(response.data);
+          console.log(response.data[0])
+          setEstablecimientos(response.data[0]);
           setLoading(true);
         } else {
           //console.log(response);
@@ -59,7 +60,7 @@ function Profile(props) {
   }, [error, props.id]);
 
   function handleClick() {
-    match('/admin/comercio/editar/'+props.id);
+    match('/admin/comercio/editar/'+establecimientos._id);
   }
  
   if (error) {

@@ -56,7 +56,7 @@ const FormClient = () => {
     match("/admin/citas");
   }
   function verNuevoCliente(id) {
-    match("/admin/citas/"+id);
+    match("/admin/citas/");
   }
   
   // Mensaje de error
@@ -84,7 +84,7 @@ const FormClient = () => {
     } else {
       setLoading(false);
       try {
-        const apiRes = await axios.post('https://beauty365api.herokuapp.com/api/v1/citas', 
+        const apiRes = await axios.post('https://beauty365api.herokuapp.com/api/v1/citas/create', 
         qs.stringify(formValue), {
           headers: {
             'Access-Control-Allow-Origin': '*',

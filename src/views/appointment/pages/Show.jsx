@@ -14,7 +14,7 @@ const Show = () => {
  
   return (
     <>
-      <h5>Clientes</h5>
+      <h5>Cita</h5>
       <br />
       <FlexboxGrid>
         <FlexboxGrid.Item as={Col} colspan={24} md={19} lg={15}>

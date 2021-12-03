@@ -102,25 +102,25 @@ function List() {
         </Column>
         <Column flexGrow={1}>
           <HeaderCell >Cliente</HeaderCell>
-          <Cell dataKey="cliente" />
+          <Cell>{(rowData) => (rowData.cliente.nombres)}</Cell>
         </Column>
 
         {/* <Column flexGrow={1}> */}
         <Column>
           <HeaderCell className="text-center">Sub Total</HeaderCell>
-          <Cell dataKey="sub_total" />
+          <Cell className="text-end" dataKey="sub_total" />
         </Column>
         
         {/* <Column flexGrow={1}> */}
         <Column>
           <HeaderCell className="text-center">ISV</HeaderCell>
-          <Cell dataKey="impuesto" />
+          <Cell className="text-end" dataKey="impuesto" />
         </Column>
 
         {/* <Column flexGrow={1}> */}
         <Column >
           <HeaderCell className="text-center">Total</HeaderCell>
-          <Cell dataKey="total" />
+          <Cell className="text-end" dataKey="total" />
         </Column>
 
         {/* <Column flexGrow={1}> */}

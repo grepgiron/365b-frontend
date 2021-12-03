@@ -14,7 +14,7 @@ const EditClient = () => {
  
   return (
     <>
-      <h5>Editar cliente</h5>
+      <h5>Editar Cita</h5>
       <br />
       <FlexboxGrid>
         <FlexboxGrid.Item as={Col} colspan={24} md={18} lg={12}>

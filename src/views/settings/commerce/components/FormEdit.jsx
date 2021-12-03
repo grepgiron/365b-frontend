@@ -68,7 +68,7 @@ const FormEstablishment = (props) => {
   // Recuperar info de tipo de documento a editar segun ID
   useEffect(() => {
     // GET request using axios
-    axios.get('https://beauty365api.herokuapp.com/api/v1/comercio/'+props.id)
+    axios.get('https://beauty365api.herokuapp.com/api/v1/comerciales/'+props.id)
       .then((response) => {
         if (response!==error) {
           setFormValue(response.data);

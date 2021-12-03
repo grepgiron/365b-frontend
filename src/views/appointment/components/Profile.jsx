@@ -35,7 +35,7 @@ function Profile(props) {
   // Recuperar info del cliente a editar segun ID
   useEffect(() => {
     // GET request using axios
-    axios.get('https://beauty365api.herokuapp.com/api/v1/clientes/'+props.id)
+    axios.get('https://beauty365api.herokuapp.com/api/v1/citas/'+props.id)
       .then((response) => {
         if (response!==error) {
           setCliente(response.data);
@@ -49,7 +49,7 @@ function Profile(props) {
   }, [error, props.id]);
 
   function handleClick() {
-    match('/admin/clientes/editar/'+props.id);
+    match('/admin/citas/editar/'+props.id);
   }
  
   if (error) {
@@ -57,6 +57,7 @@ function Profile(props) {
   } else if (!loading) {
     return <Loader content="loading..." />;
   } else {
+    let hora = new Date(cliente.fecha);
     return (
       <Grid fluid>
         <Panel bordered>
@@ -77,7 +78,7 @@ function Profile(props) {
                 <h4 className="page-heading">
                   <span className="page-heading-text">Nombre</span>
                 </h4>
-                <p>{cliente.nombres}</p>
+                <p>{cliente.nombre}</p>
                 <h4 className="page-heading">
                   <span className="page-heading-text">Teléfono</span>
                 </h4>
@@ -90,6 +91,14 @@ function Profile(props) {
                   <span className="page-heading-text">Email</span>
                 </h4>
                 <p>{cliente.email}</p>
+                <h4 className="page-heading">
+                  <span className="page-heading-text">Fecha</span>
+                </h4>
+                <p>{hora.getHours() > 12 ? hora.getHours()+':'+hora.getMinutes()+' PM' : hora.getHours()+':'+hora.getMinutes()+' AM'}</p>
+                <h4 className="page-heading">
+                  <span className="page-heading-text">Comentario</span>
+                </h4>
+                <p>{cliente.comentario}</p>
                 <br />
                 <Tag color="green">ACTIVO</Tag>
               </div>    

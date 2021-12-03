@@ -184,7 +184,7 @@ export default function Basket(props) {
           </Drawer.Actions>
         </Drawer.Header>
         <Drawer.Body>
-          <Invoice formValue={formValue}/>
+          
         </Drawer.Body>
       </Drawer>
       </>

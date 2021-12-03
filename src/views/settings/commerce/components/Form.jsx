@@ -80,7 +80,7 @@ const FormClient = () => {
     } else {
       setLoading(false);
       try {
-        const apiRes = await axios.post('https://beauty365api.herokuapp.com/api/v1/comercio', 
+        const apiRes = await axios.post('https://beauty365api.herokuapp.com/api/v1/comerciales', 
         qs.stringify(formValue), {
           headers: {
             'Access-Control-Allow-Origin': '*',
