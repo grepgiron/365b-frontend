@@ -12,12 +12,14 @@ import {
   Form,
   Input,
   InputPicker,
-  DatePicker
+  DatePicker,
+  IconButton
 } from 'rsuite';
 
 // Iconos
 import Edit2 from '@rsuite/icons/legacy/Edit2';
 import VisibleIcon from '@rsuite/icons/Visible';
+import PageIcon from '@rsuite/icons/Page';
 
 const { HeaderCell, Cell, Column } = Table;
 
@@ -26,6 +28,7 @@ function Profile() {
   const [invoice, setInvoice] = React.useState([]);
   const [ client, setClient ] = React.useState([]);
   const [ clients, setClients] = React.useState([]);
+  const [ payments, setPayments] = React.useState([]);
   const [ service, setService] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
 
@@ -81,8 +84,32 @@ function Profile() {
       }
     })
 
+    axios.get(`https://beauty365api.herokuapp.com/api/v1/metodos_pago`, {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    }).then((response) => {
+      if (response!==error) {
+        setPayments(response.data);
+        setLoading(true);
+        // Imprimir estado clientsArray despues de asignar valores
+        //console.log(clientsArray);
+      } else {
+        setError(response);
+        setLoading(true);
+      }
+    })
+
 
   }, []);
+
+  const navigate = useNavigate();
+
+
+  const printReceipt = () => {
+    navigate('/pos/ventas/print/' + id);
+  }
     
   if (error) {
     return <Message showIcon type="error">Error. {error.message}</Message>;
@@ -92,17 +119,18 @@ function Profile() {
     return (
       <>
       <Row>
-        <Col xs={8} xsPush={16}>
-          Aqui boton de Generar y Cancelar
+        <Col xs={4}>
+          <IconButton appearance="primary" icon={<PageIcon />} onClick={printReceipt}>Imprimir</IconButton>
         </Col>
       </Row>
+      <br/>
         <Form
           formValue={invoice}
           onChange={setInvoice}
         >
         <Row>
           <Col xs={10}>
-            <Panel bordered header="Detalle de Cliente">
+            <Panel bordered header={`Factura # ${invoice.num_factura}`}>
                 <Row>
                   <Col xs={16}>
                     <Form.Group controlId="nombres">
@@ -115,6 +143,16 @@ function Profile() {
                         valueKey="_id" 
                       />
                     </Form.Group>
+                    <Form.Group controlId="payments">
+                      <Form.ControlLabel>Metodo de Pago</Form.ControlLabel>
+                      <Form.Control 
+                        labelKey="nombre" 
+                        name="metodo_pago"
+                        accepter={InputPicker} 
+                        data={payments} 
+                        valueKey="_id" 
+                      />
+                    </Form.Group>
                   </Col>
                   <Col xs={8}>
                     <Form.Group controlId="fecha" >
@@ -123,7 +161,6 @@ function Profile() {
                     </Form.Group>
                   </Col>
                 </Row>
-              {JSON.stringify(invoice)}
             </Panel>
           </Col>
           
@@ -135,13 +172,13 @@ function Profile() {
                 autoHeight={true}
                 rowHeight={40}
               >
-                <Column width={50} fixed>
+                <Column>
                   <HeaderCell>#</HeaderCell>
                   <Cell>
                     {(rowData, rowIndex) => (rowIndex+1)}
                   </Cell>
                 </Column>
-                <Column flexGrow={1}>
+                <Column width={200}>
                   <HeaderCell >Servicio</HeaderCell>
                   <Cell>
                     {(rowData, rowIndex) => (rowData.nombre)}
@@ -168,29 +205,9 @@ function Profile() {
               </Table>
               <hr/>
               <Row >
-                <Col xs={12}></Col>
-                <Col xs={5}>
-                  <p style={{ fontWeight: 600, textAlign: 'right'}}>
-                    Sub Total:</p>
-                </Col>
-                <Col xs={7} style={{ textAlign: 'right'}}>Lps. {invoice.sub_total}</Col>
+                  <p style={{ fontWeight: 600}}>
+                  Total:  L. {invoice.total}</p>
               </Row>
-              <Row >
-                <Col xs={12}></Col>
-                <Col xs={5}>
-                  <p style={{ fontWeight: 600, textAlign: 'right'}}>
-                    ISV:</p>
-                </Col>
-                <Col xs={7} style={{ textAlign: 'right'}}>Lps. {invoice.impuesto}</Col>
-              </Row>
-              <Row >
-                <Col xs={12}></Col>
-                <Col xs={5}>
-                  <p style={{ fontWeight: 600, textAlign: 'right'}}>
-                    Total:</p>
-                </Col>
-                <Col xs={7} style={{ textAlign: 'right'}}>Lps. {invoice.total}</Col>
-              </Row> 
             </Panel>
           </Col>
         </Row>

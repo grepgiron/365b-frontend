@@ -8,6 +8,7 @@ import EditInvoice from './pages/Edit'
 import ShowInvoice from './pages/Show'
 import NewInvoice from './pages/New'
 import ListInvoice from './pages/List'
+import PrintInvoice from './pages/Print'
 
 const Invoice = () => {
  
@@ -17,6 +18,7 @@ const Invoice = () => {
         <Route path='nuevo' element={<NewInvoice/>}/>
         <Route path='editar/:id' element={<EditInvoice/>}/>
         <Route path='show/:id' element={<ShowInvoice/>}/>
+        <Route path='print/:id' element={<PrintInvoice/>}/>
         <Route path='/' element={<ListInvoice/>}/>
       </Routes> 
     </div>
