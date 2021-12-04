@@ -1,9 +1,11 @@
 import React, { useState, useEffect} from 'react'
 import { Card, Row } from 'react-bootstrap';
 
-import { Col, InputPicker, Input, Form, Panel } from 'rsuite'
+import { Col, InputPicker, Input, Form, Panel, Divider } from 'rsuite'
 
 //import 'bootstrap/dist/css/bootstrap.min.css';
+import TituloView from '../../components/titulo-views/tvs';
+
 
 import Header from './components/header';
 import Main from './components/main';
@@ -106,6 +108,8 @@ function App() {
   return (
     <>
       <Row>
+        <TituloView colmd={9} collg={6} nombre="Generar Factura" />
+        <Divider/>
         <Col xs={24}>
           <Form
             fluid

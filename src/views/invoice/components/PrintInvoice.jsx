@@ -3,6 +3,15 @@ import { useParams } from 'react-router-dom';
 import { useReactToPrint } from "react-to-print";
 import axios from 'axios';
 
+import {
+  Row,
+  Col,
+  IconButton
+} from 'rsuite';
+
+import PageIcon from '@rsuite/icons/Page';
+
+
 import './print.css'
 import Invoice from './invoice';
 
@@ -66,8 +75,12 @@ const App = () => {
 
   return (
     <>
-      <button onClick={handlePrint} className="print__button">  Print </button> 
-      
+      <Row>
+        <Col xs={4}>
+          <IconButton appearance="primary" icon={<PageIcon />} onClick={handlePrint}>Imprimir</IconButton>
+        </Col>
+      </Row>
+      <br/>
       <div ref={componentRef}>
           <Invoice id={id}/>               
       </div>

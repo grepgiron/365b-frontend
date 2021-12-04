@@ -1,5 +1,6 @@
 import React from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import { useNavigate, useParams } from "react-router-dom";
 import qs from 'qs';
 
 import { 
@@ -40,6 +41,11 @@ export default function Basket(props) {
     console.log('CheckOut: '+ JSON.stringify(formValue))
   }
 
+  const match = useNavigate();
+  function volverCitas(id) {
+    match("/pos/ventas/show/"+id);
+  }
+
   const handlePostInvoice = async () => {
     //setLoading(true);
     console.log('CheckOut: '+ JSON.stringify(formValue))
@@ -53,6 +59,14 @@ export default function Basket(props) {
     };
     fetch('https://beauty365api.herokuapp.com/api/v1/facturas/create', requestOptions)
         .then(response => response.json())
+        .then(data => {
+          console.log('CheckOut: '+ JSON.stringify(data))
+          volverCitas(data._id);
+        })
+        .catch(error => {
+          console.log('CheckOut: '+ JSON.stringify(error))
+        });
+
     /* try {
       const apiRes = await axios.post('https://beauty365api.herokuapp.com/api/v1/facturas/create', 
       qs.stringify(formValue), {

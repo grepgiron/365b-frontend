@@ -30,7 +30,7 @@ function List() {
               onClick={() => handleClick('nuevo')} 
               icon={<PlusIcon />} 
               appearance="primary">
-              Add
+              Nuevo
             </IconButton>
           </ButtonToolbar>
         </Col>

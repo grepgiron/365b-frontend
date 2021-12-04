@@ -77,7 +77,7 @@ function Profile(props) {
           <Row>
             <Col xs={24} md={8} lg={6}>
               <h4 className="page-heading">
-                <span className="page-heading-text">Cliente</span>
+                <span className="page-heading-text">Detalle de Cita</span>
               </h4>
             </Col>
             <Col xs={24} md={13} lg={12} mdPush={4} lgPush={7}>

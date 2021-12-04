@@ -208,7 +208,7 @@ function Invoice(props) {
                         <small>Mensage</small>
                       </div>
                     </div>
-                    <div className="col-7">
+                    <div className="col-6">
                       <div className="d-flex flex-column">
                         <small>Total en letras: </small>
                         <small>{invoice.doc_autorizacion.rango_inicial +' al '+ invoice.doc_autorizacion.rango_final}</small>
@@ -216,7 +216,7 @@ function Invoice(props) {
                         <small>Mensage</small>
                       </div>
                     </div>
-                    <div className="col-2">
+                    <div className="col-3">
                       <div className="d-flex flex-column text-end">
                         <span>SubTotal:</span>
                         <span>Importe Exonerado:</span>

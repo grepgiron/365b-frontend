@@ -10,7 +10,7 @@ const NewEmployee = () => {
  
   return (
     <>
-      <h5>Agregar nuevo cliente</h5>
+      <h5>Agregar nuevo empleado</h5>
       <br />
       <FlexboxGrid>
         <FlexboxGrid.Item colspan={12}>
