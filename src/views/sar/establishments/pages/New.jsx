@@ -2,7 +2,9 @@ import React from 'react';
 
 import {
   Col,
-  FlexboxGrid
+  FlexboxGrid,
+  Message,
+  Tag
 } from 'rsuite';
 
 import Form from '../components/Form';
@@ -13,6 +15,14 @@ const New = () => {
     <>
       <h5>Agregar nuevo establecimiento</h5>
       <br />
+      <Message>
+        <span><Tag color='yellow'>Atencion</Tag> La idea de establecimiento comercial se vincula 
+        al local donde se desarrolla una actividad de comercio. 
+        Se trata de un espacio físico que reúne a quien ofrece un 
+        producto o servicio y al consumidor o cliente.
+        </span>
+
+      </Message>
       <FlexboxGrid>
         <FlexboxGrid.Item as={Col} colspan={24} md={12} className="rs-code-view">
           <Form />

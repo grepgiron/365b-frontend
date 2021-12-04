@@ -7,6 +7,7 @@ import {
 } from 'rsuite';
 
 import Profile from '../components/Profile'
+import DetailAppointment from '../components/DetailAppointment'
 
 const Show = () => {
 
@@ -14,10 +15,8 @@ const Show = () => {
  
   return (
     <>
-      <h5>Cita</h5>
-      <br />
       <FlexboxGrid>
-        <FlexboxGrid.Item as={Col} colspan={24} md={19} lg={15}>
+        <FlexboxGrid.Item as={Col} colspan={24} md={12} lg={24}>
           <Profile id={id} />
         </FlexboxGrid.Item>
       </FlexboxGrid>

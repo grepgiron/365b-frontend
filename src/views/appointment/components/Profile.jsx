@@ -16,20 +16,17 @@ import {
 } from 'rsuite';
 
 import Edit2 from '@rsuite/icons/legacy/Edit2';
+import CheckIcon from '@rsuite/icons/Check';
 
 function Profile(props) {
-  const [cliente, setCliente] = React.useState({
-    nombres: '',
-    telefono: '',
-    dni: '',
-    email: ''
-  });
+  const [cliente, setCliente] = React.useState([]);
+  const [ detalle, setDetalle] = React.useState([])
   const [error, setError] = useState(null);
   const [loading, setLoading] = React.useState(false);
   
   const match = useNavigate();
   function volverListaClientes() {
-    match("/admin/clientes");
+    match("/admin/citas");
   }
 
   // Recuperar info del cliente a editar segun ID
@@ -40,16 +37,32 @@ function Profile(props) {
         if (response!==error) {
           setCliente(response.data);
           setLoading(true);
+          axios.get('https://beauty365api.herokuapp.com/api/v1/citas/detalle/'+response.data._id)
+          .then((response) => {
+            if (response!==error) {
+              setDetalle(response.data[0]);
+              console.log(response.data);
+              setLoading(true);
+            } else {
+              console.log(response);
+              setError(response);
+              setLoading(true);
+            }
+          })
         } else {
           console.log(response);
           setError(response);
           setLoading(true);
         }
       })
+      
   }, [error, props.id]);
 
   function handleClick() {
     match('/admin/citas/editar/'+props.id);
+  }
+  function detalleCita() {
+    match('/admin/citas/detalle/'+props.id);
   }
  
   if (error) {
@@ -60,17 +73,18 @@ function Profile(props) {
     let hora = new Date(cliente.fecha);
     return (
       <Grid fluid>
-        <Panel bordered>
+        <Panel>
           <Row>
             <Col xs={24} md={8} lg={6}>
-              <h3 className="page-heading">
-                <span className="page-heading-text">Detalles</span>
-              </h3>
+              <h4 className="page-heading">
+                <span className="page-heading-text">Cliente</span>
+              </h4>
             </Col>
             <Col xs={24} md={13} lg={12} mdPush={4} lgPush={7}>
               <ButtonToolbar className="inner-left">
                 <IconButton appearance="primary" onClick={handleClick} icon={<Edit2 />}>Editar</IconButton>
-                <Button appearance="default" onClick={volverListaClientes} >Volver a lista</Button>
+                {detalle.completado != null && detalle.completado != true ? <IconButton color="green" onClick={detalleCita} enabled icon={<CheckIcon/>}>Completar</IconButton> : <IconButton appearance="primary" color="green" onClick={detalleCita} disabled icon={<CheckIcon/>}>Completado</IconButton>}
+                <Button appearance="default" onClick={volverListaClientes} >Volver</Button>
               </ButtonToolbar>
             </Col>
             <Col xs={24}>
@@ -100,7 +114,7 @@ function Profile(props) {
                 </h4>
                 <p>{cliente.comentario}</p>
                 <br />
-                <Tag color="green">ACTIVO</Tag>
+                {detalle.completado != null && detalle.completado != true ? <Tag color="cyan">En Proceso</Tag> : <Tag color="green">Completado</Tag>}
               </div>    
             </Col>
           </Row>
