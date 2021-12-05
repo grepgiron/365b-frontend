@@ -41,40 +41,15 @@ function Invoice(props) {
               <div className="upper p-4">
                 <div className="d-flex justify-content-between">
                   {/* Poner Aqui dato de la empresa */}
-                  <div className="d-flex flex-row align-items-center">
-                    <img src="https://i.imgur.com/HKne8Oc.jpg" width="60" className="rounded-circle"/>
-                    <div className="add">
-                      <span className="font-weight-bold d-block">Nombre</span>
-                      <span className="font-weight-bold d-block">RTN</span>
-                      <small className="font-weight-bold d-block">direccion</small>
-                      <small className="font-weight-bold d-block">telefono / correo</small>
-                    </div> 
-                  </div>
                   {/* Poner Aqui dato de la factura */}
-                  <div className="col col-lg-4 text-center"> 
-                    <small className="font-weight-bold d-block"># factura</small>
-                    <small className="font-weight-bold d-block">
-                      {formValue.fecha}</small>
-                    <small className="font-weight-bold d-block">cai</small>
-                    <small>123456789123456789123456789123456789</small>
-                  </div>
                 </div>
-                <hr/>
                 {/* Poner Aqui dato del Cliente */}
                 <div>
                   <div className="d-flex justify-content-between">
                     <div className="d-flex flex-row align-items-center"> 
                       <i className="fa fa-check-circle-o"></i>
-                      <span className="ml-2">Nombre: {client.nombres}</span>
+                      <span className="ml-2">Cliente: {client.nombres}</span>
                     </div> 
-                  </div>
-                </div>
-                <div>
-                  <div className="d-flex justify-content-between">
-                    <div className="d-flex flex-row align-items-center">
-                      <i className="fa fa-check-circle-o"></i>
-                      {client.dni !== '' ? <span className="ml-2">RTN: {client.dni}</span> : <span className="ml-2">RTN: {}</span>}
-                    </div>
                   </div>
                 </div>
                 <hr/>
@@ -109,12 +84,7 @@ function Invoice(props) {
                 ))}*/}
                 <div className="row">
                   <div className="col-6">
-                    <div className="d-flex flex-column">
-                      <small>Total en letras</small>
-                      <small>Rangos</small>
-                      <small>Limite Emision</small>
-                      <small>Mensage</small>
-                    </div>
+                    
                   </div>
                   <div className="col-3">
                     <div className="d-flex flex-column text-end">

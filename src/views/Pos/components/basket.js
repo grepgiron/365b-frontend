@@ -11,7 +11,8 @@ import {
   Divider, 
   Panel,
   Drawer,
-  Button 
+  Button,
+  Message 
 } from 'rsuite'
 
 import { Card } from 'react-bootstrap'
@@ -25,20 +26,26 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 
 
 export default function Basket(props) {
-  const { formValue, cartItems, onAdd, onRemove } = props;
-  const { loading, setLoading } = React.useState(false);
-  const [openWithHeader, setOpenWithHeader] = React.useState(false);
-  const itemsPrice = (cartItems.reduce((a, c) => a + c.cantidad * c.precio, 0)/1.15);
-  const taxPrice = itemsPrice * 0.15;
-  const totalPrice = itemsPrice + taxPrice;
+  const { formValue, cartItems, onAdd, onRemove } = props; 
+  const { loading, setLoading } = React.useState(false); 
+  const [ cartEmpty, cartEmptySet ] = React.useState(false);  // cart is empty
+  const [openWithHeader, setOpenWithHeader] = React.useState(false); // open drawer with header
+  const itemsPrice = (cartItems.reduce((a, c) => a + c.cantidad * c.precio, 0)/1.15); // total cobro de items
+  const taxPrice = itemsPrice * 0.15; // impuestos cobrados
+  const totalPrice = itemsPrice + taxPrice; // total cobrado
 
   function handleClick() {
     formValue.productos = cartItems;
     formValue.sub_total = itemsPrice.toFixed(2);
     formValue.total = totalPrice.toFixed(2);
     formValue.impuesto = taxPrice.toFixed(2);
-    setOpenWithHeader(true);
-    console.log('CheckOut: '+ JSON.stringify(formValue))
+    if(formValue.total > 0){
+      setOpenWithHeader(true);
+      console.log('CheckOut: '+ JSON.stringify(formValue))
+      cartEmptySet(false);
+    }else{
+      cartEmptySet(true);
+    }
   }
 
   const match = useNavigate();
@@ -58,44 +65,23 @@ export default function Basket(props) {
       body: qs.stringify(formValue)
     };
     fetch('https://beauty365api.herokuapp.com/api/v1/facturas/create', requestOptions)
-        .then(response => response.json())
-        .then(data => {
-          console.log('CheckOut: '+ JSON.stringify(data))
-          volverCitas(data._id);
-        })
-        .catch(error => {
-          console.log('CheckOut: '+ JSON.stringify(error))
-        });
-
-    /* try {
-      const apiRes = await axios.post('https://beauty365api.herokuapp.com/api/v1/facturas/create', 
-      qs.stringify(formValue), {
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
-      }).then(function(res) {
-        console.log(res);
-        // VERIFICAR: ¿Error en la respuesta del servidor?
-          if (res.status === 200) {
-            // SUCCESS: El cliente fue editado
-            //setShowError(false);
-            console.log(res.data, "SUCCESS");
-            //verNuevoCliente(res.data._id);
-          } else {
-            // ERROR: HTTP Status != 200
-            //setShowError(true);
-            setLoading(true);
-          }
+      .then(response => response.json())
+      .then(data => {
+        console.log('CheckOut: '+ JSON.stringify(data))
+        volverCitas(data._id);
+      })
+      .catch(error => {
+        console.log('CheckOut: '+ JSON.stringify(error))
       });
-    } catch(error) {
-      // ERROR: Servidor
-      //setShowError(true);
-      console.log(error)
-      setLoading(true);
-    } */
-    //setOpenWithHeader(false);
   }
+
+  const ErrMessage = (props) => {
+    return (
+      <div>
+        <Message showIcon type="error">{props.mensaje}</Message>
+      </div>
+    );
+  };
 
 
   return (
@@ -179,17 +165,18 @@ export default function Basket(props) {
                 <Col xs={7} style={{fontWeight: 600, textAlign: 'right'}}>{totalPrice.toFixed(2)}</Col>
               </Row>
               <Divider />
+              {cartEmpty ? <ErrMessage mensaje={'No hay productos en el carrito'}/> : ''}
               <Row>
                 <Col md={4} mdOffset={18}>
                   <IconButton appearance='primary' icon={<CreditCardPlusIcon/>} onClick={() => handleClick()}>
                     Cobrar
-                  </IconButton>
+                    </IconButton>
                 </Col>
               </Row>
             </>
         </Card.Body>
       </Card>
-      <Drawer open={openWithHeader} onClose={() => setOpenWithHeader(false)}>
+      <Drawer open={openWithHeader} onClose={() => setOpenWithHeader(false)} size="sm">
         <Drawer.Header>
           <Drawer.Title>Detalle de Factura</Drawer.Title>
           <Drawer.Actions>
@@ -198,7 +185,8 @@ export default function Basket(props) {
           </Drawer.Actions>
         </Drawer.Header>
         <Drawer.Body>
-          
+            {/*Aqui va el detalle previo a generar factura*/}
+              <Invoice formValue={formValue}/>
         </Drawer.Body>
       </Drawer>
       </>

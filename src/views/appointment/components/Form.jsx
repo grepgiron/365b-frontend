@@ -44,6 +44,7 @@ const FormClient = () => {
     dni: '',
     email: '',
     fecha: '',
+    hora: '',
     comentario: ''
   });
   const [error, setError] = useState(null);
@@ -147,8 +148,11 @@ const FormClient = () => {
           </Row>
           <Row style={{ marginTop: 20, marginBottom: 20}}>
             <Col xs={12} md={12}>
-              <TextField name="fecha" label="Fecha y Hora" type="datetime-local"/>
-              <TextField name="comentario" label="Comentario" accepter={Textarea} row={4}/>
+              <TextField name="fecha" label="Fecha y Hora" type="date"/>
+              <TextField name="hora" label="Fecha y Hora" type="time"/>
+            </Col>
+            <Col xs={12} md={12}>
+              <TextField name="comentario" label="Comentario" accepter={Textarea} row={12}/>
             </Col>
           </Row>
           

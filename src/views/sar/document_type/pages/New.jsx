@@ -15,8 +15,8 @@ const New = () => {
     <>
       <h5>Agregar nuevo tipo de documento</h5>
       <br />
-      <Message>
-        <span><Tag color='yellow'>Atencion</Tag> Son
+      <Message showIcon type="info" header="Atencion">
+        <span>Son
 los Documentos que el Obligado Tributario utiliza de
 manera electrónica para respaldar actividades, operaciones
 o transacciones que tengan efectos fiscales(Facturas, Notas de Credito, Boletas, etc...).

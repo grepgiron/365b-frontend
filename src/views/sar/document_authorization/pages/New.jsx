@@ -15,8 +15,8 @@ const New = () => {
     <>
       <h5>Agregar nuevo documento de autorización</h5>
       <br />
-      <Message>
-        <span><Tag color='yellow'>Atencion</Tag> Es el componente del Sistema DET Live que 
+      <Message showIcon type="info" header="Atencion">
+        <span>Es el componente del Sistema DET Live que 
         permite la activación de los documentos fiscales solicitados mediante el formulario SAR-924, 
         al momento que la Imprenta entrega los talonarios impresos al Cliente
         </span>

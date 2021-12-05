@@ -17,8 +17,8 @@ const Show = () => {
   return (
     <>
       <h5>Rango de Facturas</h5>
-      <Message>
-        <span><Tag color='red'>Cuidado</Tag> al manipular los rangos, ya que este afecta la secuencia 
+      <Message showIcon type="warning" header="Warning">
+        <span>Manipular los rangos, ya que este afecta la secuencia 
           de las facturas por lo que se recomienda solamente manipular en caso necesario. Los rangos se
           determinan de acuerdo al documento autorizado del Sar generado por el admin.
         </span>

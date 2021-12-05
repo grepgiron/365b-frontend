@@ -27,6 +27,7 @@ import '../App.css';
 import 'rsuite/dist/rsuite.min.css'; // or css
 import services from './../views/Pos/acciones';
 import Appointment from '../views/appointment';
+import Dashboard from '../views/dashboard';
 
 
 const Admin = () => {
@@ -42,6 +43,7 @@ const Admin = () => {
       >
         <Content>
           <Routes>
+            <Route path='/' element={<Dashboard />} />
             <Route path='servicios/*' element={<Services/>}/>
             <Route path='clientes/*' element={<Client/>}/>
             <Route path='ventas/*' element={<Invoice />}/>

@@ -15,8 +15,8 @@ const New = () => {
     <>
       <h5>Agregar nuevo punto de venta</h5>
       <br />
-      <Message>
-        <span><Tag color='yellow'>Atencion</Tag> Punto de venta físico: 
+      <Message showIcon type="info" header="Atencion">
+        <span>Punto de venta físico: 
         Aquel punto de venta físico, que se encuentra disponible para la atención al público.
         </span>
 
