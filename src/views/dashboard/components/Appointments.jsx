@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import moment from 'moment';
 import {
   Table,
   IconButton,
@@ -72,23 +73,27 @@ function List(props) {
     return (
       <>
       <Table bordered striped={1} height={420} data={data} >
+        <Column flexGrow={1}>
+          <HeaderCell>#</HeaderCell>
+          <Cell>{(rowData, rowIndex) => (rowIndex+1)}</Cell>
+        </Column>
 
-        <Column width={240}>
+        <Column width={120}>
           <HeaderCell>Nombres</HeaderCell>
           <Cell dataKey="nombre" />
         </Column>
 
-        <Column width={120}>
+        <Column>
           <HeaderCell>Teléfono</HeaderCell>
           <Cell dataKey="telefono" />
         </Column>
 
-        <Column width={200}>
+        <Column>
           <HeaderCell>Hora</HeaderCell>
-          <Cell>{(rowData) => (rowData.hora)}</Cell>
+          <Cell>{(rowData) => (moment(rowData.hora, 'hh').format('LT'))}</Cell>
         </Column>
 
-        <Column width={107}>
+        <Column>
           <HeaderCell>Action</HeaderCell>
           <ActionCell dataKey="_id" />
         </Column>

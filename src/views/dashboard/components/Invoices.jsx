@@ -87,7 +87,7 @@ function List(props) {
           </Cell>
         </Column>
         
-        <Column flexGrow={1}>
+        <Column width={180}>
           <HeaderCell >Cliente</HeaderCell>
           <Cell>{(rowData) => (rowData.cliente.nombres)}</Cell>
         </Column>

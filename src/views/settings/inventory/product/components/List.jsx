@@ -7,7 +7,8 @@ import {
   Pagination,
   Divider,
   Message,
-  Loader
+  Loader,
+  Tag
 } from 'rsuite';
 
 // Iconos
@@ -51,6 +52,7 @@ function List() {
       }
     }).then((response) => {
       if (response!==error) {
+        console.log(response.data)
         setClientsArray(response.data);
         setLoading(true);
       } else {
@@ -97,12 +99,12 @@ function List() {
 
         <Column width={200}>
           <HeaderCell>Categoria</HeaderCell>
-          <Cell dataKey="categoria" />
+          <Cell>{(rowData) => (rowData.categoria != null ? rowData.categoria.nombre : <Tag color="violet">Sin Categoria</Tag>)}</Cell>
         </Column>
 
         <Column width={200}>
           <HeaderCell>Unidad</HeaderCell>
-          <Cell dataKey="unidad" />
+          <Cell>{(rowData) => (rowData.unidad.nombre ? rowData.unidad.nombre : <Tag color="violet">Sin Und</Tag>)}</Cell>
         </Column>
 
         <Column width={107}>

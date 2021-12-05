@@ -7,7 +7,8 @@ import {
   Pagination,
   Divider,
   Message,
-  Loader
+  Loader,
+  Tag
 } from 'rsuite';
 
 // Iconos
@@ -83,7 +84,7 @@ function List() {
           <HeaderCell>Fecha límite</HeaderCell>
           <Cell dataKey="fecha_limite" />
         </Column>
-        <Column width={350}>
+        <Column width={250}>
           <HeaderCell>CAI</HeaderCell>
           <Cell dataKey="cai" />
         </Column>
@@ -94,6 +95,10 @@ function List() {
         <Column width={100}>
           <HeaderCell>Rango Final</HeaderCell>
           <Cell dataKey="rango_final" />
+        </Column>
+        <Column width={100}>
+          <HeaderCell>Rango Final</HeaderCell>
+          <Cell>{(rowData) => (rowData.is_active ? <Tag color="green">Activo</Tag> : <Tag color="red">Inactivo</Tag>)}</Cell>
         </Column>
         <Column width={107}>
           <HeaderCell>Action</HeaderCell>

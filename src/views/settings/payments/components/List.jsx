@@ -7,7 +7,8 @@ import {
   Pagination,
   Divider,
   Message,
-  Loader
+  Loader,
+  Tag
 } from 'rsuite';
 
 // Iconos
@@ -88,7 +89,11 @@ function List() {
 
         <Column>
           <HeaderCell>Activo</HeaderCell>
-          <Cell dataKey="active" />
+          <Cell>{(rowData) => (rowData.active ? <Tag color="green">Activo</Tag> : <Tag color="red">Inactivo</Tag>)}</Cell>
+        </Column>
+        <Column>
+          <HeaderCell>Credito</HeaderCell>
+          <Cell>{(rowData) => (rowData.credito ? <Tag color="cyan">Si</Tag> : <Tag color="violet">No</Tag>)}</Cell>
         </Column>
 
         <Column width={107}>

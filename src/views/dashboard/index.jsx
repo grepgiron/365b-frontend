@@ -99,7 +99,13 @@ const Dashboard = () => {
   if (error) {
     return <Message showIcon type="error">Error. {error.message}</Message>;
   } else if (!loading) {
-    return <Loader content="loading..." />;
+
+    return (
+      <>
+      <h3>Dashboard</h3>
+      <Loader content="Cargando..." center size="md"/>
+      </>
+    );
   } else {
     return (
       <>
@@ -130,7 +136,7 @@ const Dashboard = () => {
           <Panel bordered shaded style={style3}>
             <div style={cart}><EventDetailIcon style={{ fontSize: '3em', marginRight: 10 }} /></div>
             <div>Citas Hoy</div>
-            <div style={{ fontSize: '24px' }}>{citas.citas_hoy > 0 ? citas.citas_hoy : 'No hay Citas'}</div>
+            <div style={{ fontSize: '24px' }}>{citas.total_citas > 0 ? citas.total_citas : 'No hay Citas'}</div>
           </Panel>
           <Panel shaded>
             <Appointments appointments={citas.citas}/>
