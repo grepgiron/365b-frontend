@@ -12,13 +12,34 @@ import {
 import TrendIcon from '@rsuite/icons/Trend';
 import BarLineChartIcon from '@rsuite/icons/BarLineChart';
 import EventDetailIcon from '@rsuite/icons/EventDetail';
+import Invoice from './components/Invoices';
+import Appointments from './components/Appointments';
 
-const style = {
+const style1 = {
     fontFamily: 'Microsoft YaHei',
     fontSize: '14px',
     textAlign: 'right',
     padding: '10px',
-    color: '#575757'
+    color: '#fff',
+    backgroundColor: '#D9C8A9',
+}
+
+const style2 = {
+  fontFamily: 'Microsoft YaHei',
+  fontSize: '14px',
+  textAlign: 'right',
+  padding: '10px',
+  color: '#fff',
+  backgroundColor: '#BF6E50',
+}
+
+const style3 = {
+  fontFamily: 'Microsoft YaHei',
+  fontSize: '14px',
+  textAlign: 'right',
+  padding: '10px',
+  color: '#fff',
+  backgroundColor: '#59382C',
 }
 
 const cart = {
@@ -86,24 +107,33 @@ const Dashboard = () => {
       <br/>
       <Row>
         <Col xs={8}>
-          <Panel bordered shaded style={style}>
+          <Panel bordered shaded style={style1}>
             <div style={cart}><TrendIcon style={{ fontSize: '3em', marginRight: 10 }} /></div>
             <div>Ventas Hoy</div>
             <div style={{ fontSize: '24px' }}>Lps. {ventasHoy.total}</div>
           </Panel>
+          <Panel shaded>
+            <Invoice invoices={ventasHoy.facturas}/>
+          </Panel>
         </Col>
         <Col xs={8}>
-          <Panel bordered shaded style={style}>
+          <Panel bordered shaded style={style2}>
             <div style={cart}><BarLineChartIcon style={{ fontSize: '3em', marginRight: 10 }} /></div>
             <div>Ventas Mes</div>
             <div style={{ fontSize: '24px' }}>Lps. {ventasMes.total}</div>
           </Panel>
+          <Panel shaded>
+            <Invoice invoices={ventasMes.facturas}/>
+          </Panel>
         </Col>
         <Col xs={8}>
-          <Panel bordered shaded style={style}>
+          <Panel bordered shaded style={style3}>
             <div style={cart}><EventDetailIcon style={{ fontSize: '3em', marginRight: 10 }} /></div>
             <div>Citas Hoy</div>
-            <div style={{ fontSize: '24px' }}>{citas.citas_hoy}</div>
+            <div style={{ fontSize: '24px' }}>{citas.citas_hoy > 0 ? citas.citas_hoy : 'No hay Citas'}</div>
+          </Panel>
+          <Panel shaded>
+            <Appointments appointments={citas.citas}/>
           </Panel>
         </Col>
       </Row>
