@@ -83,7 +83,7 @@ function Profile(props) {
             <Col xs={24} md={13} lg={12} mdPush={4} lgPush={7}>
               <ButtonToolbar className="inner-left">
                 <IconButton appearance="primary" onClick={handleClick} icon={<Edit2 />}>Editar</IconButton>
-                {detalle.completado != null && detalle.completado != true ? <IconButton color="green" onClick={detalleCita} enabled icon={<CheckIcon/>}>Completar</IconButton> : <IconButton appearance="primary" color="green" onClick={detalleCita} disabled icon={<CheckIcon/>}>Completado</IconButton>}
+                {detalle.completado != null && detalle.completado != true ? <IconButton appearance="primary" color="green" onClick={detalleCita} enabled icon={<CheckIcon/>}>Completar</IconButton> : <IconButton appearance="primary" color="cyan" onClick={detalleCita} disabled icon={<CheckIcon/>}>Completado</IconButton>}
                 <Button appearance="default" onClick={volverListaClientes} >Volver</Button>
               </ButtonToolbar>
             </Col>

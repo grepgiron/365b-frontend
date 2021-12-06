@@ -200,6 +200,7 @@ function Invoice(props) {
                     </div>
                   ))}*/}
                   {/* Poner aqui tados totales de factura*/}
+                  <br/>
                   <div className="row">
                     <div className="col-2">
                       <div className="d-flex flex-column text-end">

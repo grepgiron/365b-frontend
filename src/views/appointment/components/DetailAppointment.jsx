@@ -163,7 +163,7 @@ function Profile(props) {
                     checked={formValue.completado}
                     onChange={(e) => { setFormValue({ ...formValue, completado: !formValue.completado }) }}
                   />
-                  <p>{cliente.completado != 1 ? <Tag color='green'>Completado</Tag> : <Tag color='cyan'>En proceso</Tag>}</p>
+                  <p>{cliente.completado != 1 ? <Tag color='cyan'>En proceso</Tag> : <Tag color='green'>Completado</Tag>}</p>
               </Form>  
             </Col>
           </Row>
