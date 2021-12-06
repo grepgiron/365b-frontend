@@ -4618,6 +4618,7 @@ label:hover .rs-checkbox-wrapper .rs-checkbox-inner:before{
   display:flex;
   -ms-flex:auto;
   flex:auto;
+  
   -ms-flex-direction:column;
   flex-direction:column
 }
@@ -9171,13 +9172,13 @@ textarea.rs-picker-search-input{
   color:var(--rs-navbar-default-selected-text)
 }
 .rs-navbar-inverse{
-  background-color:#3498ff;
-  background-color:var(--rs-navbar-inverse-bg);
+  background-color: #592417;
+  background-color:#402015;
   color:#fff;
   color:var(--rs-navbar-inverse-text)
 }
 .rs-navbar-inverse .rs-dropdown .rs-dropdown-toggle:focus,.rs-navbar-inverse .rs-dropdown .rs-dropdown-toggle:hover,.rs-navbar-inverse .rs-navbar-item:focus,.rs-navbar-inverse .rs-navbar-item:hover{
-  background-color:#2589f5;
+  background-color:#592417;
   background-color:var(--rs-navbar-inverse-hover-bg);
   color:#fff;
   color:var(--rs-navbar-inverse-hover-text)
