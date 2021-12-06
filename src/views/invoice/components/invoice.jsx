@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { NumeroALetras} from './NumeroALetras';
 
 //importaciones de rsuitjs
 import {
@@ -210,7 +211,7 @@ function Invoice(props) {
                     </div>
                     <div className="col-6">
                       <div className="d-flex flex-column">
-                        <small>Total en letras: </small>
+                        <small>{NumeroALetras(invoice.total)}</small>
                         <small>{invoice.doc_autorizacion.rango_inicial +' al '+ invoice.doc_autorizacion.rango_final}</small>
                         <small>{invoice.doc_autorizacion.fecha_limite}</small>
                         <small>Mensage</small>

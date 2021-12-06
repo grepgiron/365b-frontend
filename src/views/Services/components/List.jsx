@@ -7,7 +7,8 @@ import {
   Pagination,
   Divider,
   Message,
-  Loader
+  Loader,
+  Tag
 } from 'rsuite';
 
 // Iconos
@@ -102,24 +103,14 @@ function List() {
           <Cell dataKey="nombre" />
         </Column>
 
-        <Column width={220}>
-          <HeaderCell>Descripción</HeaderCell>
-          <Cell dataKey="descripcion" />
-        </Column>
-
-        <Column width={200}>
-          <HeaderCell>Detalle</HeaderCell>
-          <Cell dataKey="detalle" />
-        </Column>
-
         <Column width={90}>
           <HeaderCell>Precio</HeaderCell>
           <Cell dataKey="precio" />
         </Column>
 
-        <Column width={300}>
-          <HeaderCell>Categoría</HeaderCell>
-          <Cell dataKey="categoria" />
+        <Column flexGrow={1}>
+          <HeaderCell>Categoria</HeaderCell>
+          <Cell>{(rowData) => (rowData.categoria != null ? rowData.categoria : <Tag color="violet">Sin Categoria</Tag>)}</Cell>
         </Column>
 
         <Column width={107}>
