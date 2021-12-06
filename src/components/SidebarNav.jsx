@@ -65,7 +65,7 @@ const SidebarNav = ({ appearance, ...props }) => {
       >
         <Sidenav.Body>
           <Nav {...props}>
-            <Nav.Item style={{ textDecoration: 'none' }} eventKey="1" icon={<Dashboard />}>
+            <Nav.Item style={{ textDecoration: 'none' }} eventKey="1" onSelect={() => handleClick('/admin')} icon={<Dashboard />}>
             Dashboard
             </Nav.Item>
             <Nav.Item style={{ textDecoration: 'none' }} eventKey="2" onSelect={() => handleClick('/pos')} icon={<BarChartIcon />}>
