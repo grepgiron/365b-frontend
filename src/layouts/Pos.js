@@ -36,7 +36,6 @@ const Admin = () => {
             <Nav>
               <Nav.Item onClick={() => handleClick('/pos')}>POS</Nav.Item>
               <Nav.Item onClick={() => handleClick('/pos/ventas')}>Ventas</Nav.Item>
-              <Nav.Item onClick={() => handleClick('/pos/reportes')}>Reportes</Nav.Item>
             </Nav>
             <Nav pullRight>
               <Nav.Item onClick={() => handleClick('/admin')}>Admin</Nav.Item>
